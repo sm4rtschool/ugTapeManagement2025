@@ -1,0 +1,386 @@
+QUERY: 
+			SELECT 
+				a.id, 
+				a.label, 
+				a.icon_color, 
+				a.access, 
+				a.type, 
+				a.link, 
+				a.icon, 
+				Deriv1.Count 
+			FROM menu a
+			LEFT OUTER JOIN (
+				SELECT parent, COUNT(*) AS Count 
+				FROM menu 
+				GROUP BY parent
+			) Deriv1 ON a.id = Deriv1.parent 
+			WHERE a.menu_type_id = 1 
+			AND a.parent = 0 
+			AND active = 1  
+			ORDER BY sort ASC
+		
+
+RESULT: Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 70
+            [label] => Dashboard
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/dashboard
+            [icon] => fa-bar-chart
+            [count] => 
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 50
+            [label] => Master Data
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-folder
+            [count] => 7
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 94
+            [label] => Pendaftaran RFID
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-archive
+            [count] => 2
+        )
+
+    [3] => stdClass Object
+        (
+            [id] => 97
+            [label] => Inventarisasi
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => #
+            [icon] => fa-pencil-square-o
+            [count] => 5
+        )
+
+    [4] => stdClass Object
+        (
+            [id] => 80
+            [label] => Pencarian Aset
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/pencarian_aset
+            [icon] => fa-location-arrow
+            [count] => 
+        )
+
+    [5] => stdClass Object
+        (
+            [id] => 95
+            [label] => Laporan
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/report
+            [icon] => fa-download
+            [count] => 
+        )
+
+    [6] => stdClass Object
+        (
+            [id] => 32
+            [label] => Pengaturan
+            [icon_color] => default
+            [access] => 1
+            [type] => label
+            [link] => #
+            [icon] => fa-gear
+            [count] => 
+        )
+
+    [7] => stdClass Object
+        (
+            [id] => 73
+            [label] => Menu
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/menu
+            [icon] => fa-clone
+            [count] => 
+        )
+
+    [8] => stdClass Object
+        (
+            [id] => 3
+            [label] => CRUD Builder
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/crud
+            [icon] => fa-table
+            [count] => 
+        )
+
+    [9] => stdClass Object
+        (
+            [id] => 5
+            [label] => Page Builder
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/page
+            [icon] => fa-file-o
+            [count] => 
+        )
+
+    [10] => stdClass Object
+        (
+            [id] => 9
+            [label] => Auth
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => 
+            [icon] => fa-shield
+            [count] => 5
+        )
+
+    [11] => stdClass Object
+        (
+            [id] => 16
+            [label] => Database
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/database
+            [icon] => fa-database
+            [count] => 
+        )
+
+    [12] => stdClass Object
+        (
+            [id] => 18
+            [label] => Settings
+            [icon_color] => text-red
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/setting
+            [icon] => fa-circle-o
+            [count] => 
+        )
+
+    [13] => stdClass Object
+        (
+            [id] => 112
+            [label] => renault7
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-creative-commons
+            [count] => 
+        )
+
+)
+QUERY: 
+			SELECT 
+				a.id, 
+				a.label, 
+				a.icon_color, 
+				a.access, 
+				a.type, 
+				a.link, 
+				a.icon, 
+				Deriv1.Count 
+			FROM menu a
+			LEFT OUTER JOIN (
+				SELECT parent, COUNT(*) AS Count 
+				FROM menu 
+				GROUP BY parent
+			) Deriv1 ON a.id = Deriv1.parent 
+			WHERE a.menu_type_id = 1 
+			AND a.parent = 0 
+			AND active = 1  
+			ORDER BY sort ASC
+		
+
+RESULT: Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 70
+            [label] => Dashboard
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/dashboard
+            [icon] => fa-bar-chart
+            [count] => 
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 50
+            [label] => Master Data
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-folder
+            [count] => 7
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 94
+            [label] => Pendaftaran RFID
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-archive
+            [count] => 2
+        )
+
+    [3] => stdClass Object
+        (
+            [id] => 97
+            [label] => Inventarisasi
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => #
+            [icon] => fa-pencil-square-o
+            [count] => 5
+        )
+
+    [4] => stdClass Object
+        (
+            [id] => 80
+            [label] => Pencarian Aset
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/pencarian_aset
+            [icon] => fa-location-arrow
+            [count] => 
+        )
+
+    [5] => stdClass Object
+        (
+            [id] => 95
+            [label] => Laporan
+            [icon_color] => default
+            [access] => 0
+            [type] => menu
+            [link] => {admin_url}/report
+            [icon] => fa-download
+            [count] => 
+        )
+
+    [6] => stdClass Object
+        (
+            [id] => 32
+            [label] => Pengaturan
+            [icon_color] => default
+            [access] => 1
+            [type] => label
+            [link] => #
+            [icon] => fa-gear
+            [count] => 
+        )
+
+    [7] => stdClass Object
+        (
+            [id] => 73
+            [label] => Menu
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/menu
+            [icon] => fa-clone
+            [count] => 
+        )
+
+    [8] => stdClass Object
+        (
+            [id] => 3
+            [label] => CRUD Builder
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/crud
+            [icon] => fa-table
+            [count] => 
+        )
+
+    [9] => stdClass Object
+        (
+            [id] => 5
+            [label] => Page Builder
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/page
+            [icon] => fa-file-o
+            [count] => 
+        )
+
+    [10] => stdClass Object
+        (
+            [id] => 9
+            [label] => Auth
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => 
+            [icon] => fa-shield
+            [count] => 5
+        )
+
+    [11] => stdClass Object
+        (
+            [id] => 16
+            [label] => Database
+            [icon_color] => 
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/database
+            [icon] => fa-database
+            [count] => 
+        )
+
+    [12] => stdClass Object
+        (
+            [id] => 18
+            [label] => Settings
+            [icon_color] => text-red
+            [access] => 1
+            [type] => menu
+            [link] => {admin_url}/setting
+            [icon] => fa-circle-o
+            [count] => 
+        )
+
+    [13] => stdClass Object
+        (
+            [id] => 112
+            [label] => renault7
+            [icon_color] => default
+            [access] => 1
+            [type] => menu
+            [link] => #
+            [icon] => fa-creative-commons
+            [count] => 
+        )
+
+)

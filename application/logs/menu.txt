@@ -1,0 +1,105 @@
+ret: <li class="active "> 
+										        	<a href="http://localhost/ug-tms/administrator/dashboard"><i class="fa fa-bar-chart default"></i> <span>Dashboard</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-folder default"></i> <span>Master Data</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-archive default"></i> <span>Pendaftaran RFID</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-pencil-square-o default"></i> <span>Inventarisasi</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/pencarian_aset"><i class="fa fa-location-arrow default"></i> <span>Pencarian Aset</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/report"><i class="fa fa-download default"></i> <span>Laporan</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class="header treeview">Pengaturan</li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/menu"><i class="fa fa-clone default"></i> <span>Menu</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/crud"><i class="fa fa-table "></i> <span>CRUD Builder</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/page"><i class="fa fa-file-o "></i> <span>Page Builder</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/"><i class="fa fa-shield "></i> <span>Auth</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/database"><i class="fa fa-database "></i> <span>Database</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/setting"><i class="fa fa-circle-o text-red"></i> <span>Settings</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-creative-commons default"></i> <span>renault7</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li>ret: <li class="active "> 
+										        	<a href="http://localhost/ug-tms/administrator/dashboard"><i class="fa fa-bar-chart default"></i> <span>Dashboard</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-folder default"></i> <span>Master Data</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-archive default"></i> <span>Pendaftaran RFID</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-pencil-square-o default"></i> <span>Inventarisasi</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/pencarian_aset"><i class="fa fa-location-arrow default"></i> <span>Pencarian Aset</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/report"><i class="fa fa-download default"></i> <span>Laporan</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class="header treeview">Pengaturan</li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/menu"><i class="fa fa-clone default"></i> <span>Menu</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/crud"><i class="fa fa-table "></i> <span>CRUD Builder</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/page"><i class="fa fa-file-o "></i> <span>Page Builder</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/"><i class="fa fa-shield "></i> <span>Auth</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/database"><i class="fa fa-database "></i> <span>Database</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/administrator/setting"><i class="fa fa-circle-o text-red"></i> <span>Settings</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li><li class=" "> 
+										        	<a href="http://localhost/ug-tms/#"><i class="fa fa-creative-commons default"></i> <span>renault7</span>
+									            <span class="pull-right-container"></i>
+									            </span>
+									          </a></li>

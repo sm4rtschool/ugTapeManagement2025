@@ -1,0 +1,300 @@
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
+QUERY: SELECT *
+FROM "aauth_users"
+WHERE "id" = '1'
+
+RESULT: stdClass Object
+(
+    [id] => 1
+    [email] => admin@gmail.com
+    [oauth_uid] => 1
+    [oauth_provider] => 
+    [pass] => 0098f77459b6d78055fb8a02879ea004f1a49f18468a6ddc69a9c57327b957f4
+    [username] => administrator
+    [full_name] => Administrator
+    [avatar] => 20241108091405-setkab01.jpeg
+    [banned] => 0
+    [last_login] => 2025-03-08 23:48:50
+    [last_activity] => 2025-03-08 23:48:50
+    [date_created] => 2024-05-21 05:44:44
+    [forgot_exp] => 
+    [remember_time] => 2024-10-27 00:00:00
+    [remember_exp] => 5HfWD7Gjzn4Tdtyc
+    [verification_code] => 
+    [top_secret] => 
+    [ip_address] => ::1
+)
