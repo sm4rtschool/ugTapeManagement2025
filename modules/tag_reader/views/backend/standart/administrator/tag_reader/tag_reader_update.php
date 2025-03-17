@@ -96,25 +96,18 @@
 
 
 
-                        <!-- <div class="form-group  wrapper-options-crud group-setfor">
-                            <label for="setfor" class="col-sm-2 control-label">Posisi Untuk IN/OUT? <i class="required">*</i>
+                        <div class="form-group group-setfor">
+                            <label for="setfor" class="col-sm-2 control-label">In / Out ? <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <div class="col-md-3 padding-left-0">
-                                    <label>
-                                        <input <?= $tag_reader->setfor == "1" ? "checked" : ""; ?> type="radio" class="flat-red" name="setfor" value="1"> IN </label>
-                                </div>
-                                <div class="col-md-3 padding-left-0">
-                                    <label>
-                                        <input <?= $tag_reader->setfor == "7" ? "checked" : ""; ?> type="radio" class="flat-red" name="setfor" value="7"> Out </label>
-                                </div>
+                                <select class="form-control chosen chosen-select" name="setfor" id="setfor" data-placeholder="Pilih Posisi">
+                                    <option <?= $tag_reader->reader_angle == "in" ? 'selected' : ''; ?> value="in">In</option>
+                                    <option <?= $tag_reader->reader_angle == "out" ? 'selected' : ''; ?> value="out">Out</option>
                                 </select>
-                                <div class="row-fluid clear-both">
-                                    <small class="info help-block">
-                                    </small>
-                                </div>
+                                <small class="info help-block">
+                                </small>
                             </div>
-                        </div> -->
+                        </div>
 
 
 

@@ -21,6 +21,53 @@ class Model_tb_master_aset extends MY_Model
         parent::__construct($config);
     }
 
+    // public function count_all($q = null, $field = null)
+    // {
+    //     $iterasi = 1;
+    //     $num = count($this->field_search);
+    //     $where = NULL;
+    //     $q = $this->scurity($q);
+    //     $field = $this->scurity($field);
+    //     $field = in_array($field, $this->field_search) ? $field : "";
+
+    //     if (empty($field)) {
+    //         foreach ($this->field_search as $field) {
+    //             $f_search = "tb_master_aset." . $field;
+
+    //             if (strpos($field, '.')) {
+    //                 $f_search = $field;
+    //             }
+    //             if ($iterasi == 1) {
+    //                 $where .=  $f_search . " ILIKE '%" . $q . "%' ";
+    //             } else {
+    //                 $where .= "OR " .  $f_search . " ILIKE '%" . $q . "%' ";
+    //             }
+    //             $iterasi++;
+    //         }
+
+    //         $where = '(' . $where . ')';
+    //     } else {
+    //         $where .= "(" . "tb_master_aset." . $field . " ILIKE '%" . $q . "%' )";
+    //     }
+
+    //     $this->join_avaiable()->filter_avaiable();
+    //     $this->db->where($where);
+        
+    //     // Add error logging
+    //     $this->db->save_queries = TRUE;
+    //     $query = $this->db->get($this->table_name);
+    //     echo $this->db->last_query();
+        
+    //     // Check if query failed
+    //     if ($query === FALSE) {
+    //         // Log the error
+    //         log_message('error', 'Database error: ' . $this->db->error()['message'] . ' - SQL: ' . $this->db->last_query());
+    //         return 0; // Return 0 instead of causing an error
+    //     }
+
+    //     return $query->num_rows();
+    // }
+
     public function count_all($q = null, $field = null)
     {
         $iterasi = 1;
@@ -37,17 +84,18 @@ class Model_tb_master_aset extends MY_Model
                 if (strpos($field, '.')) {
                     $f_search = $field;
                 }
+                
                 if ($iterasi == 1) {
-                    $where .=  $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= "CAST(" . $f_search . " AS TEXT) ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " .  $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= "OR CAST(" . $f_search . " AS TEXT) ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_aset." . $field . " ILIKE '%" . $q . "%' )";
+            $where .= "(CAST(" . "tb_master_aset." . $field . " AS TEXT) ILIKE '%" . $q . "%' )";
         }
 
         $this->join_avaiable()->filter_avaiable();
@@ -56,6 +104,7 @@ class Model_tb_master_aset extends MY_Model
         // Add error logging
         $this->db->save_queries = TRUE;
         $query = $this->db->get($this->table_name);
+        // echo $this->db->last_query();
         
         // Check if query failed
         if ($query === FALSE) {

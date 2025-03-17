@@ -147,11 +147,12 @@
                                 </label>
                                 <div class="col-sm-8">
                                     <select class="form-control chosen chosen-select" name="kategori" id="kategori" tabi-ndex="5" placeholder="Select Kategori">
-
                                         <option value="0">Pilih Kategori</option>
 
                                         <?php foreach (db_get_all_data('tb_master_kategori') as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= ucwords($row->kategori); ?></option>
+                                            <option value="<?= $row->id; ?>" <?= $value->kategori == $row->id ? 'selected' : ''; ?>>
+                                                <?= ucwords($row->kategori); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <small class="info help-block">
@@ -169,7 +170,9 @@
                                         <option value="0">Pilih Area</option>
 
                                         <?php foreach (db_get_all_data('tb_master_area') as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= ucwords($row->area); ?></option>
+                                            <option value="<?= $row->id; ?>" <?= $value->id_area == $row->id ? 'selected' : ''; ?>>
+                                                <?= ucwords($row->area); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <small class="info help-block">
@@ -178,6 +181,7 @@
                                 </div>
 
                             </div>
+
                             <div class="form-group group-kategori">
 
                                 <label for="kategori" class="col-sm-2 control-label">Gedung <i class="required">*</i>
@@ -187,7 +191,9 @@
                                         <option value="0">Pilih Gedung</option>
 
                                         <?php foreach (db_get_all_data('tb_master_gedung') as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= ucwords($row->gedung); ?></option>
+                                            <option value="<?= $row->id; ?>" <?= $value->id_gedung == $row->id ? 'selected' : ''; ?>>
+                                                <?= ucwords($row->gedung); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <small class="info help-block">
@@ -196,6 +202,7 @@
                                 </div>
 
                             </div>
+
                             <div class="form-group group-kategori">
 
                                 <label for="kategori" class="col-sm-2 control-label">Ruangan <i class="required">*</i>
@@ -205,7 +212,9 @@
                                         <option value="0">Pilih Ruangan</option>
 
                                         <?php foreach (db_get_all_data('tb_master_ruangan') as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= ucwords($row->ruangan); ?></option>
+                                            <option value="<?= $row->id; ?>" <?= $value->id_lokasi == $row->id ? 'selected' : ''; ?>>
+                                                <?= ucwords($row->ruangan); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <small class="info help-block">
@@ -214,6 +223,7 @@
                                 </div>
 
                             </div>
+
                             <div class="form-group group-kategori">
 
                                 <label for="kategori" class="col-sm-2 control-label">Penanggung Jawab <i class="required">*</i>
@@ -223,7 +233,9 @@
                                         <option value="0">Pilih PIC</option>
 
                                         <?php foreach (db_get_all_data('tb_master_pegawai') as $row) : ?>
-                                            <option value="<?= $row->id; ?>"><?= ucwords($row->nama); ?></option>
+                                            <option value="<?= $row->id; ?>" <?= $value->id_pegawai == $row->id ? 'selected' : ''; ?>>
+                                                <?= ucwords($row->nama); ?>
+                                            </option>
                                         <?php endforeach; ?>
                                     </select>
                                     <small class="info help-block">

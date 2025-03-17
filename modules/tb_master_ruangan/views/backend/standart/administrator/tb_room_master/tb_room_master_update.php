@@ -49,7 +49,7 @@
 <?php } ?>
 <section class="content-header">
     <h1>
-        Tb Room Master <small>Edit Tb Room Master</small>
+        Master Ruangan <small>Edit Master Ruangan</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -73,8 +73,8 @@
                                 <div class="widget-user-image">
                                     <img class="img-circle" src="<?= BASE_ASSET; ?>/img/add2.png" alt="User Avatar">
                                 </div>
-                                <h3 class="widget-user-username">Tb Room Master</h3>
-                                <h5 class="widget-user-desc">Edit Tb Room Master</h5>
+                                <h3 class="widget-user-username">Master Ruangan</h3>
+                                <h5 class="widget-user-desc">Edit Master Ruangan</h5>
                                 <hr>
                             </div>
                             <?= form_open(admin_base_url('/tb_master_ruangan/edit_save/' . $this->uri->segment(4)), [
@@ -141,11 +141,48 @@
                             </div>
 
 
+                            <div class="form-group group-librarian_aging">
+                                <label for="librarian_aging" class="col-sm-2 control-label">Librarian Aging <i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control chosen chosen-select-deselect" name="librarian_aging" id="librarian_aging" data-placeholder="Select Librarian Aging">
+                                        <option value=""></option>
+                                        <option value="1" <?= $value->librarian_aging == '1' ? 'selected' : ''; ?>>True</option>
+                                        <option value="0" <?= $value->librarian_aging == '0' ? 'selected' : ''; ?>>False</option>
+                                    </select>
+                                    <small class="info help-block">Choose whether librarian aging is enabled or not.</small>
+                                </div>
+                            </div>
 
+                            <div class="form-group group-is_create_aging">
+                                <label for="is_create_aging" class="col-sm-2 control-label">Create Aging <i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control chosen chosen-select-deselect" name="is_create_aging" id="is_create_aging" data-placeholder="Select Create Aging">
+                                        <option value=""></option>
+                                        <option value="1" <?= $value->is_create_aging == '1' ? 'selected' : ''; ?>>True</option>
+                                        <option value="0" <?= $value->is_create_aging == '0' ? 'selected' : ''; ?>>False</option>
+                                    </select>
+                                    <small class="info help-block">Choose whether to create aging or not.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group group-librarian_aging_start">
+                                <label for="librarian_aging_start" class="col-sm-2 control-label">Aging Start (Hari) <i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" name="librarian_aging_start" id="librarian_aging_start" placeholder="Enter Aging Start" value="<?= $value->librarian_aging_start; ?>" required>
+                                    <small class="info help-block">Specify the starting value for librarian aging.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group group-librarian_aging_end">
+                                <label for="librarian_aging_end" class="col-sm-2 control-label">Aging End (Hari) <i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" name="librarian_aging_end" id="librarian_aging_end" placeholder="Enter Aging End" value="<?= $value->librarian_aging_end; ?>" required>
+                                    <small class="info help-block">Specify the ending value for librarian aging.</small>
+                                </div>
+                            </div>
 
                             <div class="form-group group-lat  ">
-                                <label for="lat" class="col-sm-2 control-label">Keterangan Ruangan <i class="required">*</i>
-                                </label>
+                                <label for="lat" class="col-sm-2 control-label">Keterangan Ruangan</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" name="ket_ruang" id="ket_ruang" placeholder="" value="<?= set_value('ket_ruangan', $value->ket_ruangan); ?>">
                                     <small class="info help-block">

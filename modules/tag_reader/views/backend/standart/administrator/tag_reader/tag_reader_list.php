@@ -131,6 +131,7 @@
                                  <th data-field="reader_port" data-sort="1" data-primary-key="0"> <?= cclang('reader_port') ?></th>
                                  <th data-field="reader_com" data-sort="1" data-primary-key="0"> <?= cclang('reader_com') ?></th>
                                  <th data-field="reader_mode" data-sort="1" data-primary-key="0"> <?= cclang('reader_mode') ?></th>
+                                 <th data-field="reader_angle" data-sort="1" data-primary-key="0"> <?= cclang('reader_angle') ?></th>
                                  <th data-field="reader_family" data-sort="1" data-primary-key="0"> <?= cclang('reader_family') ?></th>
                                  <!-- <th data-field="connecting" data-sort="1" data-primary-key="0"> <?= cclang('connecting') ?></th> -->
                                  <th data-field="identity" data-sort="1" data-primary-key="0"> <?= cclang('identity') ?></th>

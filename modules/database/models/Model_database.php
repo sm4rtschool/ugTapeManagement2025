@@ -18,58 +18,126 @@ class Model_database extends MY_Model {
         parent::__construct($config);
     }
 
-    public function get_field_type()
-    {
-        return  [
+    // public function get_field_type()
+    // {
+    //     return  [
+	// 		'most' => [
+	// 			'INT',
+	// 			'VARCHAR',
+	// 			'TEXT',
+	// 			'DATE',
+	// 		],
+	// 		'numeric' => [
+	// 			'DECIMAL',
+	// 			'FLOAT',
+	// 			'DOUBLE',
+	// 			'BIGINT',
+	// 			'SMALLINT',
+	// 			'MEDIUMINT',
+	// 			'TINYINT',
+	// 			'BIT',
+	// 			'BOOLEAN',
+	// 			'SERIAL',
+				
+	// 		],
+	// 		'string' => [
+	// 			'TEXT',
+	// 			'VARCHAR',
+	// 			'CHAR',
+	// 			'LONGTEXT',
+	// 			'MEDIUMTEXT',
+	// 			'TINYTEXT',
+	// 		],
+	// 		'date & time' => [
+	// 			'DATE',
+	// 			'DATETIME',
+	// 			'TIMESTAMP',
+	// 			'TIME',
+	// 			'YEAR',
+	// 		],
+			
+	// 		'spatial' => [
+	// 			'GEOMETRY',
+	// 			'LINESTRING',
+	// 			'POLYGON',
+	// 			'MULTIPOINT',
+	// 		],
+			
+	// 		'other' => [
+	// 			'ENUM',
+	// 			'JSON',
+	// 		],
+			
+	// 	];
+    // }
+
+	public function get_field_type()
+	{
+		return [
 			'most' => [
-				'INT',
+				'INTEGER',
 				'VARCHAR',
 				'TEXT',
 				'DATE',
 			],
 			'numeric' => [
-				'DECIMAL',
-				'FLOAT',
-				'DOUBLE',
+				'NUMERIC',
+				'REAL',
+				'DOUBLE PRECISION',
 				'BIGINT',
 				'SMALLINT',
-				'MEDIUMINT',
-				'TINYINT',
+				'INTEGER',
+				'SMALLINT',
 				'BIT',
 				'BOOLEAN',
 				'SERIAL',
-				
+				'BIGSERIAL',
+				'SMALLSERIAL',
 			],
 			'string' => [
 				'TEXT',
 				'VARCHAR',
 				'CHAR',
-				'LONGTEXT',
-				'MEDIUMTEXT',
-				'TINYTEXT',
+				'TEXT',  // PostgreSQL doesn't have LONGTEXT
+				'TEXT',  // PostgreSQL doesn't have MEDIUMTEXT
+				'TEXT',  // PostgreSQL doesn't have TINYTEXT
+				'CHARACTER VARYING',
+				'CHARACTER',
 			],
 			'date & time' => [
 				'DATE',
-				'DATETIME',
 				'TIMESTAMP',
+				'TIMESTAMP WITH TIME ZONE',
+				'TIMESTAMP WITHOUT TIME ZONE',
 				'TIME',
-				'YEAR',
+				'TIME WITH TIME ZONE',
+				'TIME WITHOUT TIME ZONE',
+				'INTERVAL',
 			],
-			
 			'spatial' => [
 				'GEOMETRY',
-				'LINESTRING',
+				'POINT',
+				'LINE',
+				'LSEG',
+				'BOX',
+				'PATH',
 				'POLYGON',
-				'MULTIPOINT',
+				'CIRCLE',
 			],
-			
 			'other' => [
-				'ENUM',
+				'ENUM',  // PostgreSQL supports ENUM but implementation differs
 				'JSON',
+				'JSONB',
+				'UUID',
+				'CIDR',
+				'INET',
+				'MACADDR',
+				'XML',
+				'MONEY',
 			],
-			
 		];
-    }
+	}
+
 }
 
 /* End of file Model_database.php */

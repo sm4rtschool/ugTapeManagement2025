@@ -225,7 +225,7 @@
                                     <option value="0">Pilih PIC</option>
 
                                     <?php foreach (db_get_all_data('tb_master_pegawai') as $row) : ?>
-                                        <option value="<?= $row->nip; ?>"><?= ucwords($row->nama); ?></option>
+                                        <option value="<?= $row->id; ?>"><?= ucwords($row->nama); ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="info help-block">

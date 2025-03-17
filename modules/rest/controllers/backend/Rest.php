@@ -148,6 +148,7 @@ class Rest extends Admin
 			]);
 
 			$primary_key = $this->input->post('primary_key') ? $this->input->post('primary_key') : '0';
+			
 			$this->data = [
 				'php_open_tag' 				=> '<?php',
 				'php_close_tag' 			=> '?>',

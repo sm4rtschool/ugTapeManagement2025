@@ -42,7 +42,7 @@ class Tag_reader extends API
 	 */
 	public function all_get()
 	{
-		$this->is_allowed('api_tag_reader_all');
+		// $this->is_allowed('api_tag_reader_all');
 
 		$filter = $this->get('filter');
 		$field = $this->get('field');

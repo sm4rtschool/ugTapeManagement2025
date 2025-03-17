@@ -83,15 +83,31 @@ class Model_crud extends MY_Model
 		return $query->result();
 	}
 
+	// public function get_input_type()
+	// {
+	// 	$this->db->select('validation_group');
+	// 	$this->db->group_by('validation_group');
+	// 	$result = $this->db->get('crud_input_type');
+
+	// 	$validation_group = '';
+	// 	foreach ($result->result() as $row) {
+	// 		$validation_group .= $row->validation_group . ' ';
+	// 	}
+
+	// 	return $validation_group;
+	// }
+
 	public function get_input_type()
 	{
-		$this->db->select('validation_group');
 		$this->db->group_by('validation_group');
-		$result = $this->db->get('crud_input_type');
+		$result = $this->db->get('rest_input_type');
 
 		$validation_group = '';
-		foreach ($result->result() as $row) {
-			$validation_group .= $row->validation_group . ' ';
+		
+		if ($result !== FALSE && $result->num_rows() > 0) {
+			foreach ($result->result() as $row) {
+				$validation_group .= $row->validation_group. ' ';
+			}
 		}
 
 		return $validation_group;

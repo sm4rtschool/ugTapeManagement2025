@@ -55,7 +55,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class=""><a href="<?= admin_site_url('/tb_room_master'); ?>">Tb Room Master</a></li>
+        <li class=""><a href="<?= admin_site_url('/tb_room_master'); ?>">Master Ruangan</a></li>
         <li class="active"><?= cclang('new'); ?></li>
     </ol>
 </section>
@@ -73,6 +73,7 @@
                             <h5 class="widget-user-desc">Silahkan Lengkapi Data Ruangan baru</h5>
                             <hr>
                         </div>
+
                         <?= form_open('administrator/tb_master_ruangan/add_save', [
                             'name' => 'form_tb_room_master_add',
                             'class' => 'form-horizontal form-step',
@@ -80,12 +81,13 @@
                             'enctype' => 'multipart/form-data',
                             'method' => 'POST'
                         ]); ?>
+
                         <?php
                         $user_groups = $this->model_group->get_user_group_ids();
                         ?>
 
-                        <div class="form-group group-gedung_id ">
-                            <label for="gedung_id" class="col-sm-2 control-label">Nama Area <i class="required">*</i>
+                        <div class="form-group group-area_id ">
+                            <label for="area_id" class="col-sm-2 control-label">Nama Area <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
                                 <select class="form-control chosen chosen-select-deselect" name="area_id" id="area_id" data-placeholder="Select Gedung">
@@ -127,20 +129,55 @@
                             </label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="name_room" id="name_room" placeholder="Nama Ruangan" value="<?= set_value('name_room'); ?>">
-                                <small class="info help-block">
-                                    <b>Input Name Room</b> Max Length : 30.</small>
-                            </div>
-                        </div>
-                        <div class="form-group group-name_room ">
-                            <label for="name_room" class="col-sm-2 control-label">Keterangan Ruangan <i class="required">*</i>
-                            </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="ket_room" id="ket_room" placeholder="Keterangan Ruangan" value="<?= set_value('name_room'); ?>">
-                                <small class="info help-block">
-                                    <b>Input Name Room</b> Max Length : 30.</small>
                             </div>
                         </div>
 
+                        <div class="form-group group-librarian_aging">
+                            <label for="librarian_aging" class="col-sm-2 control-label">Librarian Aging <i class="required">*</i></label>
+                            <div class="col-sm-8">
+                                <select class="form-control chosen chosen-select-deselect" name="librarian_aging" id="librarian_aging" data-placeholder="Select Librarian Aging">
+                                    <option value=""></option>
+                                    <option value="1">True</option>
+                                    <option value="0">False</option>
+                                </select>
+                                <small class="info help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-is_create_aging">
+                            <label for="librarian_aging" class="col-sm-2 control-label">Create Aging <i class="required">*</i></label>
+                            <div class="col-sm-8">
+                                <select class="form-control chosen chosen-select-deselect" name="is_create_aging" id="is_create_aging" data-placeholder="Select Create Aging">
+                                    <option value=""></option>
+                                    <option value="1">True</option>
+                                    <option value="0">False</option>
+                                </select>
+                                <small class="info help-block"></small>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-librarian_aging_start">
+                            <label for="librarian_aging_start" class="col-sm-2 control-label">Aging Start (Hari) <i class="required">*</i></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" name="librarian_aging_start" id="librarian_aging_start" placeholder="Aging Start" value="<?= set_value('librarian_aging_start'); ?>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-librarian_aging_end">
+                            <label for="librarian_aging_end" class="col-sm-2 control-label">Aging End (Hari) <i class="required">*</i></label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" name="librarian_aging_end" id="librarian_aging_end" placeholder="Aging End" value="<?= set_value('librarian_aging_end'); ?>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-name_room ">
+                            <label for="name_room" class="col-sm-2 control-label">Keterangan Ruangan</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="ket_room" id="ket_room" placeholder="Keterangan Ruangan" value="<?= set_value('ket_room'); ?>">
+                                <small class="info help-block">
+                                    <b>Input Name Room</b> Max Length : 30.</small>
+                            </div>
+                        </div>
 
                         <div class="form-group ">
                             <label for="username" class="col-sm-2 control-label">Foto Ruangan</label>
@@ -153,15 +190,13 @@
                             </div>
                         </div>
 
-
-
-
-
                         <div class="message"></div>
                         <div class="row-fluid col-md-7 container-button-bottom">
-                            <button class="btn btn-flat btn-primary btn_save btn_action" id="btn_save" data-stype='stay' title="<?= cclang('save_button'); ?> (Ctrl+s)">
+
+                            <button type="submit" class="btn btn-flat btn-primary btn_save btn_action" id="btn_save" data-stype='stay' title="<?= cclang('save_button'); ?> (Ctrl+s)">
                                 <i class="fa fa-save"></i> <?= cclang('save_button'); ?>
                             </button>
+
                             <!-- <a class="btn btn-flat btn-info btn_save btn_action btn_save_back" id="btn_save" data-stype='back' title="<?= cclang('save_and_go_the_list_button'); ?> (Ctrl+d)">
                                 <i class="ion ion-ios-list-outline"></i> <?= cclang('save_and_go_the_list_button'); ?>
                             </a> -->
@@ -200,12 +235,6 @@
 
         window.event_submit_and_action = '';
 
-
-
-
-
-
-
         $('#btn_cancel').click(function() {
             swal({
                     title: "<?= cclang('are_you_sure'); ?>",
@@ -220,7 +249,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = ADMIN_BASE_URL + '/tb_room_master';
+                        window.location.href = ADMIN_BASE_URL + '/tb_master_ruangan';
                     }
                 });
 

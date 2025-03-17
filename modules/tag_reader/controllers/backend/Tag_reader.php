@@ -91,7 +91,7 @@ class Tag_reader extends Admin
 
 		$this->form_validation->set_rules('room_id', 'Ruangan', 'trim|required');
 		$this->form_validation->set_rules('reader_name', 'Nama Reader', 'trim|required|max_length[50]');
-		// $this->form_validation->set_rules('setfor', 'Posisi Untuk IN/OUT?', 'trim|required');
+		$this->form_validation->set_rules('setfor', 'Posisi Untuk IN/OUT?', 'trim|required');
 		$this->form_validation->set_rules('reader_serialnumber', 'Serial Number', 'trim|required|max_length[10]');
 		$this->form_validation->set_rules('reader_type', 'Tipe', 'trim|required');
 		$this->form_validation->set_rules('reader_ip', 'IP Address', 'trim|required|max_length[45]');
@@ -137,7 +137,21 @@ class Tag_reader extends Admin
 				'alias_antenna' => $this->input->post('alias_antenna'),
 			];
 
-			$save_tag_reader = $id = $this->model_tag_reader->store($save_data);
+			// $save_tag_reader = $id = $this->model_tag_reader->store($save_data);
+			
+			$this->db->insert('tag_reader', $save_data);
+			$query = $this->db->query("SELECT CURRVAL(pg_get_serial_sequence('tag_reader', 'reader_id')) as last_id");
+
+			if ($query) {
+				$row = $query->row();
+				$id_transaksi = $row->last_id;
+			} else {
+				$id_transaksi = 0;
+			}
+
+			// echo $this->db->last_query();
+
+			$save_tag_reader = $id_transaksi;
 
 			if ($save_tag_reader) {
 
@@ -210,7 +224,7 @@ class Tag_reader extends Admin
 
 		$this->form_validation->set_rules('room_id', 'Ruangan', 'trim|required');
 		$this->form_validation->set_rules('reader_name', 'Nama Reader', 'trim|required|max_length[50]');
-		// $this->form_validation->set_rules('setfor', 'Posisi Untuk IN/OUT?', 'trim|required');
+		$this->form_validation->set_rules('setfor', 'Posisi Untuk IN/OUT?', 'trim|required');
 		$this->form_validation->set_rules('reader_serialnumber', 'Serial Number', 'trim|required|max_length[10]');
 		$this->form_validation->set_rules('reader_type', 'Tipe', 'trim|required');
 		$this->form_validation->set_rules('reader_ip', 'IP Address', 'trim|required|max_length[45]');
@@ -234,7 +248,7 @@ class Tag_reader extends Admin
 			$save_data = [
 				'room_id' => $this->input->post('room_id'),
 				'reader_name' => $this->input->post('reader_name'),
-				// 'setfor' => $this->input->post('setfor'),
+				'reader_angle' => $this->input->post('setfor'),
 				'reader_serialnumber' => $this->input->post('reader_serialnumber'),
 				'reader_type' => $this->input->post('reader_type'),
 				'reader_ip' => $this->input->post('reader_ip'),

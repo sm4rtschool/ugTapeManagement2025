@@ -161,45 +161,42 @@ class Tag_temp_table extends API
 
 		// $this->form_validation->set_rules('lokasi_terakhir_id', 'Lokasi Terakhir Id', 'trim|required');
 		// $this->form_validation->set_rules('nama_lokasi_terakhir', 'Nama Lokasi Terakhir', 'trim|required|max_length[50]');
-		$this->form_validation->set_rules('room_id', 'Room Id', 'trim|required');
-		$this->form_validation->set_rules('room_name', 'Room Name', 'trim|required|max_length[50]');
-		$this->form_validation->set_rules('reader_id', 'Reader Id', 'trim|required');
-		$this->form_validation->set_rules('reader_antena', 'Reader Antena', 'trim|required');
-		$this->form_validation->set_rules('reader_angle', 'Reader Angle', 'trim|required');
-		$this->form_validation->set_rules('reader_gate', 'Reader Gate', 'trim|required|max_length[50]');
+
+		// $this->form_validation->set_rules('room_id', 'Room Id', 'trim|required');
+		// $this->form_validation->set_rules('room_name', 'Room Name', 'trim|required|max_length[50]');
+		// $this->form_validation->set_rules('reader_id', 'Reader Id', 'trim|required');
+		// $this->form_validation->set_rules('reader_antena', 'Reader Antena', 'trim|required');
+		// $this->form_validation->set_rules('reader_angle', 'Reader Angle', 'trim|required');
+		// $this->form_validation->set_rules('reader_gate', 'Reader Gate', 'trim|required|max_length[50]');
+
 		$this->form_validation->set_rules('rfid_tag_number', 'Rfid Tag Number', 'trim|required|max_length[96]');
+		$this->form_validation->set_rules('kode_epc', 'Kode EPC', 'trim|required|max_length[96]');
+		$this->form_validation->set_rules('alias_antenna', 'Alias Antenna', 'trim|required|max_length[96]');
+		$this->form_validation->set_rules('output', 'Output', 'trim|required');
 		
 		if ($this->form_validation->run()) {
 
-			// $data = [
-			// 'lokasi_terakhir_id' => $dataReader->room_id,
-			// 'nama_lokasi_terakhir' => $dataReader->ruangan,
-			// 'room_id' => $dataReader->room_id,
-			// 'room_name' => $dataReader->ruangan,
-			// 'reader_id' => $dataReader->reader_id,
-			// 'reader_antena' => $dataReader->reader_antena,
-			// 'reader_angle' => $dataReader->reader_angle,
-			// 'reader_gate' => $dataReader->reader_gate,
-			// 'rfid_tag_number' => $tid,
-			// 'is_legal_moving' => $dataReader->reader_identity
-			// ];
-
 			$save_data = [
-				'lokasi_terakhir_id' => $this->input->post('room_id'),
-				'nama_lokasi_terakhir' => $this->input->post('room_name'),
-				'is_legal_moving' => $this->input->post('is_legal_moving'),
-				'room_id' => $this->input->post('room_id'),
-				'room_name' => $this->input->post('room_name'),
+				// 'lokasi_terakhir_id' => $this->input->post('room_id'),
+				// 'nama_lokasi_terakhir' => $this->input->post('room_name'),
+				// 'is_legal_moving' => $this->input->post('is_legal_moving'),
+				// 'room_id' => $this->input->post('room_id'),
+				// 'room_name' => $this->input->post('room_name'),
 				'reader_id' => $this->input->post('reader_id'),
-				'reader_antena' => $this->input->post('reader_antena'),
-				'reader_angle' => $this->input->post('reader_angle'),
-				'reader_gate' => $this->input->post('reader_gate'),
+				// 'reader_antena' => $this->input->post('reader_antena'),
+				// 'reader_angle' => $this->input->post('reader_angle'),
+				// 'reader_gate' => $this->input->post('reader_gate'),
 				'rfid_tag_number' => $this->input->post('rfid_tag_number'),
+				'kode_epc' => $this->input->post('kode_epc'),
+				// 'waktu' => date('Y-m-d H:i:s'),
+				'alias_antenna' => $this->input->post('alias_antenna'),
+				'output' => $this->input->post('output'),
 			];
 			
-			$save_tag_temp_table = $this->model_api_tag_temp_table->store($save_data);
+			$this->model_api_tag_temp_table->store($save_data);
 			$this->db->insert('tag_temp_table_process', $save_data);
-			// $save_tag_temp_table = $this->db->insert_id();
+
+			$save_tag_temp_table = $this->db->insert_id('tag_temp_table_process_id_temp_table_seq');
 
 			if ($save_tag_temp_table) {
 				$this->response([

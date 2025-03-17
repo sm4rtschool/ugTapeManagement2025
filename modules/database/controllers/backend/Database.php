@@ -660,6 +660,26 @@ class Database extends Admin
 	 *
 	 * @var $id String
 	 */
+	// public function view($table_name)
+	// {
+	// 	$this->is_allowed('database_view');
+	// 	$table_name = ccdecrypt($table_name);
+
+	// 	$this->data['field_type'] = $this->model_database->get_field_type();
+	// 	$this->data['fields'] = $this->db->field_data($table_name);
+	// 	$this->data['n_fields'] = $this->db->query('SHOW COLUMNS FROM ' . $table_name)->result();
+	// 	$this->data['table_name'] = $table_name;
+
+
+	// 	foreach ($this->data['n_fields'] as $idx => $val) {
+	// 		$this->data['fields'][$idx]->detail = $val;
+	// 	}
+
+
+	// 	$this->template->title('Database Detail');
+	// 	$this->render('backend/standart/administrator/database/database_view', $this->data);
+	// }
+
 	public function view($table_name)
 	{
 		$this->is_allowed('database_view');
@@ -667,17 +687,29 @@ class Database extends Admin
 
 		$this->data['field_type'] = $this->model_database->get_field_type();
 		$this->data['fields'] = $this->db->field_data($table_name);
-		$this->data['n_fields'] = $this->db->query('SHOW COLUMNS FROM ' . $table_name)->result();
-		$this->data['table_name'] = $table_name;
+		
+		// Ganti query MySQL ke query PostgreSQL
+		$query_result = $this->db->query("SELECT column_name, data_type, character_maximum_length, 
+										is_nullable, column_default 
+										FROM information_schema.columns 
+										WHERE table_name = '".$table_name."'");
+										
+		if ($query_result !== FALSE) {
+			$this->data['n_fields'] = $query_result->result();
+			$this->data['table_name'] = $table_name;
 
+			foreach ($this->data['n_fields'] as $idx => $val) {
+				if (isset($this->data['fields'][$idx])) {
+					$this->data['fields'][$idx]->detail = $val;
+				}
+			}
 
-		foreach ($this->data['n_fields'] as $idx => $val) {
-			$this->data['fields'][$idx]->detail = $val;
+			$this->template->title('Database Detail');
+			$this->render('backend/standart/administrator/database/database_view', $this->data);
+		} else {
+			$this->session->set_flashdata('error', 'Table tidak ditemukan atau tidak dapat diakses');
+			redirect('administrator/database');
 		}
-
-
-		$this->template->title('Database Detail');
-		$this->render('backend/standart/administrator/database/database_view', $this->data);
 	}
 
 	/**

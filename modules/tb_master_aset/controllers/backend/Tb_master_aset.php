@@ -90,23 +90,17 @@ class Tb_master_aset extends Admin
 			exit;
 		}
 
-
 		$this->form_validation->set_rules('kode_aset', 'Kode Aset', 'trim|required|max_length[50]');
-
-
-		$this->form_validation->set_rules('nup', 'Nup', 'trim|required|max_length[50]');
-
+		// $this->form_validation->set_rules('nup', 'Nup', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('nama_aset', 'Nama Aset', 'trim|required|max_length[100]');
-		$this->form_validation->set_rules('merk', 'Merk', 'trim|required|max_length[50]');
-		$this->form_validation->set_rules('tipe', 'Tipe', 'trim|required');
-
+		// $this->form_validation->set_rules('merk', 'Merk', 'trim|required|max_length[50]');
+		// $this->form_validation->set_rules('tipe', 'Tipe', 'trim|required');
 		$this->form_validation->set_rules('kategori', 'Kategori', 'trim|required');
 
 		$this->form_validation->set_rules('area', 'Area', 'trim|required');
 		$this->form_validation->set_rules('gedung', 'Gedung', 'trim|required');
 		$this->form_validation->set_rules('room', 'Room', 'trim|required');
 		$this->form_validation->set_rules('pic', 'Pic', 'trim|required');
-
 
 		$rand = rand();
 		$ekstensi =  array('png', 'jpg', 'jpeg');
@@ -116,6 +110,9 @@ class Tb_master_aset extends Admin
 		$folderfoto = $this->input->post('kategori') === 1 ? 'Seni' : 'Elektronik';
 
 		if ($this->form_validation->run()) {
+
+			// echo 'masuk';
+			// exit;
 
 			$save_data = [
 				'kode_aset' => $this->input->post('kode_aset'),
@@ -132,12 +129,26 @@ class Tb_master_aset extends Admin
 				'image_uri' => $rand . '_' . $_FILES['fotoaset']['name'],
 			];
 
+			// $this->db->insert('tb_master_aset', $save_data);
+			// $id_transaksi = $this->db->query("SELECT currval(pg_get_serial_sequence('tb_master_aset','id'))")->row()->currval;
 
+			$this->db->insert('tb_master_aset', $save_data);   
+			
+			// echo $this->db->last_query();
+			// exit;
+			
+            $query = $this->db->query("SELECT currval(pg_get_serial_sequence('tb_master_aset','id_aset')) AS last_id");
 
-			$save_tb_master_aset = $id = $this->model_tb_master_aset->store($save_data);
+            if ($query) {
+                $row = $query->row();
+                $id_transaksi = $row->last_id;
+            } else {
+                // Handle the error appropriately
+                log_message('error', 'Failed to retrieve last insert ID from tb_master_transaksi');
+                return false;
+            }
 
-
-			if ($save_tb_master_aset) {
+			if ($id_transaksi) {
 
 				if (!in_array($ext, $ekstensi)) {
 					header("location:index.php?alert=gagal_ekstensi");
@@ -155,6 +166,7 @@ class Tb_master_aset extends Admin
 						header("location:index.php?alert=Ukuran File Maks .500 Kb");
 					}
 				}
+
 				$this->session->set_flashdata('success', 'succes_save');
 
 
@@ -189,6 +201,9 @@ class Tb_master_aset extends Admin
 				$this->session->set_flashdata('failsave', 'cannot save data');
 			}
 		} else {
+
+			// echo 'gagal';
+			// exit;
 
 			$this->session->set_flashdata('err_val', 'error_validasi');
 			// $this->data['success'] = false;

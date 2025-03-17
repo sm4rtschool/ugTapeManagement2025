@@ -27,11 +27,11 @@
 </script>
 <section class="content-header">
    <h1>
-      <?= cclang('tb_room_master') ?><small><?= cclang('list_all'); ?></small>
+      <?= cclang('Master Ruangan') ?><small><?= cclang('list_all'); ?></small>
    </h1>
    <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><?= cclang('tb_room_master') ?></li>
+      <li class="active"><?= cclang('Master Ruangan') ?></li>
    </ol>
 </section>
 <!-- Main content -->
@@ -45,21 +45,21 @@
                   <div class="widget-user-header ">
                      <div class="row pull-right">
                         <?php is_allowed('tb_room_master_add', function () { ?>
-                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_room_master')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_ruangan/add'); ?>"><i class="fa fa-plus-square-o"></i> <?= cclang('add_new_button', [cclang('tb_room_master')]); ?></a>
+                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('Master Ruangan')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_ruangan/add'); ?>"><i class="fa fa-plus-square-o"></i> <?= cclang('add_new_button', [cclang('Master Ruangan')]); ?></a>
                         <?php }) ?>
                         <?php is_allowed('tb_room_master_export', function () { ?>
-                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('tb_room_master') ?> " href="<?= admin_site_url('/tb_master_ruangan/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
+                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('Master Ruangan') ?> " href="<?= admin_site_url('/tb_master_ruangan/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
                         <?php }) ?>
                         <?php is_allowed('tb_room_master_export', function () { ?>
-                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> pdf <?= cclang('tb_room_master') ?> " href="<?= admin_site_url('/tb_master_ruangan/export_pdf?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-pdf-o"></i> <?= cclang('export'); ?> PDF</a>
+                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> pdf <?= cclang('Master Ruangan') ?> " href="<?= admin_site_url('/tb_master_ruangan/export_pdf?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-pdf-o"></i> <?= cclang('export'); ?> PDF</a>
                         <?php }) ?>
                      </div>
                      <div class="widget-user-image">
                         <img class="img-circle" src="<?= BASE_ASSET; ?>/img/list.png" alt="User Avatar">
                      </div>
                      <!-- /.widget-user-image -->
-                     <h3 class="widget-user-username"><?= cclang('tb_room_master') ?></h3>
-                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('tb_room_master')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_room_master_counts; ?></span> <?= cclang('items'); ?></i></h5>
+                     <h3 class="widget-user-username"><?= cclang('Master Ruangan') ?></h3>
+                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('Master Ruangan')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_room_master_counts; ?></span> <?= cclang('items'); ?></i></h5>
                   </div>
 
                   <form name="form_tb_room_master" id="form_tb_room_master" action="<?= admin_base_url('/tb_room_master/index'); ?>">
@@ -113,11 +113,14 @@
                         <table id="exampleas" class="table table-bordered table-striped dataTable">
                            <thead>
                               <tr class="">
-
-                                 <th data-field="gedung_id" data-sort="1" data-primary-key="0"> Kode Ruangan</th>
-                                 <th data-field="kode_room" data-sort="1" data-primary-key="0"> Nama Ruangan</th>
-                                 <th data-field="name_room" data-sort="1" data-primary-key="0"> Nama Gedung</th>
-                                 <th data-field="lat" data-sort="1" data-primary-key="0"> Nama Area</th>
+                                 <th data-field="room_id" data-sort="1" data-primary-key="0"> ID Ruangan</th>
+                                 <th data-field="name_room" data-sort="1" data-primary-key="0"> Nama Ruangan</th>
+                                 <th data-field="name_gedung" data-sort="1" data-primary-key="0"> Nama Gedung</th>
+                                 <th data-field="name_area" data-sort="1" data-primary-key="0"> Nama Area</th>
+                                 <th data-field="aging" data-sort="1" data-primary-key="0"> Aging</th>
+                                 <th data-field="aging" data-sort="1" data-primary-key="0"> Create Aging</th>
+                                 <th data-field="lat" data-sort="1" data-primary-key="0"> Aging Start (Hari)</th>
+                                 <th data-field="lat" data-sort="1" data-primary-key="0"> Aging End (Hari)</th>
                                  <th>Action</th>
                               </tr>
                            </thead>
@@ -136,7 +139,7 @@
    </div>
 </section>
 <script>
-   var module_name = "tb_room_master"
+   var module_name = "tb_master_ruangan";
    var use_ajax_crud = false
 </script>
 <script src="<?= BASE_ASSET ?>js/filter.js"></script>

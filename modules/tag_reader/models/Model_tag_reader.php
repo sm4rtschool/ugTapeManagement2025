@@ -6,7 +6,7 @@ class Model_tag_reader extends MY_Model
 
     private $primary_key    = 'reader_id';
     private $table_name     = 'tag_reader';
-    public $field_search   = ['room_id', 'room_id', 'reader_name', 'reader_serialnumber', 'reader_type', 'reader_ip', 'reader_port', 'reader_com', 'reader_mode', 'reader_family', 'connecting', 'reader_identity', 'alias_antenna', 'tb_master_ruangan.ruangan'];
+    public $field_search   = ['room_id', 'room_id', 'reader_name', 'reader_serialnumber', 'reader_type', 'reader_ip', 'reader_port', 'reader_com', 'reader_mode', 'reader_angle', 'reader_family', 'connecting', 'reader_identity', 'alias_antenna', 'tb_master_ruangan.ruangan'];
     public $sort_option = ['reader_id', 'DESC'];
 
     public function __construct()
@@ -38,20 +38,28 @@ class Model_tag_reader extends MY_Model
                     $f_search = $field;
                 }
                 if ($iterasi == 1) {
-                    $where .=  $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= "COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 } else {
-                    $where .= "OR " .  $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= " OR COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tag_reader." . $field . " ILIKE '%" . $q . "%' )";
+            $f_search = "tag_reader." . $field;
+            if (strpos($field, '.')) {
+                $f_search = $field;
+            }
+            
+            $where .= "(COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%')";
         }
 
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where($where);
+        
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
         
         // Add error logging
         $this->db->save_queries = TRUE;
@@ -60,7 +68,7 @@ class Model_tag_reader extends MY_Model
         // Check if query failed
         if ($query === FALSE) {
             // Log the error
-            log_message('error', 'Database error: ' . $this->db->error()['message'] . ' - SQL: ' . $this->db->last_query());
+            log_message('error', 'Database error: ' . print_r($this->db->error(), TRUE) . ' - SQL: ' . $this->db->last_query());
             return 0; // Return 0 instead of causing an error
         }
 
@@ -120,41 +128,51 @@ class Model_tag_reader extends MY_Model
         // $q = $this->scurity($q);
         // $field = $this->scurity($field);
         $field = in_array($field, $this->field_search) ? $field : "";
-
+        
         if (empty($field)) {
             foreach ($this->field_search as $field) {
                 $f_search = "tag_reader." . $field;
                 if (strpos($field, '.')) {
                     $f_search = $field;
                 }
-
+                
                 if ($iterasi == 1) {
-                    $where .= $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= "COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 } else {
-                    $where .= "OR " . $f_search . " ILIKE '%" . $q . "%' ";
+                    $where .= " OR COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 }
                 $iterasi++;
             }
-
+            
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tag_reader." . $field . " ILIKE '%" . $q . "%' )";
+            $f_search = "tag_reader." . $field;
+            if (strpos($field, '.')) {
+                $f_search = $field;
+            }
+            
+            $where .= "(COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%')";
         }
-
+        
         if (is_array($select_field) and count($select_field)) {
             $this->db->select($select_field);
         }
-
+        
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where($where);
+        
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        
         $this->db->limit($limit, $offset);
-
         $this->sortable();
-
+        
+        // Add order by reader_id desc
+        $this->db->order_by('reader_id', 'ASC');
+        
         // Add error handling
         $this->db->save_queries = TRUE;
         $query = $this->db->get($this->table_name);
-        echo $this->db->last_query();
         
         // Check if query failed
         if ($query === FALSE) {
@@ -162,7 +180,7 @@ class Model_tag_reader extends MY_Model
             log_message('error', 'Database error: ' . print_r($this->db->error(), TRUE) . ' - SQL: ' . $this->db->last_query());
             return []; // Return empty array instead of causing an error
         }
-
+        
         return $query->result();
     }
 

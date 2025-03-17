@@ -78,6 +78,7 @@ class tb_master_area extends Admin
 	 */
 	public function add_save()
 	{
+
 		if (!$this->is_allowed('tb_area_master_add', false)) {
 			echo json_encode([
 				'success' => false,
@@ -85,8 +86,6 @@ class tb_master_area extends Admin
 			]);
 			exit;
 		}
-
-
 
 		$this->form_validation->set_rules('area', 'Area', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('ket_area', 'Keterangan', 'trim|required|max_length[130]');
@@ -108,6 +107,9 @@ class tb_master_area extends Admin
 				'ket_area' => $this->input->post('ket_area'),
 				'image_uri' => $rand . '_' . $_FILES['fotoarea']['name'],
 			];
+
+			// echo json_encode($save_data);
+			// exit;
 
 			$save_tb_area_master = $id = $this->model_tb_area_master->store($save_data);
 
