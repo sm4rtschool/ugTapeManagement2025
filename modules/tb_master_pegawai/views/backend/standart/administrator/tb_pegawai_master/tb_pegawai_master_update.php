@@ -89,7 +89,13 @@
                             $user_groups = $this->model_group->get_user_group_ids();
                             ?>
 
-
+                            <div class="form-group group-kode_tid_pegawai  ">
+                                <label for="kode_tid_pegawai" class="col-sm-2 control-label">Kode Tid <i class="required">*</i>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="kode_tid_pegawai" id="kode_tid_pegawai" placeholder="" value="<?= set_value('kode_tid_pegawai', $value->kode_tid_pegawai); ?>">
+                                </div>
+                            </div>
 
                             <div class="form-group group-NIP  ">
                                 <label for="NIP" class="col-sm-2 control-label">NIP <i class="required">*</i>

@@ -115,6 +115,7 @@
                            <thead>
                               <tr class="">
 
+                                 <th data-field="Kode TID" data-sort="1" data-primary-key="0"> <?= cclang('Kode TID') ?></th>
                                  <th data-field="NIP" data-sort="1" data-primary-key="0"> <?= cclang('NIP') ?></th>
                                  <th data-field="Pegawai" data-sort="1" data-primary-key="0"> <?= cclang('Pegawai') ?></th>
                                  <th data-field="Jabatan" data-sort="1" data-primary-key="0"> <?= cclang('Jabatan') ?></th>

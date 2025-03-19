@@ -86,14 +86,12 @@ class tb_master_pegawai extends Admin
 			exit;
 		}
 
-
 		$this->form_validation->set_rules('nip', 'NIP', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('pegawai', 'Pegawai', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('jabatan', 'Jabatan', 'trim|required|max_length[130]');
-		$this->form_validation->set_rules('telp', 'Telp', 'trim|required|max_length[130]');
-		$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|max_length[130]');
+		// $this->form_validation->set_rules('telp', 'Telp', 'trim|required|max_length[130]');
+		// $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[130]');
-
 
 		$rand = rand();
 		$ekstensi =  array('png', 'jpg', 'jpeg');
@@ -102,11 +100,12 @@ class tb_master_pegawai extends Admin
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$folderfoto = 'Pegawai';
 
-
-
 		if ($this->form_validation->run()) {
 
+			$kode_tid_pegawai = $this->input->post('kode_tid_pegawai');
+
 			$save_data = [
+				'kode_tid_pegawai' => $kode_tid_pegawai,
 				'nip' => $this->input->post('nip'),
 				'nama' => $this->input->post('pegawai'),
 				'jabatan' => $this->input->post('jabatan'),
@@ -116,11 +115,30 @@ class tb_master_pegawai extends Admin
 				'image_uri' => $rand . '_' . $_FILES['fotopegawai']['name'],
 			];
 
+			// $save_tb_pegawai_master = $this->model_tb_pegawai_master->store($save_data);
+			$this->db->insert('tb_master_pegawai', $save_data);
+			// echo $this->db->last_query();
+			// exit;
 
+			$query = $this->db->query("SELECT CURRVAL(pg_get_serial_sequence('tb_master_pegawai', 'id')) as last_id");
 
-			$save_tb_pegawai_master = $this->model_tb_pegawai_master->store($save_data);
+			if ($query) {
+				$row = $query->row();
+				$id_transaksi = $row->last_id;
+			} else {
+				$id_transaksi = 0;
+			}
 
-			if ($save_tb_pegawai_master) {
+			if ($id_transaksi) {
+
+				// echo $id_transaksi;
+				// exit;
+
+				if ($kode_tid_pegawai != ''){
+					$this->db->where('kode_tid', $kode_tid_pegawai);
+					$is_success = $this->db->update('tb_master_tag_rfid', array('status_tag' => 'N', 'id_pegawai' => $id_transaksi));
+				}
+
 				if (!in_array($ext, $ekstensi)) {
 					header("location:index.php?alert=gagal_ekstensi");
 				} else {
@@ -137,6 +155,7 @@ class tb_master_pegawai extends Admin
 						header("location:index.php?alert=Ukuran File Maks .500 Kb");
 					}
 				}
+
 				$this->session->set_flashdata('success', 'succes_save');
 
 
@@ -159,6 +178,7 @@ class tb_master_pegawai extends Admin
 				// 	$this->data['redirect'] = admin_base_url('/tb_master_aset');
 				// }
 				redirect_back();
+
 			} else {
 				// if ($this->input->post('save_type') == 'stay') {
 				// 	$this->data['success'] = false;
@@ -213,7 +233,6 @@ class tb_master_pegawai extends Admin
 		$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[130]');
 
-
 		$rand = rand();
 		$ekstensi =  array('png', 'jpg', 'jpeg');
 		$filename = $_FILES['fotopegawai']['name'];
@@ -221,11 +240,10 @@ class tb_master_pegawai extends Admin
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$folderfoto = 'Pegawai';
 
-
-
 		if ($this->form_validation->run()) {
 
 			$save_data = [
+				'kode_tid_pegawai' => $this->input->post('kode_tid_pegawai'),
 				'nip' => $this->input->post('nip'),
 				'nama' => $this->input->post('pegawai'),
 				'jabatan' => $this->input->post('jabatan'),
@@ -235,9 +253,12 @@ class tb_master_pegawai extends Admin
 				'image_uri' => $rand . '_' . $_FILES['fotopegawai']['name'],
 			];
 
-
-
 			$save_tb_pegawai_master = $this->model_tb_pegawai_master->update_pegawai($id, $save_data);
+
+			if ($id != ''){
+				$this->db->where('kode_tid', $this->input->post('kode_tid_pegawai'));
+				$is_success = $this->db->update('tb_master_tag_rfid', array('status_tag' => 'N', 'id_pegawai' => $id));
+			}
 
 			if ($save_tb_pegawai_master) {
 				if (!in_array($ext, $ekstensi)) {

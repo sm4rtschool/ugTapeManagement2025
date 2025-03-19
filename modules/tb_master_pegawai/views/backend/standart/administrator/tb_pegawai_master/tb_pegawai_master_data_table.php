@@ -2,6 +2,7 @@
     <tr>
 
 
+        <td><span class="list_group-kode_tid_pegawai"><?= _ent($tb_pegawai_master->kode_tid_pegawai); ?></span></td>
         <td><span class="list_group-NIP"><?= _ent($tb_pegawai_master->nip); ?></span></td>
         <td><span class="list_group-Pegawai"><?= _ent($tb_pegawai_master->nama); ?></span></td>
         <td><span class="list_group-Jabatan"><?= _ent($tb_pegawai_master->jabatan); ?></span></td>

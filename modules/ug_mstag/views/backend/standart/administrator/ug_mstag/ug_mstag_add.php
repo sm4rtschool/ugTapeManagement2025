@@ -314,7 +314,8 @@
             var protocol_ws_server = $('#protocol_ws_server').val();
             localStorage.setItem('ip_address', ip_address);
             
-            const socket = new WebSocket(protocol_ws_server + '://' + ip_address + ':3030');
+            // const socket = new WebSocket(protocol_ws_server + '://' + ip_address + ':3030');
+            const socket = new WebSocket('ws://' + ip_address + ':3030');
 
             $('#your_table_id tbody tr').remove();
 

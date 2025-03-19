@@ -414,6 +414,41 @@ $CI = &get_instance();
   // $('#ta12').addClass('bg-totalaset');
   // $('#ta').addClass('bg-totalaset');
 
+  // Function to format days into years, months, days
+  function formatDays(totalDays) {
+
+    if (totalDays === null || totalDays === undefined || isNaN(totalDays)) {
+      return '-';
+    }
+    
+    // Convert to absolute value in case of negative days
+    totalDays = Math.abs(parseInt(totalDays));
+    
+    const years = Math.floor(totalDays / 365);
+    const remainingDaysAfterYears = totalDays % 365;
+    const months = Math.floor(remainingDaysAfterYears / 30);
+    const days = remainingDaysAfterYears % 30;
+    
+    let result = '';
+    
+    if (years > 0) {
+      result += years + ' tahun';
+    }
+    
+    if (months > 0) {
+      if (result.length > 0) result += ', ';
+      result += months + ' bulan';
+    }
+    
+    if (days > 0 || (years === 0 && months === 0)) {
+      if (result.length > 0) result += ', ';
+      result += days + ' hari';
+    }
+    
+    return result;
+  }
+
+
   $(document).ready(function() {
 
     // const ws = new WebSocket("ws://localhost:3000");
@@ -513,25 +548,21 @@ $CI = &get_instance();
           modalContent += '<table class="table table-bordered dataTable responsive">';
 
           if (topic == 'avalaible') {
-
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Ruangan</th></tr>';
-
+            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Ruangan</th><th>DOB</th><th>Aging</th><th>Kondisi</th></tr>';
           } else if (topic == 'borrow') {
             modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th><th>Peminjaman</th><th>Pengembalian</th></tr>';
           } else if (topic == 'mainten') {
             modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th></tr>';
-
           } else if (topic == 'moving') {
             modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th><th>Posisi Terakhir</th></tr>';
-
-
           } else {
             modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Tgl Inventarisasi</th></tr>';
-
           }
+
           // Proses data dari respons JSON dan tambahkan ke dalam tabel
           // Misalnya, untuk setiap item dalam data, tambahkan baris baru ke tabel
           data.forEach(function(item, index) {
+            
             let rowClass = "";
 
             // Tambahkan class berdasarkan kondisi
@@ -539,9 +570,14 @@ $CI = &get_instance();
               rowClass = "bg-red tooltip-tr";
             }
 
+            if (item.status == 1 && item.kondisi == 'Salah Ruangan') {
+              rowClass = "bg-red tooltip-tr";
+            }
+
             var no = index + 1;
             // Misalnya, tambahkan baris baru dengan data item ke dalam tabel
-            modalContent += `<tr data-tooltip="Pergerakan Ilegal!" class="${rowClass}">`;
+            modalContent += `<tr data-tooltip="!" class="${rowClass}">`;
+
             modalContent += '<td>' + no + '</td>';
             modalContent += '<td>' + item.kode_tid + '</td>'; // Misalnya, ambil field1 dari item
             modalContent += '<td>' + item.kode_aset + '</td>'; // Misalnya, ambil field2 dari item
@@ -551,6 +587,11 @@ $CI = &get_instance();
             if (topic == 'avalaible') {
 
               modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
+              modalContent += '<td>' + (item.dob_aset ? item.dob_aset : '-') + '</td>'; // Misalnya, ambil field2 dari item
+              // modalContent += '<td>' + item.aging + '</td>'; // Misalnya, ambil field2 dari item
+              modalContent += '<td>' + formatDays(item.aging) + '</td>';
+
+              modalContent += '<td>' + item.kondisi + '</td>'; // Misalnya, ambil field2 dari item
 
             } else if (topic == 'borrow') {
               modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
@@ -562,18 +603,15 @@ $CI = &get_instance();
             } else if (topic == 'moving') {
               modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
               modalContent += '<td>' + item.ruanganterakhir + '</td>'; // Misalnya, ambil field2 dari item
-
-
             } else {
               modalContent += '<td>' + item.tgl_inventarisasi + '</td>'; // Misalnya, ambil field2 dari item
-
             }
-
 
             // Misalnya, ambil field2 dari item
             // Lanjutkan untuk setiap field yang diperlukan
             modalContent += '</tr>';
           });
+
           modalContent += '</table>';
           modalContent += '</div>';
           // Tambahkan tombol pagination di bagian bawah modal jika diperlukan
@@ -607,57 +645,76 @@ $CI = &get_instance();
     }
 
     function updateDashboard(data) {
+
       $('#aset_teregister').text(data.totalpantau);
+      
       if (data.totalpantau > 0) {
         $('#ta12').addClass('bg-totalaset');
       } else {
         $('#ta12').removeClass('bg-totalaset');
       }
+      
       $('#aset_total_pantau').text(data.total);
+      
       if (data.total > 0) {
         $('#ta').addClass('bg-totalaset');
       } else {
         $('#ta').removeClass('bg-tersedia');
       }
+      
       $('#avalaible').text(data.avalaible);
+      
       if (data.avalaible > 0) {
-        $('#ava').addClass('bg-tersedia');
+
+        if (data.aset_salah_ruangan > 0) {
+          $('#ava').removeClass('bg-tersedia');
+          $('#ava').removeClass('bg-legal');
+          $('#ava').addClass('blink-ilegal');
+        } else {
+          $('#ava').addClass('bg-tersedia');          
+          $('#ava').addClass('bg-legal');
+          $('#ava').removeClass('blink-ilegal');
+        }
+
       } else {
+        $('#ava').removeClass('blink-ilegal');
         $('#ava').removeClass('bg-tersedia');
       }
 
       $('#peminjaman').text(data.peminjaman);
+      
       if (data.peminjaman > 0 && data.pinjamlewathari == 0) {
         $('#pem').addClass('bg-peminjaman');
       } else if (data.peminjaman > 0 && data.pinjamlewathari > 0) {
         $('#pem').removeClass('bg-peminjaman');
-
         $('#pem').addClass('blink-overdue');
-
       } else {
         $('#pem').removeClass('bg-peminjaman');
         $('#pem').removeClass('blink-overdue');
-
       }
 
       $('#perpindahan').text(parseInt(data.ilegal) + parseInt(data.legal));
+
       if (data.ilegal > 0) {
         $('#perp').addClass('blink-ilegal');
       } else {
         $('#perp').addClass('bg-legal');
         $('#perp').removeClass('blink-ilegal');
-
       }
+
       if (data.ilegal == 0 && data.legal == 0) {
         $('#perp').removeClass('bg-ilegal');
         $('#perp').removeClass('bg-legal');
       }
+
       $('#perbaikan').text(data.perbaikan);
+      
       if (data.perbaikan > 0) {
         $('#perb').addClass('bg-perbaikan');
       } else {
         $('#perb').removeClass('bg-perbaikan');
       }
+
       $('#tape_overdue').text(data.overdue);
       $('#tape_borrow').text(data.borrow);
       $('#tape_broken').text(data.broken);
@@ -667,7 +724,6 @@ $CI = &get_instance();
     $(document).on('click', '.xxx', function() {
       var divId = event.target.getAttribute("data-el");
       var roomName = decodeURI(event.target.getAttribute("name-room")).replace(/"/g, "");
-
 
       var title = '';
       // Menggunakan ID div untuk memilih endpoint yang sesuai
@@ -819,7 +875,8 @@ $CI = &get_instance();
     }
 
     // Jalankan setiap 5 detik
-    setInterval(updateStatus, 2000);
+    setInterval(updateStatus, 3000);
+
     var ctx2 = document.getElementById('myChartSIMAN').getContext('2d');
     var dChart = new Chart(ctx2, {
       type: 'doughnut',

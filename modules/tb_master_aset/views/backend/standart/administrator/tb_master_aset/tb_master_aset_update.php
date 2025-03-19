@@ -68,14 +68,16 @@
                     <?php foreach ($tb_master_aset as $value): ?>
 
                         <div class="box box-widget widget-user-2">
-                            <!-- <div class="widget-user-header ">
+                            
+                            <div class="widget-user-header ">
                                 <div class="widget-user-image">
                                     <img class="img-circle" src="<?= BASE_ASSET; ?>/img/add2.png" alt="User Avatar">
                                 </div>
-                                <h3 class="widget-user-username">Tb Master Aset</h3>
-                                <h5 class="widget-user-desc">Edit Tb Master Aset</h5>
+                                <h3 class="widget-user-username">Master Aset</h3>
+                                <h5 class="widget-user-desc">Edit Master Aset</h5>
                                 <hr>
-                            </div> -->
+                            </div>
+
                             <?= form_open(admin_base_url('/tb_master_aset/edit_save/' . $this->uri->segment(4)), [
                                 'name' => 'form_tb_master_aset_edit',
                                 'class' => 'form-horizontal form-step',
@@ -93,7 +95,7 @@
                                 <label for="kode_aset" class="col-sm-2 control-label">Kode Aset <i class="required">*</i>
                                 </label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" name="kode_aset" id="kode_aset" placeholder="Kode Aset" value="<?= $value->kode_aset; ?>">
+                                    <input type="text" class="form-control" name="kode_aset" id="kode_aset" placeholder="Kode Aset" value="<?= $value->kode_aset; ?>">
                                     <small class="info help-block">
                                         <b>Input Kode Aset</b> Max Length : 50.</small>
                                 </div>

@@ -66,7 +66,52 @@ class Dashboard extends Admin
 				$data_json = $this->db->query($row_total)->result();
 				break;
 			case "anomali":
-				$query_anomali = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, y.id, y.ruangan FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.lokasi_moving WHERE (x.status = 1 AND x.borrow = 1  AND x.kode_tid !='') OR (x.status = 1 AND x.borrow = 0  AND x.kode_tid !='') OR (x.status = 4 AND x.borrow = 1  AND x.kode_tid !='') OR (status = 1 and borrow = 2  AND kode_tid != '')  order by x.lokasi_moving asc, x.kode_aset asc, nup asc";
+				// $query_anomali = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, y.id, y.ruangan FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.lokasi_moving WHERE (x.status = 1 AND x.borrow = 1  AND x.kode_tid !='') OR (x.status = 1 AND x.borrow = 0  AND x.kode_tid !='') OR (x.status = 4 AND x.borrow = 1  AND x.kode_tid !='') OR (status = 1 and borrow = 2  AND kode_tid != '')  order by x.lokasi_moving asc, x.kode_aset asc, nup asc";
+				$query_anomali = "SELECT 
+								x.kode_tid, 
+								x.nama_aset, 
+								x.kode_aset, 
+								x.nup, 
+								x.status, 
+								x.id_lokasi, 
+								x.dob_aset,
+								y.id, 
+								y.ruangan,
+								y.librarian_aging, y.librarian_aging_start, y.librarian_aging_end,
+								CASE 
+									WHEN x.dob_aset IS NOT NULL THEN CAST((CURRENT_DATE - x.dob_aset) AS TEXT)
+									ELSE '-'
+								END AS aging,
+								CASE 
+									WHEN x.dob_aset IS NOT NULL THEN 
+
+										CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
+										ELSE
+										
+											CASE WHEN (CURRENT_DATE - x.dob_aset) > y.librarian_aging_start 
+											AND (CURRENT_DATE - x.dob_aset) < y.librarian_aging_end 
+											THEN 'Sesuai'
+											ELSE 'Salah Ruangan'
+											END
+
+										END
+										
+									ELSE 'Not Aging'
+								END AS kondisi
+							FROM 
+								tb_master_aset x 
+							JOIN 
+								tb_master_ruangan y ON y.id = x.lokasi_moving 
+							WHERE 
+								(x.status = 1 AND x.borrow = 1 AND x.kode_tid !='') 
+								OR (x.status = 1 AND x.borrow = 0 AND x.kode_tid !='') 
+								OR (x.status = 4 AND x.borrow = 1 AND x.kode_tid !='') 
+								OR (x.status = 1 AND x.borrow = 2 AND x.kode_tid != '')  
+							ORDER BY 
+								x.lokasi_moving ASC, 
+								x.kode_aset ASC, 
+								x.nup ASC";
+
 				$data_json = $this->db->query($query_anomali)->result();
 				break;
 			case "mutation":
@@ -212,6 +257,43 @@ class Dashboard extends Admin
 		$result_legal = $this->db->query($query_disp);
 		$legal = $result_legal->row();
 
+		$query_salah_ruangan = "
+		SELECT COUNT(total_kondisi) AS total FROM 
+		(
+
+			SELECT
+				CASE 
+					WHEN x.dob_aset IS NOT NULL THEN 
+			
+						CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
+						ELSE
+						
+							CASE WHEN (CURRENT_DATE - x.dob_aset) > y.librarian_aging_start 
+							AND (CURRENT_DATE - x.dob_aset) < y.librarian_aging_end 
+							THEN 'Sesuai'
+							ELSE 'Salah Ruangan'
+							END
+			
+						END
+						
+					ELSE 'Not Aging'
+				END AS total_kondisi
+				
+			FROM 
+				tb_master_aset x 
+			JOIN 
+				tb_master_ruangan y ON y.id = x.lokasi_moving 
+			WHERE 
+				(x.status = 1 AND x.borrow = 1 AND x.kode_tid !='') 
+				OR (x.status = 1 AND x.borrow = 0 AND x.kode_tid !='') 
+				OR (x.status = 4 AND x.borrow = 1 AND x.kode_tid !='') 
+				OR (x.status = 1 AND x.borrow = 2 AND x.kode_tid != '')  
+		) z WHERE total_kondisi = 'Salah Ruangan'
+		";
+
+		$result_salah_ruangan = $this->db->query($query_salah_ruangan);
+		$aset_salah_ruangan = $result_salah_ruangan->row();
+
 		//status chart
 
 		// SELECT 
@@ -253,6 +335,7 @@ class Dashboard extends Admin
 		GROUP BY a.status, a.borrow, a.tipe_moving, key_status 
 		
 		ORDER BY key_status ASC;";
+
 		$data_status = $this->db->query($querycateg)->result();
 
 		//status room
@@ -357,6 +440,7 @@ class Dashboard extends Admin
 			"labelcateg" 	=> $data_status,
 			"valuescateg"	=> array_values($data_status),
 			// "librarian"	=> $result->result_array()
+			"aset_salah_ruangan" => $aset_salah_ruangan->total
 		);
 		// Encode data untuk chart menjadi format JSON
 		$data_json = json_encode($data);

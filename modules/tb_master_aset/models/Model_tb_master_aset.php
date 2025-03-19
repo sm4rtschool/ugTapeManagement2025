@@ -172,7 +172,7 @@ class Model_tb_master_aset extends MY_Model
     public function get_aset()
     {
         $query = $this->db->query(
-            "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status FROM tb_master_aset a JOIN tb_master_status s ON s.id = a.status ORDER BY a.kode_tid DESC LIMIT 500 OFFSET 0"
+            "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status FROM tb_master_aset a LEFT JOIN tb_master_status s ON s.id = a.status ORDER BY a.kode_tid DESC LIMIT 500 OFFSET 0"
         );
 
         return $query->result();

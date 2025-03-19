@@ -137,7 +137,7 @@ class Model_peminjaman extends MY_Model {
         
         // Optional: Log the last query (remove in production)
         // log_message('debug', $this->db->last_query());
-        echo $this->db->last_query();
+        // echo $this->db->last_query();
 
         // Return results or empty array
         return $query ? $query->result() : [];

@@ -5,11 +5,11 @@
 
 <section class="content-header">
     <h1>
-        Register Aset<small><?= cclang('new', ['Register Aset']); ?></small>
+        Register People<small><?= cclang('new', ['Register People']); ?></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class=""><a href="<?= admin_site_url('/registrasi_aset'); ?>">Register Aset</a></li>
+        <li class=""><a href="<?= admin_site_url('/registrasi_people'); ?>">Register People</a></li>
         <li class="active"><?= cclang('new'); ?></li>
     </ol>
 </section>
@@ -134,11 +134,11 @@
                 </fieldset>
                 <!-- </section> -->
 
-                <h3 style="text-decoration: underline;">Pilih Area</h3>
+                <!-- <h3 style="text-decoration: underline;">Pilih Area</h3> -->
                 <!-- <hr> -->
 
                 <!-- <section> -->
-                <fieldset>
+                <!-- <fieldset>
 
                     <div class="form-group group-id_area ">
                         <label for="id_area" class="col-sm-2 control-label">Area<i class="required">*</i>
@@ -179,15 +179,15 @@
                         </div>
                     </div>
 
-                    <!-- </section> -->
-                </fieldset>
+                    </section>
+                </fieldset> -->
 
-                <h3 style="text-decoration: underline;">Pilih Aset</h3>
+                <!-- <h3 style="text-decoration: underline;">Pilih Aset</h3> -->
                 <!-- <hr> -->
 
                 <!-- <section> -->
-                <fieldset>
-
+                <!-- <fieldset> -->
+<!-- 
                     <div class="form-group group-id_area ">
                         <label for="id_area" class="col-sm-2 control-label">Filter Kategori Aset<i class="required">*</i>
                         </label>
@@ -201,7 +201,7 @@
                             <small class="info help-block">
                             </small>
                         </div>
-                    </div>
+                    </div> -->
 
 
 
@@ -217,10 +217,10 @@
                                                 <i class="far fa-square"></i>
                                             </button> -->
                                         </th>
-                                        <th>ID Aset</th>
-                                        <th>Nama Aset</th>
-                                        <th>Kode Aset</th>
-                                        <th>NUP Aset</th>
+                                        <th>ID Pegawai</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>NIP</th>
+                                        <th>Telp</th>
 
                                     </tr>
                                 </thead>
@@ -229,10 +229,10 @@
 
                                         <tr>
                                             <td></td>
-                                            <td id="id_aset" key="id_aset"><?= _ent($tb_master_aset->id_aset); ?></td>
-                                            <td id="nama_aset" key="nama_aset"><?= _ent($tb_master_aset->nama_aset); ?></td>
-                                            <td id="kode_aset" key="kode_aset"><?= _ent($tb_master_aset->kode_aset); ?></td>
-                                            <td id="nup" key="nup"><?= _ent($tb_master_aset->nup); ?></td>
+                                            <td id="id" key="id"><?= _ent($tb_master_aset->id); ?></td>
+                                            <td id="nama" key="nama"><?= _ent($tb_master_aset->nama); ?></td>
+                                            <td id="nip" key="nip"><?= _ent($tb_master_aset->nip); ?></td>
+                                            <td id="telp" key="telp"><?= _ent($tb_master_aset->telp); ?></td>
 
                                         </tr>
                                     <?php endforeach ?>
@@ -240,10 +240,10 @@
                                 <tfoot>
                                     <tr>
                                         <th></th>
-                                        <th>ID Aset</th>
-                                        <th>Nama Aset</th>
-                                        <th>Kode Aset</th>
-                                        <th>NUP Aset</th>
+                                        <th>ID Pegawai</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>NIP</th>
+                                        <th>Telp</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -527,7 +527,7 @@
 <script src="<?php echo base_url(); ?>asset/js/socket.io.js"></script>
 
 <script type="text/javascript">
-    var module_name = "registrasi_aset";
+    var module_name = "registrasi_people";
     var use_ajax_crud = false;
 </script>
 
@@ -693,10 +693,6 @@
         var uniqueDataArray = [];
 
         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/' + module_name + '/serverSideData';
-
-
-
-
 
         $('#btn_search_single_tag').click(function() {
 
@@ -1100,7 +1096,7 @@
 
                         try {
 
-                            const response = await fetch('<?php echo base_url('administrator/registrasi_aset/get_all_tag'); ?>');
+                            const response = await fetch('<?php echo base_url('administrator/registrasi_people/get_all_tag'); ?>');
                             const data = await response.json();
 
                             console.log(data);
@@ -1151,7 +1147,7 @@
             // Hapus data dari database lokal
             try {
 
-                const response = await fetch('<?php echo base_url('administrator/registrasi_aset/delete_all_tag'); ?>');
+                const response = await fetch('<?php echo base_url('administrator/registrasi_people/delete_all_tag'); ?>');
                 const data = await response.json();
 
                 console.log(data);
@@ -1639,7 +1635,7 @@
             if (total_rfid_tag != total_aset_checklist) {
                 swal({
                     title: "Error",
-                    text: "Total RFID Tag tidak sama dengan total Aset yang dipilih!",
+                    text: "Total RFID Tag tidak sama dengan total Pegawai yang dipilih!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",
@@ -1859,7 +1855,7 @@
             $('.loading').show();
 
             $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/add_save',
+                    url: ADMIN_BASE_URL + '/registrasi_people/add_save',
                     type: 'POST',
                     dataType: 'json',
                     data: data_post,
@@ -1934,7 +1930,7 @@
                     }
 
                     if (use_ajax_crud == true) {
-                        var url = BASE_URL + ADMIN_NAMESPACE_URL + '/registrasi_aset/index/?ajax=1'
+                        var url = BASE_URL + ADMIN_NAMESPACE_URL + '/registrasi_people/index/?ajax=1'
                         reloadDataTable(url);
                     }
 
@@ -1958,7 +1954,7 @@
         function get_check_unique_data(uniqueDataArray) {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/check_unique_data',
+                    url: ADMIN_BASE_URL + '/registrasi_people/check_unique_data',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -1977,7 +1973,7 @@
         function get_check_unique_single_tag(tid) {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/check_unique_single_tag',
+                    url: ADMIN_BASE_URL + '/registrasi_people/check_unique_single_tag',
                     type: 'GET',
                     dataType: 'json',
                     data: {
@@ -2009,7 +2005,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = ADMIN_BASE_URL + '/registrasi_aset';
+                        window.location.href = ADMIN_BASE_URL + '/registrasi_people';
                     }
                 });
 
@@ -2285,7 +2281,7 @@
             $('.loading').show();
 
             $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/add_save',
+                    url: ADMIN_BASE_URL + '/registrasi_people/add_save',
                     type: 'POST',
                     dataType: 'json',
                     data: data_post,
@@ -2362,7 +2358,7 @@
                     }
 
                     if (use_ajax_crud == true) {
-                        var url = BASE_URL + ADMIN_NAMESPACE_URL + '/registrasi_aset/index/?ajax=1'
+                        var url = BASE_URL + ADMIN_NAMESPACE_URL + '/registrasi_people/index/?ajax=1'
                         reloadDataTable(url);
                     }
 
@@ -2387,7 +2383,7 @@
             var val = $(this).val();
             $.LoadingOverlay('show')
             $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/ajax_id_gedung/' + val,
+                    url: ADMIN_BASE_URL + '/registrasi_people/ajax_id_gedung/' + val,
                     dataType: 'JSON',
                 })
                 .done(function(res) {
@@ -2412,7 +2408,7 @@
             var val = $(this).val();
             $.LoadingOverlay('show')
             $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/ajax_id_ruangan/' + val,
+                    url: ADMIN_BASE_URL + '/registrasi_people/ajax_id_ruangan/' + val,
                     dataType: 'JSON',
                 })
                 .done(function(res) {
@@ -2444,7 +2440,7 @@
             // Periksa jika ada nilai yang dipilih
             if (selectedValue) {
                 $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/getKategori', // Ganti dengan URL controller Anda
+                    url: ADMIN_BASE_URL + '/registrasi_people/getKategori', // Ganti dengan URL controller Anda
                     type: 'POST',
                     dataType: 'json', // Minta respons dalam format JSON
                     data: {
@@ -2484,7 +2480,7 @@
                 });
             } else {
                 $.ajax({
-                    url: ADMIN_BASE_URL + '/registrasi_aset/getKategori', // Ganti dengan URL controller Anda
+                    url: ADMIN_BASE_URL + '/registrasi_people/getKategori', // Ganti dengan URL controller Anda
                     type: 'POST',
                     dataType: 'json', // Minta respons dalam format JSON
                     data: {

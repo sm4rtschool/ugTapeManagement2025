@@ -96,7 +96,7 @@
                             <label for="kode_aset" class="col-sm-2 control-label">Kode Aset <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" name="kode_aset" id="kode_aset" placeholder="Kode Aset" value="<?= set_value('kode_aset'); ?>">
+                                <input type="text" class="form-control" name="kode_aset" id="kode_aset" placeholder="Kode Aset" value="<?= set_value('kode_aset'); ?>">
                                 <small class="info help-block">
                                     <b>Input Kode Aset</b> Max Length : 50.</small>
                             </div>

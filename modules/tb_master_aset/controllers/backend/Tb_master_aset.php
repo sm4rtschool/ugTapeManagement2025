@@ -404,7 +404,8 @@ class Tb_master_aset extends Admin
 		if ($length == 0) {
 			$this->session->set_flashdata('nulldata', 'data kosong');
 		} else {
-			$kode = json_encode($this->data['tb_master_aset'][0]->kode_tid);
+			// $kode = json_encode($this->data['tb_master_aset'][0]->kode_tid);
+			$kode = $this->data['tb_master_aset'][0]->kode_tid;
 			$this->data['history'] = $this->model_tb_master_aset->get_history($kode);
 			$this->data['transaksi'] = $this->model_tb_master_aset->get_event($kode);
 		}
