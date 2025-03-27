@@ -80,7 +80,7 @@ jQuery(document).ready(domo);
                                           
                   </fieldset>
 
-                  <h3 style="text-decoration: underline;">Detail Aset</h3>
+                  <h3 style="text-decoration: underline;">Detail Pegawai</h3>
 
                   <fieldset>
                         

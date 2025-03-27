@@ -27,11 +27,11 @@
 </script>
 <section class="content-header">
    <h1>
-      <?= cclang('tb_master_transaksi') ?><small><?= cclang('list_all'); ?></small>
+      <?= cclang('Register Aset') ?><small><?= cclang('list_all'); ?></small>
    </h1>
    <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><?= cclang('tb_master_transaksi') ?></li>
+      <li class="active"><?= cclang('Register Aset') ?></li>
    </ol>
 </section>
 <!-- Main content -->
@@ -45,21 +45,21 @@
                   <div class="widget-user-header ">
                      <div class="row pull-right">
                         <?php //is_allowed('registrasi_aset_add', function () { ?>
-                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('registrasi_aset')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/registrasi_aset/add'); ?>"><i class="fa fa-plus-square-o"></i> <?= cclang('add_new_button', [cclang('tb_master_transaksi')]); ?></a>
+                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('registrasi_aset')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/registrasi_aset/add'); ?>"><i class="fa fa-plus-square-o"></i> <?= cclang('add_new_button', [cclang('Register Aset')]); ?></a>
                         <?php //}) ?>
                         <?php //is_allowed('registrasi_aset_export', function () { ?>
-                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('tb_master_transaksi') ?> " href="<?= admin_site_url('/registrasi_aset/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
+                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('Register Aset') ?> " href="<?= admin_site_url('/registrasi_aset/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
                         <?php //}) ?>
                         <?php //is_allowed('registrasi_aset_export', function () { ?>
-                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> pdf <?= cclang('tb_master_transaksi') ?> " href="<?= admin_site_url('/registrasi_aset/export_pdf?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-pdf-o"></i> <?= cclang('export'); ?> PDF</a>
+                           <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> pdf <?= cclang('Register Aset') ?> " href="<?= admin_site_url('/registrasi_aset/export_pdf?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-pdf-o"></i> <?= cclang('export'); ?> PDF</a>
                         <?php //}) ?>
                      </div>
                      <div class="widget-user-image">
                         <img class="img-circle" src="<?= BASE_ASSET; ?>/img/list.png" alt="User Avatar">
                      </div>
                      <!-- /.widget-user-image -->
-                     <h3 class="widget-user-username"><?= cclang('tb_master_transaksi') ?></h3>
-                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('tb_master_transaksi')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $registrasi_aset_counts; ?></span> <?= cclang('items'); ?></i></h5>
+                     <h3 class="widget-user-username"><?= cclang('Register Aset') ?></h3>
+                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('Register Aset')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $registrasi_aset_counts; ?></span> <?= cclang('items'); ?></i></h5>
                   </div>
 
                   <form name="form_tb_master_transaksi" id="form_tb_master_transaksi" action="<?= admin_base_url('/registrasi_aset/index'); ?>">

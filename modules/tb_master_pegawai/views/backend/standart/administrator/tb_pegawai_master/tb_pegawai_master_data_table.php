@@ -1,7 +1,8 @@
 <?php foreach ($tb_pegawai_masters as $tb_pegawai_master): ?>
     <tr>
-
-
+        <td width="5">
+            <input type="checkbox" class="flat-red check" name="id[]" value="<?= $tb_pegawai_master->id; ?>">
+        </td>
         <td><span class="list_group-kode_tid_pegawai"><?= _ent($tb_pegawai_master->kode_tid_pegawai); ?></span></td>
         <td><span class="list_group-NIP"><?= _ent($tb_pegawai_master->nip); ?></span></td>
         <td><span class="list_group-Pegawai"><?= _ent($tb_pegawai_master->nama); ?></span></td>
@@ -11,10 +12,11 @@
 
             <?php is_allowed('tb_pegawai_master_view', function () use ($tb_pegawai_master) { ?>
                 <a href="<?= admin_site_url('/tb_master_pegawai/view/' . $tb_pegawai_master->id); ?>" data-id="<?= $tb_pegawai_master->id ?>" class="label-default btn-act-view"><i class="fa fa-newspaper-o"></i> <?= cclang('view_button'); ?>
-                <?php }) ?>
-                <?php is_allowed('tb_pegawai_master_update', function () use ($tb_pegawai_master) { ?>
-                    <a href="<?= admin_site_url('/tb_master_pegawai/edit/' . $tb_pegawai_master->id); ?>" data-id="<?= $tb_pegawai_master->id ?>" class="label-default btn-act-edit"><i class="fa fa-edit "></i> <?= cclang('update_button'); ?></a>
-                <?php }) ?>
+            <?php }) ?>
+                
+            <?php is_allowed('tb_pegawai_master_update', function () use ($tb_pegawai_master) { ?>
+                <a href="<?= admin_site_url('/tb_master_pegawai/edit/' . $tb_pegawai_master->id); ?>" data-id="<?= $tb_pegawai_master->id ?>" class="label-default btn-act-edit"><i class="fa fa-edit "></i> <?= cclang('update_button'); ?></a>
+            <?php }) ?>
 
         </td>
     </tr>
@@ -22,7 +24,7 @@
 <?php if ($tb_pegawai_master_counts == 0) : ?>
     <tr>
         <td colspan="100">
-            Tb Pegawai Master data is not available
+            Master data pegawai is not available
         </td>
     </tr>
 <?php endif; ?>

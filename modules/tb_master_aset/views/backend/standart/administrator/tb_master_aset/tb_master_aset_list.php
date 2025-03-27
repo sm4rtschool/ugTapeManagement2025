@@ -96,7 +96,7 @@
                      </div>
                      <!-- /.widget-user-image -->
                      <h3 class="widget-user-username">Data Aset</h3>
-                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('tb_master_aset')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_master_aset_counts; ?></span> <?= cclang('items'); ?></i></h5>
+                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('Master Aset')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_master_aset_counts; ?></span> <?= cclang('items'); ?></i></h5>
                   </div>
 
                   <form name="form_tb_master_aset" id="form_tb_master_aset" action="<?= admin_base_url('/tb_master_aset/index'); ?>">
@@ -138,6 +138,7 @@
       </div>
    </div>
 </section>
+
 <!-- Modal -->
 <div id="myModal" class="modal">
    <div class="modal-content">
@@ -151,6 +152,7 @@
       <div id="uploadResult"></div>
    </div>
 </div>
+
 <script>
    var module_name = "tb_master_aset"
    var use_ajax_crud = false;
@@ -180,11 +182,12 @@
    }
 
    $(document).ready(function() {
+
       $("#uploadForm").submit(function(e) {
          e.preventDefault(); // Mencegah reload halaman
 
          var formData = new FormData(this);
-         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/tb_master_aset/upload';
+         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/tb_master_aset/upload_aset';
          console.log(url, "lop");
 
          $.ajax({
@@ -203,7 +206,9 @@
                $("#uploadResult").html("<p class='text-danger'>Gagal mengupload!</p>");
             }
          });
+
       });
+
    });
 </script>
 

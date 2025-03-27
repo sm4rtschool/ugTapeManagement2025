@@ -75,6 +75,8 @@ class Dashboard extends Admin
 								x.status, 
 								x.id_lokasi, 
 								x.dob_aset,
+								x.messenger_name,
+								TO_CHAR(x.last_time_in, 'DD-MM-YYYY HH24:MI:SS') AS last_time_in,
 								y.id, 
 								y.ruangan,
 								y.librarian_aging, y.librarian_aging_start, y.librarian_aging_end,
@@ -88,15 +90,15 @@ class Dashboard extends Admin
 										CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
 										ELSE
 										
-											CASE WHEN (CURRENT_DATE - x.dob_aset) > y.librarian_aging_start 
-											AND (CURRENT_DATE - x.dob_aset) < y.librarian_aging_end 
+											CASE WHEN (CURRENT_DATE - x.dob_aset) >= y.librarian_aging_start 
+											AND (CURRENT_DATE - x.dob_aset) <= y.librarian_aging_end 
 											THEN 'Sesuai'
 											ELSE 'Salah Ruangan'
 											END
 
 										END
 										
-									ELSE 'Not Aging'
+									ELSE 'Tape Baru'
 								END AS kondisi
 							FROM 
 								tb_master_aset x 
@@ -115,17 +117,58 @@ class Dashboard extends Admin
 				$data_json = $this->db->query($query_anomali)->result();
 				break;
 			case "mutation":
-				$query_mut = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, TO_CHAR(x.tgl_peminjaman, 'DD/MM/YYYY') as pinjam, TO_CHAR(x.tgl_pengembalian, 'DD/MM/YYYY') as kembali, y.id, y.ruangan FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.id_lokasi WHERE x.status = 2 AND x.kode_tid !=''"; 
+				$query_mut = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, TO_CHAR(x.tgl_peminjaman, 'DD/MM/YYYY') as pinjam, 
+							TO_CHAR(x.tgl_pengembalian, 'DD/MM/YYYY') as kembali, x.status_peminjaman, y.id, y.ruangan,
+
+							CASE 
+								WHEN x.tgl_pengembalian IS NOT NULL THEN 
+									EXTRACT(DAY FROM (CURRENT_DATE - x.tgl_pengembalian))::INTEGER
+								ELSE 0
+							END AS overdue_pengembalian,
+
+							z.nama AS nama_pegawai
+
+							FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.id_lokasi 
+							LEFT JOIN tb_master_pegawai z ON z.id = x.id_peminjam
+
+							WHERE x.status = 2 AND x.kode_tid !=''"; 
 				// $query_mut = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, DATE_FORMAT(x.tgl_peminjaman, '%d/%m/%Y') as pinjam, DATE_FORMAT(x.tgl_pengembalian, '%d/%m/%Y') as kembali, y.id, y.ruangan FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.id_lokasi WHERE x.status = 2 AND x.kode_tid !=''";
 				$data_json = $this->db->query($query_mut)->result();
 				break;
 			case "moving":
-				$query_mov = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup,x.nama_lokasi_terakhir, x.status,x.tipe_moving, x.id_lokasi AS asal, y.id, y.ruangan, akhir.ruangan as ruanganterakhir FROM tb_master_aset x 
-				JOIN tb_master_ruangan y ON y.id = x.id_lokasi 
-				JOIN tb_master_ruangan akhir ON akhir.id = x.lokasi_terakhir 
-
-				WHERE x.status = 4 
-				AND x.borrow != 1 AND x.kode_tid !=''";
+				$query_mov = "SELECT 
+							x.kode_tid, 
+							x.nama_aset, 
+							x.kode_aset, 
+							x.nup, 
+							x.nama_lokasi_terakhir, 
+							x.status,
+							x.tipe_moving, 
+							x.id_lokasi AS asal, 
+							x.messenger_name, 
+							y.id, 
+							y.ruangan, 
+							akhir.ruangan as ruanganterakhir, 
+							x.dob_aset, 
+							CASE 
+								WHEN x.dob_aset IS NOT NULL THEN CAST((CURRENT_DATE - x.dob_aset) AS TEXT)
+								ELSE '-'
+							END AS aging,
+							TO_CHAR(x.last_time_out, 'DD-MM-YYYY HH24:MI:SS') AS last_time_out,
+							CASE 
+								WHEN x.last_time_out IS NOT NULL THEN CAST((CURRENT_DATE - DATE(x.last_time_out)) AS TEXT)
+								ELSE '-'
+							END AS durasi_moving
+						FROM 
+							tb_master_aset x 
+						JOIN 
+							tb_master_ruangan y ON y.id = x.id_lokasi 
+						JOIN 
+							tb_master_ruangan akhir ON akhir.id = x.lokasi_terakhir 
+						WHERE 
+							x.status = 4 
+							AND x.borrow != 1 
+							AND x.kode_tid != ''";
 				$data_json = $this->db->query($query_mov)->result();
 				break;
 			case "maintenance":
@@ -219,7 +262,6 @@ class Dashboard extends Admin
 	public function getSumAsetRoom()
 	{
 
-
 		// Ambil data untuk chart
 		$row_totalpantau = "SELECT COUNT(*) as total FROM tb_master_aset WHERE (CURRENT_DATE - tgl_inventarisasi) <= INTERVAL '365 days' AND kode_tid !=''"; 
 		// $row_totalpantau = "SELECT COUNT(*) as total FROM tb_master_aset WHERE DATEDIFF(CURDATE(), tgl_inventarisasi) <= 365 AND kode_tid !=''";
@@ -244,7 +286,8 @@ class Dashboard extends Admin
 		$result_mutation = $this->db->query($query_mutation);
 		$mutation = $result_mutation->row();
 
-		$query_mutationoverdue = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '') AND tgl_pengembalian < CURRENT_DATE + INTERVAL '1 day'"; 
+		// $query_mutationoverdue = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '') AND tgl_pengembalian < CURRENT_DATE + INTERVAL '1 day'"; 
+		$query_mutationoverdue = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status_peminjaman = 2 AND status = 2 AND kode_tid != '' AND tgl_pengembalian < CURRENT_DATE"; 
 		// $query_mutationoverdue = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '') AND tgl_pengembalian < DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
 		$result_mutationoverdue = $this->db->query($query_mutationoverdue);
 		$mutationoverdue = $result_mutationoverdue->row();
@@ -256,6 +299,10 @@ class Dashboard extends Admin
 		$query_disp = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 4 AND tipe_moving = 1 AND borrow != 1 AND kode_tid != ''";
 		$result_legal = $this->db->query($query_disp);
 		$legal = $result_legal->row();
+
+		$query_overdue = "SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 4 AND tipe_moving = 1 AND borrow != 1 AND kode_tid != '' AND last_time_out IS NOT NULL AND CAST((CURRENT_DATE - DATE(last_time_out)) AS INTEGER) > 2";
+		$result_overdue = $this->db->query($query_overdue);
+		$durasi_moving_overdue = $result_overdue->row();
 
 		$query_salah_ruangan = "
 		SELECT COUNT(total_kondisi) AS total FROM 
@@ -312,29 +359,59 @@ class Dashboard extends Admin
 		// when a.status = 4 and a.tipe_moving = 1 then '#939c91' else '#ff4500' end as color, 
 		// count(a.kode_aset) as total FROM tb_master_aset a INNER JOIN tb_master_status c ON a.status = c.id AND a.kode_tid != '' GROUP BY key_status ORDER BY key_status ASC;
 
+		// $querycateg = "
+		// SELECT 
+		// case 
+		// when (a.status = 4 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) OR (a.status = 1 AND a.borrow = 2) then 'Aset Tersedia' 
+		// when a.status = 2 then 'Peminjaman' 
+		// when a.status = 3 then 'Perbaikan' 
+		// when a.status = 4 and a.tipe_moving = 1 then 'Pergerakan Legal' else 'Pergerakan Ilegal' end as key_status, 
+		// case 
+		// when (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) then '#266317' 
+		// when a.status = 2 THEN 
+		// case 
+		// when (SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '') 
+		
+		// AND tgl_pengembalian < CURRENT_DATE + INTERVAL '1 day') > 0 
+		
+		// then '#eba834' else '#1b304a' end
+		// when a.status = 3 then '#c2860e' 
+		// when a.status = 4 and a.tipe_moving = 1 then '#939c91' else '#ff4500' end as color, 
+		// count(a.kode_aset) as total FROM tb_master_aset a INNER JOIN tb_master_status c ON a.status = c.id AND a.kode_tid != '' 
+		
+		// GROUP BY a.status, a.borrow, a.tipe_moving, key_status 
+		
+		// ORDER BY key_status ASC;";
+
 		$querycateg = "
 		SELECT 
-		case 
-		when (a.status = 4 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) OR (a.status = 1 AND a.borrow = 2) then 'Aset Tersedia' 
-		when a.status = 2 then 'Peminjaman' 
-		when a.status = 3 then 'Perbaikan' 
-		when a.status = 4 and a.tipe_moving = 1 then 'Pergerakan Legal' else 'Pergerakan Ilegal' end as key_status, 
-		case 
-		when (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) then '#266317' 
-		when a.status = 2 THEN 
-		case 
-		when (SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '') 
-		
-		AND tgl_pengembalian < CURRENT_DATE + INTERVAL '1 day') > 0 
-		
-		then '#eba834' else '#1b304a' end
-		when a.status = 3 then '#c2860e' 
-		when a.status = 4 and a.tipe_moving = 1 then '#939c91' else '#ff4500' end as color, 
-		count(a.kode_aset) as total FROM tb_master_aset a INNER JOIN tb_master_status c ON a.status = c.id AND a.kode_tid != '' 
-		
-		GROUP BY a.status, a.borrow, a.tipe_moving, key_status 
-		
-		ORDER BY key_status ASC;";
+			case 
+				when (a.status = 4 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) OR (a.status = 1 AND a.borrow = 2) then 'Aset Tersedia' 
+				when a.status = 2 then 'Peminjaman' 
+				when a.status = 3 then 'Perbaikan' 
+				when a.status = 4 and a.tipe_moving = 1 then 'Pergerakan Legal' else 'Pergerakan Ilegal' 
+			end as key_status, 
+			
+			case 
+				when (a.status = 1 AND a.borrow = 1) OR (a.status = 1 AND a.borrow = 0) then '#266317' 
+				when a.status = 2 THEN 
+					case 
+						when (SELECT COUNT(*) as total FROM tb_master_aset WHERE status = 2 AND kode_tid != '' AND borrow != 1 OR (status = 2 AND borrow = 1 AND kode_tid != '')
+						AND tgl_pengembalian < CURRENT_DATE + INTERVAL '1 day') > 0 
+						then '#eba834' else '#1b304a' 
+					end
+				when a.status = 3 then '#c2860e' 
+				when a.status = 4 and a.tipe_moving = 1 then '#939c91' else '#ff4500' 
+			end as color, 
+			
+			count(a.kode_aset) as total 
+		FROM tb_master_aset a 
+		INNER JOIN tb_master_status c ON a.status = c.id AND a.kode_tid != '' 
+
+		GROUP BY key_status, color
+
+		ORDER BY key_status ASC
+		";
 
 		$data_status = $this->db->query($querycateg)->result();
 
@@ -401,9 +478,6 @@ class Dashboard extends Admin
 		// // $querycateg = "SELECT c.nama_kategori FROM tb_master_aset a INNER JOIN tb_category_aset c ON a.kategori_id = c.id_kategori GROUP BY c.nama_kategori";
 		// $data_kon = $this->db->query($querykon)->result();
 
-
-
-
 		// $data_chart = array(
 		// 	"TOTAL" => $row_total->total,
 		// 	"ANOMALI" => $row_anomali->total,
@@ -429,6 +503,7 @@ class Dashboard extends Admin
 			"ilegal"	=> $ilegal->total,
 			"legal"	=> $legal->total,
 			"perbaikan" 	=> $row_on_time->total,
+			"durasi_moving_overdue"	=> $durasi_moving_overdue->total,
 			// "overdue"	=> $row_overdue->total,
 			// "borrow" 	=> $row_pinjam->total,
 			// "broken" 	=> $row_rusak->total,

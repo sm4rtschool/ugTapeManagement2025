@@ -512,7 +512,8 @@ class peminjaman extends Admin
 			$this->db->update('tb_master_aset', [
 				'status' => 2,  // Aset sudah kembali
 				'borrow' => 1,   // Aset dipinjam sudah di approve
-				'tipe_moving' => 1   // Aset ada izin moving
+				'tipe_moving' => 1,   // Aset ada izin moving
+				'status_peminjaman' => 2 // di approve
 			]);
 		}
 
@@ -597,7 +598,7 @@ class peminjaman extends Admin
 				'id_peminjam' => 0, // Id Peminjam Kosong
 				// 'tgl_peminjaman' => "0000-00-00 00:00:00", // Tgl Peminjaman Kosong	
 				'tgl_pengembalian' => date('Y-m-d H:i:s'),
-				
+				'status_peminjaman' => 3 // proses peminjaman selesai, aset sudah dikembalikan
 			]);
 		}
 
@@ -692,6 +693,7 @@ class peminjaman extends Admin
 					'tgl_peminjaman' => null, // Tgl Peminjaman Kosong
 					// 'tgl_pengembalian' => "0000-00-00 00:00:00", // Tgl Pengembalian Kosong
 					'tgl_pengembalian' => null, // Tgl Pengembalian Kosong
+					'status_peminjaman' => 0 // peminjaman dibatalkan sebelum di approve / direject by admin, reset aja datanya jadi 0
 				]);
 
 				log_message('info', 'Status aset tidak diubah karena status saat ini 4. Borrow diperbarui untuk ID Aset: ' . $aset->id_aset);
@@ -707,6 +709,7 @@ class peminjaman extends Admin
 					'tgl_peminjaman' => null, // Tgl Peminjaman Kosong
 					// 'tgl_pengembalian' => "0000-00-00 00:00:00", // Tgl Pengembalian Kosong
 					'tgl_pengembalian' => null, // Tgl Pengembalian Kosong
+					'status_peminjaman' => 0 // peminjaman dibatalkan sebelum di approve / direject by admin, reset aja datanya jadi 0
 				]);
 
 				log_message('info', 'Status aset diperbarui menjadi 1 dan borrow diubah untuk ID Aset: ' . $aset->id_aset);

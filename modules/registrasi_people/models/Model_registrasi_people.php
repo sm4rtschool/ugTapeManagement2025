@@ -39,20 +39,20 @@ class Model_registrasi_people extends MY_Model
                     $f_search = $field;
                 }
                 if ($iterasi == 1) {
-                    $where .=  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .=  $f_search . " ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " .  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "OR " .  $f_search . " ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+            $where .= "(" . "tb_master_transaksi." . $field . " ILIKE '%" . $q . "%' )";
         }
 
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where('tb_master_transaksi.tipe_transaksi = 2');
+        $this->db->where('tb_master_transaksi.tipe_transaksi = 7');
         $query = $this->db->get($this->table_name);
 
         return $query->num_rows();
@@ -76,16 +76,16 @@ class Model_registrasi_people extends MY_Model
                 }
 
                 if ($iterasi == 1) {
-                    $where .= $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= $f_search . " ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " . $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "OR " . $f_search . " ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+            $where .= "(" . "tb_master_transaksi." . $field . " ILIKE '%" . $q . "%' )";
         }
 
         if (is_array($select_field) and count($select_field)) {
@@ -93,10 +93,19 @@ class Model_registrasi_people extends MY_Model
         }
 
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where('tb_master_transaksi.tipe_transaksi = 2');
-        $this->db->limit($limit, $offset);
+        $this->db->where('tb_master_transaksi.tipe_transaksi = 7');
+        
+        if ($limit > 0) {
+            $this->db->limit($limit);
+        }
+        
+        if ($offset > 0) {
+            $this->db->offset($offset);
+        }
 
         $this->sortable();
+
+        $this->db->order_by($this->sort_option[0], $this->sort_option[1]);
 
         $query = $this->db->get($this->table_name);
 
@@ -171,12 +180,12 @@ class Model_registrasi_people extends MY_Model
     {
 
         // Mulai transaksi database
-        $this->db->trans_start();
+        // $this->db->trans_start();
 
         try {
             // Insert ke tabel master transaksi
             $this->db->insert('tb_master_transaksi', $save_data_master_transaksi);
-            $id_transaksi = $this->db->insert_id();
+            $id_transaksi = $this->db->insert_id('tb_master_transaksi_id_seq');
 
             // Jika ada data linked aset dan tag
             if (!empty($linked_data)) {
@@ -189,10 +198,10 @@ class Model_registrasi_people extends MY_Model
                         // 'kode_transaksi' => $save_data_master_transaksi['kode_transaksi'],
                         'kode_transaksi' => '',
                         'kode_tid' => $data['tag']['tid'], // Ambil tid dari tag
-                        'id_aset' => $data['aset']['id'],
-                        'kode_aset' => $data['aset']['kode_aset'],
-                        'nup' => $data['aset']['nup'],
-                        'nama_aset' => $data['aset']['nama_aset'],
+                        'id_aset' => $data['pegawai']['id'],
+                        'kode_aset' => $data['pegawai']['kode_pegawai'],
+                        'nup' => $data['pegawai']['nip'],
+                        'nama_aset' => $data['pegawai']['nama_pegawai'],
                         // 'id_area' => $save_data_detail_transaksi['id_area'],
                         // 'id_gedung' => $save_data_detail_transaksi['id_gedung'], 
                         // 'id_ruangan' => $save_data_detail_transaksi['id_ruangan'],
@@ -211,43 +220,38 @@ class Model_registrasi_people extends MY_Model
                     $this->db->where('kode_tid', $data['tag']['tid']);
                     $this->db->update('tb_master_tag_rfid', array(
                         'status_tag' => 'N',
-                        'id_aset' => $data['aset']['id']
+                        'kategori_tag' => 2,
+                        'id_aset' => $data['pegawai']['id']
                     ));
 
-                    // update field kode_rfid, id_area, id _gedung, id_ruangan, id_kondisi, status ke master aset
-                    $this->db->where('id_aset', $data['aset']['id']);
-                    $this->db->update('tb_master_aset', array(
-                        'kode_tid' => $data['tag']['tid'],
-                        'id_area' => $save_data_master_transaksi['id_area'],
-                        'id_gedung' => $save_data_master_transaksi['id_gedung'],
-                        'id_lokasi' => $save_data_master_transaksi['id_ruangan'],
-                        'lokasi_moving' => $save_data_master_transaksi['id_ruangan'],
-                        'kondisi' => 1,
-                        'status' => 1,
-                        'flag_inventarisasi' => 1,
-                        'tgl_inventarisasi' => date('Y-m-d')
+                    $this->db->where('id', $data['pegawai']['id']);
+                    $this->db->update('tb_master_pegawai', array(
+                        'kode_tid_pegawai' => $data['tag']['tid']
                     ));
-                    
+
                 }
             }
 
             // exit();
 
             // Commit transaksi jika semua berhasil
-            $this->db->trans_complete();
+            // $this->db->trans_complete();
 
-            if ($this->db->trans_status() === FALSE) {
-                // Rollback jika ada error
-                $this->db->trans_rollback();
-                return FALSE;
-                // echo 'false';
-            } else {
-                return $id_transaksi;
-                // echo 'true';
-            }
+            // if ($this->db->trans_status() === FALSE) {
+            //     // Rollback jika ada error
+            //     $this->db->trans_rollback();
+            //     return FALSE;
+            //     // echo 'false';
+            // } else {
+            //     return $id_transaksi;
+            //     // echo 'true';
+            // }
+
+            return $id_transaksi;
+
         } catch (Exception $e) {
             // Rollback jika terjadi exception
-            $this->db->trans_rollback();
+            // $this->db->trans_rollback();
             return FALSE;
         }
     }

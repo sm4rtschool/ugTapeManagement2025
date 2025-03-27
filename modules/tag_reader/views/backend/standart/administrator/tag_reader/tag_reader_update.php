@@ -409,9 +409,6 @@
                             </div>
                         </div>
 
-
-
-
                         <div class="form-group group-alias_antenna  ">
                             <label for="alias_antenna" class="col-sm-2 control-label">Alias Antena </label>
                             <div class="col-sm-8">
@@ -457,6 +454,28 @@
                                     <option <?= $tag_reader->is_active == 0 ? 'selected' : ''; ?> value="0">Off</option>
 
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-is_handheld">
+                            <label for="is_handheld" class="col-sm-2 control-label">Handheld <i class="required">*</i>
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control chosen chosen-select" name="is_handheld" id="is_handheld" data-placeholder="Select Active">
+                                    <option value=""></option>
+                                    <option <?= $tag_reader->is_handheld == 1 ? 'selected' : ''; ?> value="1">True</option>
+                                    <option <?= $tag_reader->is_handheld == 0 ? 'selected' : ''; ?> value="0">False</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group group-reader_gate  ">
+                            <label for="reader_gate" class="col-sm-2 control-label">Gate </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="reader_gate" id="reader_gate" placeholder="" value="<?= set_value('reader_gate', $tag_reader->reader_gate); ?>">
+                                <small class="info help-block">
+                                </small>
                             </div>
                         </div>
 

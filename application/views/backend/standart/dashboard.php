@@ -12,6 +12,26 @@ $CI = &get_instance();
 ?>
 
 <style type="text/css">
+
+  .modal-fullscreen {
+    padding: 0 !important;
+  }
+  .modal-fullscreen .modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .modal-fullscreen .modal-content {
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+  .modal-fullscreen .modal-body {
+    overflow-y: auto;
+    max-height: calc(100vh - 120px);
+  }
+
   .c-dashboardInfo {
     margin-bottom: 15px;
   }
@@ -220,42 +240,31 @@ $CI = &get_instance();
 </section>
 
 <section class="content">
-  <div class="row">
+
+  <!-- <div class="row"> -->
 
     <div class="box-body chart-responsive">
 
-      <!-- Modal -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-body" role="document">
-          <div class="modal-content">
-            <!-- Konten modal akan ditampilkan di sini -->
-          </div>
-        </div>
-      </div>
       <div class="row">
 
         <div class="col-md-12">
-          <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">ACTIVITY ASSETS</h3>
-              <div class="box-tools pull-right">
+
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">&nbsp;&nbsp;Activity Assets</h3>
+                <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
+
             <div class="box-body chart-responsive">
-              <!-- Modal -->
-              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <!-- Konten modal akan ditampilkan di sini -->
-                  </div>
-                </div>
-              </div>
+
               <div class="row align-items-stretch">
+
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="ta12" class="wrap" style="padding-top: 20px;">
-                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total Aset <br><small>(12 bulan terakhir)</small>
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total Tape <br><small>(12 bulan terakhir)</small>
                       <!-- <svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
                           <path fill="none" d="M0 0h24v24H0z"></path>
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
@@ -268,7 +277,7 @@ $CI = &get_instance();
 
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="ta" class="wrap">
-                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total Aset
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total Tape
                       <!-- <svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
                           <path fill="none" d="M0 0h24v24H0z"></path>
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
@@ -279,9 +288,10 @@ $CI = &get_instance();
 
                   </div>
                 </div>
+
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="ava" class="wrap">
-                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Aset Tersedia
+                    <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Tape Tersedia
                       <!-- <svg class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
                           <path fill="none" d="M0 0h24v24H0z"></path>
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
@@ -292,6 +302,7 @@ $CI = &get_instance();
 
                   </div>
                 </div>
+
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="pem" class="wrap">
                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Peminjaman
@@ -305,6 +316,7 @@ $CI = &get_instance();
 
                   </div>
                 </div>
+
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="perp" class="wrap">
                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Perpindahan
@@ -318,6 +330,7 @@ $CI = &get_instance();
 
                   </div>
                 </div>
+
                 <div class="c-dashboardInfo col-lg-2">
                   <div id="perb" class="wrap">
                     <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Perbaikan
@@ -333,41 +346,41 @@ $CI = &get_instance();
                 </div>
               </div>
 
-
-
-
-
-
             </div>
 
           </div>
-
 
         </div>
 
       </div>
+
+
+
       <div class="row">
+
         <div class="col-md-4">
-          <div class="box box-info">
+
+            <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">STATUS ASET</h3>
+              <h3 class="box-title">&nbsp;&nbsp;Status Tape</h3>
               <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
+
             <div class="box-body chart-responsive">
               <canvas id="myChartSIMAN"></canvas>
-
+            </div>
             </div>
 
-          </div>
-
         </div>
+
         <div class="col-md-4">
-          <div class="box box-info">
+          
+          <div class="box box-default">
             <div class="box-header with-border">
-              <h3 class="box-title">ASET PADA RUANGAN</h3>
+              <h3 class="box-title">&nbsp;&nbsp;Ruangan Tape</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -381,20 +394,21 @@ $CI = &get_instance();
           </div>
 
         </div>
+
         <div class="col-md-4">
-          <div class="box box-info">
+
+            <div class="box box-default">
             <div class="box-header with-border">
-              <h3 class="box-title">KATEGORI ASET</h3>
+              <h3 class="box-title">&nbsp;&nbsp;Kategori Tape</h3>
               <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
             <div class="box-body chart-responsive">
               <canvas id="myCategory" width="150px" height="150px"></canvas>
             </div>
-
-          </div>
+            </div>
 
         </div>
 
@@ -403,8 +417,41 @@ $CI = &get_instance();
       </div>
     </div>
 
-  </div>
+  <!-- </div> -->
 </section>
+
+
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-body" role="document">
+    <div class="modal-content">
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 100%; max-width: 100%; height: 100%; margin: 0;"> -->
+<div class="modal fade modal-fullscreen" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content" style="height: 100vh; border-radius: 0; box-shadow: none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal Title</h4>
+      </div>
+      <div class="modal-body" style="max-height: calc(100vh - 120px); overflow-y: auto;">
+        <div class="table-responsive">
+          <table class="table table-bordered dataTable responsive" style="width: 100%;">
+            <!-- table content here -->
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
@@ -542,21 +589,24 @@ $CI = &get_instance();
           // Proses data dan tampilkan dalam modal
           // Misalnya, Anda dapat membuat HTML untuk menampilkan data dalam bentuk tabel dan menambahkan pagination di dalamnya
 
-          var modalContent = '<div class="modal-header"> <span class="close-btn" id="closeModal">&times;</span><h1>' + title + '</h1></div>'; // Contoh pembuatan konten modal
+            var modalContent = '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">' + title + '</h4></div>'; // Default modal header
           modalContent += '<div class="modal-body">';
+          
           // Misalnya, tampilkan data dalam bentuk tabel
-          modalContent += '<table class="table table-bordered dataTable responsive">';
+          // modalContent += '<table class="table table-bordered dataTable responsive">';
+          modalContent += '<div class="table-responsive">';
+          modalContent += '<table class="table table-bordered dataTable responsive" style="width: 100%; max-width: 100%;">';
 
           if (topic == 'avalaible') {
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Ruangan</th><th>DOB</th><th>Aging</th><th>Kondisi</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Ruangan</th><th style="text-align: center;">DOB</th><th style="text-align: center;">Aging</th><th style="text-align: center;">Last Time In</th><th style="text-align: center;">Kondisi</th><th style="text-align: center;">Messenger</th></tr>';
           } else if (topic == 'borrow') {
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th><th>Peminjaman</th><th>Pengembalian</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Asal Ruangan</th><th style="text-align: center;">Peminjaman</th><th style="text-align: center;">Pengembalian</th><th style="text-align: center;">Status Peminjaman</th><th style="text-align: center;">Peminjaman</th></tr>';
           } else if (topic == 'mainten') {
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Asal Ruangan</th></tr>';
           } else if (topic == 'moving') {
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Asal Ruangan</th><th>Posisi Terakhir</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Asal Ruangan</th><th style="text-align: center;">Posisi Terakhir</th><th style="text-align: center;">DOB</th><th style="text-align: center;">Aging</th><th style="text-align: center;">Last Time Out</th><th style="text-align: center;">Lama Moving</th><th style="text-align: center;">Messenger</th></tr>';
           } else {
-            modalContent += '<tr><th>No</th><th>RFID kode</th><th>Kode Aset</th><th>NUP</th><th>Nama Aset</th><th>Tgl Inventarisasi</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Tgl Inventarisasi</th></tr>';
           }
 
           // Proses data dari respons JSON dan tambahkan ke dalam tabel
@@ -564,47 +614,78 @@ $CI = &get_instance();
           data.forEach(function(item, index) {
             
             let rowClass = "";
+            var durasi_moving = parseInt(item.durasi_moving, 10);
+            var is_illegal = false;
 
             // Tambahkan class berdasarkan kondisi
             if (item.status == 4 && item.tipe_moving == 0) {
               rowClass = "bg-red tooltip-tr";
+              is_illegal = true;
             }
 
+            // notif merah jika moving lebih dari n hari
+            if (is_illegal == false && durasi_moving > 2) {
+              rowClass = "bg-red tooltip-tr";
+            }
+
+            // notif salah ruangan
             if (item.status == 1 && item.kondisi == 'Salah Ruangan') {
+              rowClass = "bg-red tooltip-tr";
+            }
+
+            // notif peminjaman overdue
+            
+            if (item.overdue_pengembalian > 0) {
               rowClass = "bg-red tooltip-tr";
             }
 
             var no = index + 1;
             // Misalnya, tambahkan baris baru dengan data item ke dalam tabel
-            modalContent += `<tr data-tooltip="!" class="${rowClass}">`;
+            // modalContent += `<tr data-tooltip="!" class="${rowClass}">`;
+            modalContent += `<tr class="${rowClass}">`;
 
-            modalContent += '<td>' + no + '</td>';
-            modalContent += '<td>' + item.kode_tid + '</td>'; // Misalnya, ambil field1 dari item
-            modalContent += '<td>' + item.kode_aset + '</td>'; // Misalnya, ambil field2 dari item
-            modalContent += '<td>' + item.nup + '</td>'; // Misalnya, ambil field2 dari item
+            modalContent += '<td style="text-align: center;">' + no + '</td>';
+            modalContent += '<td style="text-align: center;">' + item.kode_tid + '</td>'; // Misalnya, ambil field1 dari item
+            modalContent += '<td style="text-align: center;">' + item.kode_aset + '</td>'; // Misalnya, ambil field2 dari item
+            modalContent += '<td style="text-align: center;">' + item.nup + '</td>'; // Misalnya, ambil field2 dari item
             modalContent += '<td>' + item.nama_aset + '</td>'; // Misalnya, ambil field2 dari item
 
             if (topic == 'avalaible') {
+              modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
+              modalContent += '<td style="text-align: center;">' + (item.dob_aset ? item.dob_aset : '-') + '</td>';
+              modalContent += '<td style="text-align: center;">' + formatDays(item.aging) + '</td>';
 
-              modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
-              modalContent += '<td>' + (item.dob_aset ? item.dob_aset : '-') + '</td>'; // Misalnya, ambil field2 dari item
-              // modalContent += '<td>' + item.aging + '</td>'; // Misalnya, ambil field2 dari item
-              modalContent += '<td>' + formatDays(item.aging) + '</td>';
-
-              modalContent += '<td>' + item.kondisi + '</td>'; // Misalnya, ambil field2 dari item
-
+              modalContent += '<td style="text-align: center;">' + (item.last_time_in ? item.last_time_in : '-') + '</td>';
+              
+              modalContent += '<td style="text-align: center;">' + item.kondisi + '</td>';
+              modalContent += '<td style="text-align: center;">' + (item.messenger_name ? item.messenger_name : '-') + '</td>';
             } else if (topic == 'borrow') {
-              modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
-              modalContent += '<td>' + item.pinjam + '</td>'; // Misalnya, ambil field2 dari item
-              modalContent += '<td>' + item.kembali + '</td>'; // Misalnya, ambil field2 dari item
-            } else if (topic == 'mainten') {
-              modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
+              modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
+              modalContent += '<td style="text-align: center;">' + item.pinjam + '</td>';
+              modalContent += '<td style="text-align: center;">' + item.kembali + '</td>';
 
+              if (item.status_peminjaman == 0) {
+                modalContent += '<td style="text-align: center;">Open</td>';
+              } else if (item.status_peminjaman == 2) {
+                modalContent += '<td style="text-align: center;">Progress</td>';
+              } else {
+                modalContent += '<td style="text-align: center;">' + item.status_peminjaman + '</td>';
+              }
+
+              modalContent += '<td style="text-align: center;">' + (item.nama_pegawai ? item.nama_pegawai:'-') + '</td>';
+
+            } else if (topic == 'mainten') {
+              modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
             } else if (topic == 'moving') {
-              modalContent += '<td>' + item.ruangan + '</td>'; // Misalnya, ambil field2 dari item
-              modalContent += '<td>' + item.ruanganterakhir + '</td>'; // Misalnya, ambil field2 dari item
+              modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
+              modalContent += '<td style="text-align: center;">' + item.ruanganterakhir + '</td>';
+              modalContent += '<td style="text-align: center;">' + item.dob_aset + '</td>';
+              modalContent += '<td style="text-align: center;">' + formatDays(item.aging) + '</td>';
+              modalContent += '<td style="text-align: center;">' + (item.last_time_out ? item.last_time_out : '-') + '</td>';
+              modalContent += '<td style="text-align: center;">' + formatDays(item.durasi_moving) + '</td>';
+              modalContent += '<td style="text-align: center;">' + (item.messenger_name ? item.messenger_name : '-') + '</td>';
             } else {
-              modalContent += '<td>' + item.tgl_inventarisasi + '</td>'; // Misalnya, ambil field2 dari item
+              modalContent += '<td style="text-align: center;">' + item.tgl_inventarisasi + '</td>';
             }
 
             // Misalnya, ambil field2 dari item
@@ -614,9 +695,12 @@ $CI = &get_instance();
 
           modalContent += '</table>';
           modalContent += '</div>';
+          modalContent += '</div>';
+
           // Tambahkan tombol pagination di bagian bawah modal jika diperlukan
           // Misalnya, Anda dapat menambahkan tombol Next dan Previous untuk pagination
-          modalContent += '<div class="modal-footer"><button id="closeBtn">Tutup</button>';
+          // modalContent += '<div class="modal-footer" style="text-align: center;"><button id="closeBtn">Tutup</button>';
+          // modalContent += '<div class="modal-footer" style="text-align: center;"><button id="closeBtn" class="btn btn-light">Close</button>';
           // modalContent += '<button type="button" class="btn btn-secondary">Previous</button>';
           // modalContent += '<button type="button" class="btn btn-secondary">Next</button>';
           modalContent += '</div>';
@@ -695,16 +779,26 @@ $CI = &get_instance();
 
       $('#perpindahan').text(parseInt(data.ilegal) + parseInt(data.legal));
 
+      var is_illegal = false;
+
       if (data.ilegal > 0) {
+        is_illegal = true;
         $('#perp').addClass('blink-ilegal');
       } else {
-        $('#perp').addClass('bg-legal');
-        $('#perp').removeClass('blink-ilegal');
+        // $('#perp').addClass('bg-legal');
+        // $('#perp').removeClass('blink-ilegal');
       }
 
-      if (data.ilegal == 0 && data.legal == 0) {
-        $('#perp').removeClass('bg-ilegal');
-        $('#perp').removeClass('bg-legal');
+      // if (data.ilegal == 0 && data.legal == 0) {
+      //   $('#perp').removeClass('bg-ilegal');
+      //   $('#perp').removeClass('bg-legal');
+      // }
+
+      if (parseInt(data.durasi_moving_overdue) > 2){
+        // $('#perp').removeClass('bg-legal');
+        $('#perp').addClass('blink-ilegal');
+      } else {
+        $('#perp').removeClass('blink-ilegal');
       }
 
       $('#perbaikan').text(data.perbaikan);
@@ -722,6 +816,7 @@ $CI = &get_instance();
     }
 
     $(document).on('click', '.xxx', function() {
+
       var divId = event.target.getAttribute("data-el");
       var roomName = decodeURI(event.target.getAttribute("name-room")).replace(/"/g, "");
 
@@ -734,6 +829,7 @@ $CI = &get_instance();
       topic = 'ruangan';
 
       // showModalWithPagination(endpoint, title, topic);
+
     });
 
     function librarian(data) {
@@ -850,6 +946,7 @@ $CI = &get_instance();
         method: 'GET',
         dataType: 'json',
         success: function(data) {
+
           updateDashboard(data);
 
           dChart.data.labels = data.labelcateg.map(item => [item.key_status]); // Mengganti labels
@@ -865,7 +962,6 @@ $CI = &get_instance();
           dChart.update();
           myChart1.update();
           myChart3.update();
-
 
         },
         error: function(xhr, status, error) {
@@ -1053,7 +1149,9 @@ $CI = &get_instance();
         bPaginate: false,
         searching: true,
       });
+
     });
+
   });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>

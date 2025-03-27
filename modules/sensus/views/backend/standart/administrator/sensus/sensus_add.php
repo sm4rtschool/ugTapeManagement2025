@@ -1721,7 +1721,7 @@
                 
             // $('#btn_search').trigger('click');
 
-            socket = new WebSocket(protocol_ws_server + '://' + ip_address + ':' + port_ws_server);
+            socket = new WebSocket('ws' + '://' + ip_address + ':' + port_ws_server);
             console.log('ee', socket);
 
             socket.onopen = function(event) {

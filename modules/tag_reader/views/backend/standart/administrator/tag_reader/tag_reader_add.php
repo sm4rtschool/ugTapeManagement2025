@@ -362,7 +362,26 @@
                         </div>
 
 
+                        <div class="form-group group-is_handheld">
+                            <label for="is_handheld" class="col-sm-2 control-label">Handheld <i class="required">*</i>
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control chosen chosen-select" name="is_handheld" id="is_handheld" data-placeholder="Select Active">
+                                    <option value=""></option>
+                                    <option value="1">True</option>
+                                    <option value="0">False</option>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="form-group group-reader_gate  ">
+                            <label for="reader_gate" class="col-sm-2 control-label">Gate </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="reader_gate" id="reader_gate" placeholder="" value="<?= set_value('reader_gate'); ?>">
+                                <small class="info help-block">
+                                </small>
+                            </div>
+                        </div>
 
                         <div class="message"></div>
                         <div class="row-fluid col-md-7 container-button-bottom">

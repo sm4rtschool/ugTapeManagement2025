@@ -6,7 +6,24 @@
                 
         <td style="text-align: center;"><span class="list_group-kode_tid"><?= _ent($ug_mstag->kode_tid); ?></span></td> 
         <td style="text-align: center;"><span class="list_group-kode_epc"><?= _ent($ug_mstag->kode_epc); ?></span></td> 
-        <td style="text-align: center;"><span class="list_group-status_tag"><?= _ent($ug_mstag->status_tag); ?></span></td> 
+        <td style="text-align: center;">
+            <span class="list_group-status_tag">
+            <?= $ug_mstag->status_tag == 'Y' ? 'Available' : 'Not Available'; ?>
+            </span>
+        </td> 
+        <td style="text-align: center;">
+            <span class="list_group-status_tag">
+            <?php 
+            if ($ug_mstag->kategori_tag == '0') {
+                echo 'Not Used';
+            } elseif ($ug_mstag->kategori_tag == '1') {
+                echo 'Aset';
+            } elseif ($ug_mstag->kategori_tag == '2') {
+                echo 'People';
+            }
+            ?>
+            </span>
+        </td> 
         <td width="200" style="text-align: center;">
         
             <?php is_allowed('ug_mstag_view', function() use ($ug_mstag){?>

@@ -118,3 +118,26 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+
+// $db['default'] = array(
+//     'dsn'      => '',
+//     'hostname' => '38.47.91.245', // IP Server PostgreSQL
+//     'username' => 'postgres',
+//     'password' => 'adminITBS!@#$',
+//     'database' => 'ug_tms',
+//     'dbdriver' => 'postgre', // Harus 'postgre', bukan 'postgresql'
+//     'port'     => 5432, // Port default PostgreSQL
+//     'dbprefix' => '',
+//     'pconnect' => FALSE,
+//     'db_debug' => TRUE, // Ubah ke TRUE untuk debugging
+//     'cache_on' => FALSE,
+//     'cachedir' => '',
+//     'char_set' => 'utf8',
+//     'dbcollat' => 'utf8_general_ci',
+//     'swap_pre' => '',
+//     'encrypt'  => FALSE,
+//     'compress' => FALSE,
+//     'stricton' => FALSE,
+//     'failover' => array(),
+//     'save_queries' => TRUE
+// );

@@ -301,7 +301,7 @@
 
                 </fieldset>
 
-                <fieldset>
+                <!-- <fieldset>
 
                         <div class="row">
 
@@ -347,7 +347,7 @@
                             
                         </div>
 
-                    </fieldset>
+                    </fieldset> -->
 
                 <div class="row">
 

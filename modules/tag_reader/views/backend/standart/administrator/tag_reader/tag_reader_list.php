@@ -125,22 +125,22 @@
                                  </th>
                                  <th data-field="room_id" data-sort="1" data-primary-key="0"> <?= cclang('room_id') ?></th>
                                  <th data-field="reader_name" data-sort="1" data-primary-key="0"> <?= cclang('reader_name') ?></th>
-                                 <th data-field="reader_serialnumber" data-sort="1" data-primary-key="0"> <?= cclang('reader_serialnumber') ?></th>
+                                 <th data-field="reader_serialnumber" data-sort="1" data-primary-key="0"> <?= cclang('SN') ?></th>
                                  <th data-field="reader_type" data-sort="1" data-primary-key="0"> <?= cclang('reader_type') ?></th>
                                  <th data-field="reader_ip" data-sort="1" data-primary-key="0"> <?= cclang('reader_ip') ?></th>
                                  <th data-field="reader_port" data-sort="1" data-primary-key="0"> <?= cclang('reader_port') ?></th>
                                  <th data-field="reader_com" data-sort="1" data-primary-key="0"> <?= cclang('reader_com') ?></th>
                                  <th data-field="reader_mode" data-sort="1" data-primary-key="0"> <?= cclang('reader_mode') ?></th>
                                  <th data-field="reader_angle" data-sort="1" data-primary-key="0"> <?= cclang('reader_angle') ?></th>
-                                 <th data-field="reader_family" data-sort="1" data-primary-key="0"> <?= cclang('reader_family') ?></th>
+                                 <th data-field="reader_family" data-sort="1" data-primary-key="0"> <?= cclang('series') ?></th>
                                  <!-- <th data-field="connecting" data-sort="1" data-primary-key="0"> <?= cclang('connecting') ?></th> -->
                                  <th data-field="identity" data-sort="1" data-primary-key="0"> <?= cclang('identity') ?></th>
-                                 <th data-field="alias_antenna" data-sort="1" data-primary-key="0"> <?= cclang('alias_antenna') ?></th>
-
+                                 <th data-field="alias_antenna" data-sort="1" data-primary-key="0"> <?= cclang('alias') ?></th>
                                  <th data-field="alarm" data-sort="1" data-primary-key="0"> <?= cclang('alarm') ?></th>
                                  <th data-field="buzzer" data-sort="1" data-primary-key="0"> <?= cclang('buzzer') ?></th>
-                                 <th data-field="is_active" data-sort="1" data-primary-key="0"> <?= cclang('is_active') ?></th>
-
+                                 <th data-field="is_active" data-sort="1" data-primary-key="0"> <?= cclang('active') ?></th>
+                                 <th data-field="handheld" data-sort="1" data-primary-key="0"> <?= cclang('handheld') ?></th>
+                                 <th data-field="handheld" data-sort="1" data-primary-key="0"> <?= cclang('gate') ?></th>
                                  <th>Action</th>
                               </tr>
                            </thead>

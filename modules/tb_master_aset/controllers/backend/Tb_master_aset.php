@@ -127,6 +127,9 @@ class Tb_master_aset extends Admin
 				'id_pegawai' => $this->input->post('pic'),
 				'tgl_perolehan' => $this->input->post('tgl_perolehan'),
 				'image_uri' => $rand . '_' . $_FILES['fotoaset']['name'],
+				'borrow' => 0,
+				'tipe_moving' => 0,
+				'dob_aset' => $this->input->post('dob_aset') ? $this->input->post('dob_aset') : null
 			];
 
 			// $this->db->insert('tb_master_aset', $save_data);
@@ -224,7 +227,7 @@ class Tb_master_aset extends Admin
 		$this->data['tb_master_aset'] = $this->model_tb_master_aset->get_detail_edit($id);
 
 
-		$this->template->title('Tb Master Aset Update');
+		$this->template->title('Master Aset Update');
 		$this->render('backend/standart/administrator/tb_master_aset/tb_master_aset_update', $this->data);
 	}
 
@@ -235,6 +238,7 @@ class Tb_master_aset extends Admin
 	 */
 	public function edit_save($id)
 	{
+
 		if (!$this->is_allowed('tb_master_aset_update', false)) {
 			echo json_encode([
 				'success' => false,
@@ -242,22 +246,17 @@ class Tb_master_aset extends Admin
 			]);
 			exit;
 		}
+
 		$this->form_validation->set_rules('kode_aset', 'Kode Aset', 'trim|required|max_length[50]');
-
-
 		$this->form_validation->set_rules('nup', 'Nup', 'trim|required|max_length[50]');
-
 		$this->form_validation->set_rules('nama_aset', 'Nama Aset', 'trim|required|max_length[100]');
 		$this->form_validation->set_rules('merk', 'Merk', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('tipe', 'Tipe', 'trim|required');
-
 		$this->form_validation->set_rules('kategori', 'Kategori', 'trim|required');
-
 		$this->form_validation->set_rules('area', 'Area', 'trim|required');
 		$this->form_validation->set_rules('gedung', 'Gedung', 'trim|required');
 		$this->form_validation->set_rules('room', 'Room', 'trim|required');
 		$this->form_validation->set_rules('pic', 'Pic', 'trim|required');
-
 
 		$rand = rand();
 		$ekstensi =  array('png', 'jpg', 'jpeg');
@@ -265,7 +264,6 @@ class Tb_master_aset extends Admin
 		$ukuran = $_FILES['fotoaset']['size'];
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$folderfoto = $this->input->post('kategori') === 1 ? 'Seni' : 'Elektronik';
-
 
 		if ($this->form_validation->run()) {
 
@@ -282,10 +280,10 @@ class Tb_master_aset extends Admin
 				'id_pegawai' => $this->input->post('pic'),
 				'tgl_perolehan' => $this->input->post('tgl_perolehan'),
 				'image_uri' => $rand . '_' . $_FILES['fotoaset']['name'],
+				'dob_aset' => $this->input->post('dob_aset') ? $this->input->post('dob_aset') : null
 			];
 
 			$save_tb_master_aset = $id = $this->model_tb_master_aset->update_aset($id, $save_data);
-
 
 			if ($save_tb_master_aset) {
 
@@ -411,7 +409,7 @@ class Tb_master_aset extends Admin
 		}
 
 
-		$this->template->title('Tb Master Aset Detail');
+		$this->template->title('Master Aset Detail');
 		$this->render('backend/standart/administrator/tb_master_aset/tb_master_aset_view', $this->data);
 	}
 
@@ -454,7 +452,6 @@ class Tb_master_aset extends Admin
 	public function export_pdf()
 	{
 		$this->is_allowed('tb_master_aset_export');
-
 		$this->model_tb_master_aset->pdf('tb_master_aset', 'tb_master_aset');
 	}
 
@@ -555,6 +552,84 @@ class Tb_master_aset extends Admin
 		unlink($file); // Hapus file setelah selesai
 		echo "Data berhasil diimport!";
 	}
+
+	public function upload_aset()
+	{
+		$config['upload_path']   = './uploads/';
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['max_size']      = 5120;
+
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload('file')) {
+			echo $this->upload->display_errors();
+			return;
+		}
+
+		$file = $this->upload->data('full_path');
+
+		$spreadsheet = IOFactory::load($file);
+		$sheetData = $spreadsheet->getActiveSheet()->toArray();
+
+		$col_kode_aset = 5;
+		$col_nup = 6;
+		$col_merk = 9;
+		$col_tipe = 10;
+		$col_kondisi = 11;
+		$col_status = 50;
+		$col_nama_aset = 8;
+		$col_tgl_perolehan = 34;
+		$col_nilai_perolehan = 38;
+		$col_id_pegawai = 65;
+
+		// Hanya ambil kolom tertentu (Misalnya: Nama di kolom A dan Email di kolom B)
+		$data = [];
+		foreach ($sheetData as $index => $row) {
+
+			if ($index == 0) continue; // Lewati baris header
+
+			$data[] = [
+				'kode_tid' => NULL,
+				'kode_aset' => $row[$col_kode_aset],
+				'nup' => $row[$col_nup],
+				'kategori' => 1,
+				'merk' => $row[$col_merk],
+				'tipe' => $row[$col_tipe],
+				'kondisi' => $row[$col_kondisi],
+				'status' => $row[$col_status],
+				'borrow' => 0,
+				'tipe_moving' => 0,
+				'nama_aset' => $row[$col_nama_aset],
+				'id_area' => 0,
+				'id_gedung' => 0,
+				'id_lokasi' => 0,
+				'tgl_perolehan' => $row[$col_tgl_perolehan],
+				'nilai_perolehan' => !empty($row[$col_nilai_perolehan]) ? $row[$col_nilai_perolehan] : 0,
+				'tgl_inventarisasi' => NULL,
+				'tgl_peminjaman' => NULL,
+				'tgl_pengembalian' => NULL,
+				'flag_inventarisasi' => NULL,
+				'id_peminjam' => NULL,
+				'lokasi_moving' => NULL,
+				'lokasi_terakhir' => NULL,
+				'nama_lokasi_terakhir' => NULL,
+				'id_pegawai' => $row[$col_id_pegawai],
+				'image_uri' => NULL,
+				'id_transaksi' => NULL,
+				'no_batch_sensus' => NULL,
+				'keterangan' => NULL,
+			];
+
+		}
+
+		if (!empty($data)) {
+			$this->model_tb_master_aset->importDataAset($data);
+		}
+
+		unlink($file); // Hapus file setelah selesai
+		echo "Data berhasil diimport!";
+	}
+
 }
 
 

@@ -305,7 +305,8 @@ class Model_peminjaman extends MY_Model {
                         'tgl_peminjaman' => $save_data_master_transaksi['tgl_awal_transaksi'],
                         'tgl_pengembalian' => $save_data_master_transaksi['tgl_akhir_transaksi'],
                         'id_peminjam' => $save_data_master_transaksi['id_pegawai'],
-                        'status' => 2
+                        'status' => 2,
+                        'status_peminjaman' => 0
                     )); 
                     
                 }

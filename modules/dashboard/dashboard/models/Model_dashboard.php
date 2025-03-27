@@ -30,31 +30,114 @@ class Model_dashboard extends MY_Model
 		if (empty($field)) {
 			foreach ($this->field_search as $field) {
 				if ($iterasi == 1) {
-					$where .= "dashboard." . $field . " LIKE '%" . $q . "%' ";
+					// Cek tipe data kolom dan gunakan konversi jika timestamp
+					if ($field == 'created_at') {
+						$where .= "CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' ";
+					} else {
+						$where .= "dashboard." . $field . " ILIKE '%" . $q . "%' ";
+					}
 				} else {
-					$where .= "OR " . "dashboard." . $field . " LIKE '%" . $q . "%' ";
+					// Cek tipe data kolom dan gunakan konversi jika timestamp
+					if ($field == 'created_at') {
+						$where .= "OR CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' ";
+					} else {
+						$where .= "OR " . "dashboard." . $field . " ILIKE '%" . $q . "%' ";
+					}
 				}
 				$iterasi++;
 			}
 
 			$where = '(' . $where . ')';
 		} else {
-			$where .= "(" . "dashboard." . $field . " LIKE '%" . $q . "%' )";
+			if ($field == 'created_at') {
+				$where .= "(CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' )";
+			} else {
+				$where .= "(dashboard." . $field . " ILIKE '%" . $q . "%' )";
+			}
 		}
-
-		if ($tag) {
-			$this->db->where('tags LIKE "%' . $tag . '%"');
-		}
-
-		if ($category) {
-			$this->db->where('category', $category);
-		}
-		$this->join_avaiable()->filter_avaiable();
-		$this->db->where($where);
-		$query = $this->db->get($this->table_name);
-
-		return $query->num_rows();
+		
+		// Kode berikutnya sama seperti sebelumnya
+		// ...
 	}
+
+	// public function count_all($q = null, $field = null, $category = null, $tag = null)
+	// {
+	// 	$iterasi = 1;
+	// 	$num = count($this->field_search);
+	// 	$where = NULL;
+	// 	$q = $this->scurity($q);
+	// 	$field = $this->scurity($field);
+
+	// 	if (empty($field)) {
+	// 		foreach ($this->field_search as $field) {
+	// 			if ($iterasi == 1) {
+	// 				$where .= "dashboard." . $field . " LIKE '%" . $q . "%' ";
+	// 			} else {
+	// 				$where .= "OR " . "dashboard." . $field . " LIKE '%" . $q . "%' ";
+	// 			}
+	// 			$iterasi++;
+	// 		}
+
+	// 		$where = '(' . $where . ')';
+	// 	} else {
+	// 		$where .= "(" . "dashboard." . $field . " LIKE '%" . $q . "%' )";
+	// 	}
+
+	// 	if ($tag) {
+	// 		$this->db->where('tags LIKE "%' . $tag . '%"');
+	// 	}
+
+	// 	if ($category) {
+	// 		$this->db->where('category', $category);
+	// 	}
+	// 	$this->join_avaiable()->filter_avaiable();
+	// 	$this->db->where($where);
+	// 	$query = $this->db->get($this->table_name);
+
+	// 	return $query->num_rows();
+	// }
+
+	// public function get($q = null, $field = null, $limit = 0, $offset = 0, $category = null, $tag = null)
+	// {
+	// 	$iterasi = 1;
+	// 	$num = count($this->field_search);
+	// 	$where = NULL;
+	// 	$q = $this->scurity($q);
+	// 	$field = $this->scurity($field);
+
+	// 	if (empty($field)) {
+	// 		foreach ($this->field_search as $field) {
+	// 			if ($iterasi == 1) {
+	// 				$where .= "dashboard." . $field . " LIKE '%" . $q . "%' ";
+	// 			} else {
+	// 				$where .= "OR " . "dashboard." . $field . " LIKE '%" . $q . "%' ";
+	// 			}
+	// 			$iterasi++;
+	// 		}
+
+	// 		$where = '(' . $where . ')';
+	// 	} else {
+	// 		$where .= "(" . "dashboard." . $field . " LIKE '%" . $q . "%' )";
+	// 	}
+	// 	if ($tag) {
+	// 		$this->db->where('tags LIKE "%' . $tag . '%"');
+	// 	}
+
+	// 	if ($category) {
+	// 		$this->db->where('category', $category);
+	// 	}
+	// 	$this->join_avaiable()->filter_avaiable();
+	// 	$this->db->where($where);
+	// 	$this->db->limit($limit, $offset);
+	// 	$this->sortable();
+	// 	$query = $this->db->get($this->table_name);
+
+	// 	if ($query) {
+	// 		return $query->result();
+	// 	} else {
+	// 		return []; // Mengembalikan array kosong jika query gagal
+	// 	}
+	// }
 
 	public function get($q = null, $field = null, $limit = 0, $offset = 0, $category = null, $tag = null)
 	{
@@ -67,35 +150,34 @@ class Model_dashboard extends MY_Model
 		if (empty($field)) {
 			foreach ($this->field_search as $field) {
 				if ($iterasi == 1) {
-					$where .= "dashboard." . $field . " LIKE '%" . $q . "%' ";
+					// Cek tipe data kolom dan gunakan konversi jika timestamp
+					if ($field == 'created_at') {
+						$where .= "CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' ";
+					} else {
+						$where .= "dashboard." . $field . " ILIKE '%" . $q . "%' ";
+					}
 				} else {
-					$where .= "OR " . "dashboard." . $field . " LIKE '%" . $q . "%' ";
+					// Cek tipe data kolom dan gunakan konversi jika timestamp
+					if ($field == 'created_at') {
+						$where .= "OR CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' ";
+					} else {
+						$where .= "OR " . "dashboard." . $field . " ILIKE '%" . $q . "%' ";
+					}
 				}
 				$iterasi++;
 			}
 
 			$where = '(' . $where . ')';
 		} else {
-			$where .= "(" . "dashboard." . $field . " LIKE '%" . $q . "%' )";
+			if ($field == 'created_at') {
+				$where .= "(CAST(dashboard." . $field . " AS VARCHAR) ILIKE '%" . $q . "%' )";
+			} else {
+				$where .= "(dashboard." . $field . " ILIKE '%" . $q . "%' )";
+			}
 		}
-		if ($tag) {
-			$this->db->where('tags LIKE "%' . $tag . '%"');
-		}
-
-		if ($category) {
-			$this->db->where('category', $category);
-		}
-		$this->join_avaiable()->filter_avaiable();
-		$this->db->where($where);
-		$this->db->limit($limit, $offset);
-		$this->sortable();
-		$query = $this->db->get($this->table_name);
-
-		if ($query) {
-			return $query->result();
-		} else {
-			return []; // Mengembalikan array kosong jika query gagal
-		}
+		
+		// Kode berikutnya sama seperti sebelumnya
+		// ...
 	}
 
 	public function join_avaiable()

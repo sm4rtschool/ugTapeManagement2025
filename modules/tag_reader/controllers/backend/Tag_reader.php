@@ -46,8 +46,6 @@ class Tag_reader extends Admin
 
 		$this->data['pagination'] = $this->pagination($config);
 
-
-
 		$this->data['tables'] = $this->load->view('backend/standart/administrator/tag_reader/tag_reader_data_table', $this->data, true);
 
 		if ($this->input->get('ajax')) {
@@ -135,6 +133,8 @@ class Tag_reader extends Admin
 				'reader_identity' => $this->input->post('reader_identity'),
 				'reader_antena' => $this->input->post('reader_antena'),
 				'alias_antenna' => $this->input->post('alias_antenna'),
+				'is_handheld' => $this->input->post('is_handheld') ? $this->input->post('is_handheld') : null,
+				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null
 			];
 
 			// $save_tag_reader = $id = $this->model_tag_reader->store($save_data);
@@ -271,7 +271,9 @@ class Tag_reader extends Admin
 				'alias_antenna' => $this->input->post('alias_antenna'),
 				'flag_alarm' => $this->input->post('flag_alarm'),
 				'flag_buzzer' => $this->input->post('flag_buzzer'),
-				'is_active' => $this->input->post('is_active')
+				'is_active' => $this->input->post('is_active'),
+				'is_handheld' => $this->input->post('is_handheld') ? $this->input->post('is_handheld') : null,
+				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null
 			];
 
 			$save_tag_reader = $this->model_tag_reader->change($id, $save_data);

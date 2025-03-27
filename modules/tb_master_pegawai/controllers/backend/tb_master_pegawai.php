@@ -16,7 +16,7 @@ class tb_master_pegawai extends Admin
 	{
 		parent::__construct();
 
-		$this->load->model('model_tb_pegawai_master');
+		$this->load->model('model_tb_master_pegawai');
 		$this->load->model('group/model_group');
 		$this->lang->load('web_lang', $this->current_lang);
 	}
@@ -33,11 +33,11 @@ class tb_master_pegawai extends Admin
 		$filter = $this->input->get('q');
 		$field 	= $this->input->get('f');
 
-		$this->data['tb_pegawai_masters'] = $this->model_tb_pegawai_master->get($filter, $field, $this->limit_page, $offset);
-		$this->data['tb_pegawai_master_counts'] = $this->model_tb_pegawai_master->count_all($filter, $field);
+		$this->data['tb_pegawai_masters'] = $this->model_tb_master_pegawai->get($filter, $field, $this->limit_page, $offset);
+		$this->data['tb_pegawai_master_counts'] = $this->model_tb_master_pegawai->count_all($filter, $field);
 
 		$config = [
-			'base_url'     => ADMIN_NAMESPACE_URL  . '/tb_pegawai_master/index/',
+			'base_url'     => ADMIN_NAMESPACE_URL  . '/tb_master_pegawai/index/',
 			'total_rows'   => $this->data['tb_pegawai_master_counts'],
 			'per_page'     => $this->limit_page,
 			'uri_segment'  => 4,
@@ -55,7 +55,7 @@ class tb_master_pegawai extends Admin
 			]);
 		}
 
-		$this->template->title('Tb Pegawai Master List');
+		$this->template->title('Master Pegawai List');
 		$this->render('backend/standart/administrator/tb_pegawai_master/tb_pegawai_master_list', $this->data);
 	}
 
@@ -86,12 +86,12 @@ class tb_master_pegawai extends Admin
 			exit;
 		}
 
-		$this->form_validation->set_rules('nip', 'NIP', 'trim|required|max_length[50]');
+		// $this->form_validation->set_rules('nip', 'NIP', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('pegawai', 'Pegawai', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('jabatan', 'Jabatan', 'trim|required|max_length[130]');
 		// $this->form_validation->set_rules('telp', 'Telp', 'trim|required|max_length[130]');
 		// $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|max_length[130]');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[130]');
+		// $this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[130]');
 
 		$rand = rand();
 		$ekstensi =  array('png', 'jpg', 'jpeg');
@@ -105,17 +105,17 @@ class tb_master_pegawai extends Admin
 			$kode_tid_pegawai = $this->input->post('kode_tid_pegawai');
 
 			$save_data = [
-				'kode_tid_pegawai' => $kode_tid_pegawai,
+				'kode_tid_pegawai' => $kode_tid_pegawai !== '' ? $kode_tid_pegawai : null,
 				'nip' => $this->input->post('nip'),
 				'nama' => $this->input->post('pegawai'),
 				'jabatan' => $this->input->post('jabatan'),
 				'email' => $this->input->post('email'),
 				'telp' => $this->input->post('telp'),
 				'alamat' => $this->input->post('alamat'),
-				'image_uri' => $rand . '_' . $_FILES['fotopegawai']['name'],
+				'image_uri' => $rand . '_' . $_FILES['fotopegawai']['name']
 			];
 
-			// $save_tb_pegawai_master = $this->model_tb_pegawai_master->store($save_data);
+			// $save_tb_pegawai_master = $this->model_tb_master_pegawai->store($save_data);
 			$this->db->insert('tb_master_pegawai', $save_data);
 			// echo $this->db->last_query();
 			// exit;
@@ -204,7 +204,7 @@ class tb_master_pegawai extends Admin
 	{
 		$this->is_allowed('tb_pegawai_master_update');
 
-		$this->data['tb_pegawai_master'] = $this->model_tb_pegawai_master->get_detail_pegawai($id);
+		$this->data['tb_pegawai_master'] = $this->model_tb_master_pegawai->get_detail_pegawai($id);
 
 		$this->template->title('Tb Pegawai Master Update');
 		$this->render('backend/standart/administrator/tb_pegawai_master/tb_pegawai_master_update', $this->data);
@@ -218,6 +218,7 @@ class tb_master_pegawai extends Admin
 
 	public function edit_pegawai($id)
 	{
+
 		if (!$this->is_allowed('tb_pegawai_master_update', false)) {
 			echo json_encode([
 				'success' => false,
@@ -229,7 +230,7 @@ class tb_master_pegawai extends Admin
 		$this->form_validation->set_rules('nip', 'NIP', 'trim|required|max_length[50]');
 		$this->form_validation->set_rules('pegawai', 'Pegawai', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('jabatan', 'Jabatan', 'trim|required|max_length[130]');
-		$this->form_validation->set_rules('telp', 'Telp', 'trim|required|max_length[130]');
+		// $this->form_validation->set_rules('telp', 'Telp', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('alamat', 'Alamat', 'trim|required|max_length[130]');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|max_length[130]');
 
@@ -243,17 +244,17 @@ class tb_master_pegawai extends Admin
 		if ($this->form_validation->run()) {
 
 			$save_data = [
-				'kode_tid_pegawai' => $this->input->post('kode_tid_pegawai'),
+				'kode_tid_pegawai' => $this->input->post('kode_tid_pegawai') !== '' ? $this->input->post('kode_tid_pegawai') : null,
 				'nip' => $this->input->post('nip'),
 				'nama' => $this->input->post('pegawai'),
 				'jabatan' => $this->input->post('jabatan'),
 				'email' => $this->input->post('email'),
-				'telp' => $this->input->post('telp'),
+				'telp' => $this->input->post('telp') !== '' ? $this->input->post('telp') : null,
 				'alamat' => $this->input->post('alamat'),
 				'image_uri' => $rand . '_' . $_FILES['fotopegawai']['name'],
 			];
 
-			$save_tb_pegawai_master = $this->model_tb_pegawai_master->update_pegawai($id, $save_data);
+			$save_tb_pegawai_master = $this->model_tb_master_pegawai->update_pegawai($id, $save_data);
 
 			if ($id != ''){
 				$this->db->where('kode_tid', $this->input->post('kode_tid_pegawai'));
@@ -324,6 +325,7 @@ class tb_master_pegawai extends Admin
 	 */
 	public function delete($id = null)
 	{
+
 		$this->is_allowed('tb_pegawai_master_delete');
 
 		$this->load->helper('file');
@@ -332,33 +334,98 @@ class tb_master_pegawai extends Admin
 		$remove = false;
 
 		if (!empty($id)) {
+			
+			// echo 'your id:' . $id;
+
 			$remove = $this->_remove($id);
+
 		} elseif (count($arr_id) > 0) {
+
 			foreach ($arr_id as $id) {
+				// echo 'your arr_id:' . print_r($id);
+				// exit;
 				$remove = $this->_remove($id);
 			}
+
 		}
+
+		// echo '<pre>';
+		// print_r($remove);
+		// echo '</pre>';
+		// exit;
 
 		if ($this->input->get('ajax')) {
 			if ($remove) {
 				$this->response([
 					"success" => true,
-					"message" => cclang('has_been_deleted', 'tb_pegawai_master')
+					"message" => cclang('has_been_deleted', 'tb_master_pegawai')
 				]);
 			} else {
 				$this->response([
 					"success" => true,
-					"message" => cclang('error_delete', 'tb_pegawai_master')
+					"message" => cclang('error_delete', 'tb_master_pegawai')
 				]);
 			}
 		} else {
 			if ($remove) {
-				set_message(cclang('has_been_deleted', 'tb_pegawai_master'), 'success');
+				set_message(cclang('has_been_deleted', 'tb_master_pegawai'), 'success');
 			} else {
-				set_message(cclang('error_delete', 'tb_pegawai_master'), 'error');
+				set_message(cclang('error_delete', 'tb_master_pegawai'), 'error');
 			}
 			redirect_back();
 		}
+	}
+
+	/**
+	 * delete Tb Pegawai Masters
+	 *
+	 * @var $id String
+	 */
+	// private function _remove($id)
+	// {
+	// 	$tb_pegawai_master = $this->model_tb_master_pegawai->find($id);
+	// 	return $this->model_tb_master_pegawai->remove($id);
+	// }
+
+	private function _remove($id)
+	{
+
+		// Periksa apakah data ditemukan
+		$tb_pegawai_master = $this->model_tb_master_pegawai->find($id);
+
+		// echo '<pre>';
+		// echo print_r($tb_pegawai_master);
+		// echo '<pre>';
+		// exit;
+		
+		if ($tb_pegawai_master == 1) {
+
+			// echo 'aman bro';
+			// exit;
+
+			// Lakukan operasi dengan data (jika perlu)
+			// Misalnya: if (isset($tb_pegawai_master->file_path) && file_exists($tb_pegawai_master->file_path)) {
+			//     unlink($tb_pegawai_master->file_path);
+			// }
+
+			// echo 'id yg mau di remove:' . $id;
+			// exit;
+
+			// $hasil = $this->model_tb_master_pegawai->remove($id);
+			
+			// echo '<pre>';
+			// print_r($hasil);
+			// echo '</pre>';
+			// exit;
+
+			// Lanjutkan dengan penghapusan data
+			return $this->model_tb_master_pegawai->remove($id);
+		}
+
+		// echo 'ini bro biang keroknya';
+		// exit;
+		
+		return false;
 	}
 
 	/**
@@ -370,7 +437,7 @@ class tb_master_pegawai extends Admin
 	{
 		$this->is_allowed('tb_pegawai_master_view');
 
-		$this->data['tb_master_pegawai'] = $this->model_tb_pegawai_master->get_detail_pegawai($id);
+		$this->data['tb_master_pegawai'] = $this->model_tb_master_pegawai->get_detail_pegawai($id);
 		$length = sizeof($this->data['tb_master_pegawai']);
 		if ($length == 0) {
 			$this->session->set_flashdata('nulldata', 'data kosong');
@@ -378,21 +445,6 @@ class tb_master_pegawai extends Admin
 		$this->template->title('Tb Pegawai Master Detail');
 		$this->render('backend/standart/administrator/tb_pegawai_master/tb_pegawai_master_view', $this->data);
 	}
-
-	/**
-	 * delete Tb Pegawai Masters
-	 *
-	 * @var $id String
-	 */
-	private function _remove($id)
-	{
-		$tb_pegawai_master = $this->model_tb_pegawai_master->find($id);
-
-
-
-		return $this->model_tb_pegawai_master->remove($id);
-	}
-
 
 	/**
 	 * Export to excel
@@ -403,10 +455,10 @@ class tb_master_pegawai extends Admin
 	{
 		$this->is_allowed('tb_pegawai_master_export');
 
-		$this->model_tb_pegawai_master->export(
+		$this->model_tb_master_pegawai->export(
 			'tb_pegawai_master',
 			'tb_pegawai_master',
-			$this->model_tb_pegawai_master->field_search
+			$this->model_tb_master_pegawai->field_search
 		);
 	}
 
@@ -419,7 +471,7 @@ class tb_master_pegawai extends Admin
 	{
 		$this->is_allowed('tb_pegawai_master_export');
 
-		$this->model_tb_pegawai_master->pdf('tb_pegawai_master', 'tb_pegawai_master');
+		$this->model_tb_master_pegawai->pdf('tb_pegawai_master', 'tb_pegawai_master');
 	}
 
 
@@ -441,7 +493,7 @@ class tb_master_pegawai extends Admin
 
 		$result = $this->db->get($table);
 
-		$data = $this->model_tb_pegawai_master->find($id);
+		$data = $this->model_tb_master_pegawai->find($id);
 		$fields = $result->list_fields();
 
 		$content = $this->pdf->loadHtmlPdf('core_template/pdf/pdf_single', [

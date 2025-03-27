@@ -5,11 +5,11 @@
 
 <section class="content-header">
     <h1>
-        Register People<small><?= cclang('new', ['Register People']); ?></small>
+        Register Pegawai<small><?= cclang('new', ['Register Pegawai']); ?></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class=""><a href="<?= admin_site_url('/registrasi_people'); ?>">Register People</a></li>
+        <li class=""><a href="<?= admin_site_url('/registrasi_people'); ?>">Register Pegawai</a></li>
         <li class="active"><?= cclang('new'); ?></li>
     </ol>
 </section>
@@ -74,7 +74,7 @@
                     <input type="hidden" name="ip_address_server" id="ip_address_server" value="<?= $pengaturan_sistem->ip_address_server; ?>">
                     <input type="hidden" name="port_ws_server" id="port_ws_server" value="<?= $pengaturan_sistem->port_ws_server; ?>">
 
-                    <input type="hidden" name="tipe_transaksi" id="tipe_transaksi" value="2">
+                    <input type="hidden" name="tipe_transaksi" id="tipe_transaksi" value="7">
                     <input type="hidden" name="status_transaksi" id="status_transaksi" value="1">
                     <input type="hidden" name="id_pegawai_input" id="id_pegawai_input" value="0">
                     <input type="hidden" name="nama_pegawai_input" id="nama_pegawai_input" value="0">
@@ -182,13 +182,13 @@
                     </section>
                 </fieldset> -->
 
-                <!-- <h3 style="text-decoration: underline;">Pilih Aset</h3> -->
+                <h3 style="text-decoration: underline;">Pilih Pegawai</h3>
                 <!-- <hr> -->
 
                 <!-- <section> -->
-                <!-- <fieldset> -->
-<!-- 
-                    <div class="form-group group-id_area ">
+                <fieldset>
+
+                    <!-- <div class="form-group group-id_area ">
                         <label for="id_area" class="col-sm-2 control-label">Filter Kategori Aset<i class="required">*</i>
                         </label>
                         <div class="col-sm-8">
@@ -202,8 +202,6 @@
                             </small>
                         </div>
                     </div> -->
-
-
 
                     <div class="row" style="margin-top: 10px; margin-bottom: 20px">
                         <div class="col-md-12">
@@ -219,31 +217,34 @@
                                         </th>
                                         <th>ID Pegawai</th>
                                         <th>Nama Pegawai</th>
-                                        <th>NIP</th>
+                                        <th>Nip</th>
                                         <th>Telp</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($tb_master_asets as $tb_master_aset): ?>
+                                    
+                                    <?php foreach ($tb_master_pegawais as $tb_master_pegawai): ?>
 
                                         <tr>
                                             <td></td>
-                                            <td id="id" key="id"><?= _ent($tb_master_aset->id); ?></td>
-                                            <td id="nama" key="nama"><?= _ent($tb_master_aset->nama); ?></td>
-                                            <td id="nip" key="nip"><?= _ent($tb_master_aset->nip); ?></td>
-                                            <td id="telp" key="telp"><?= _ent($tb_master_aset->telp); ?></td>
+                                            <td id="id" key="id"><?= _ent($tb_master_pegawai->id); ?></td>
+                                            <td id="nama" key="nama"><?= _ent($tb_master_pegawai->nama); ?></td>
+                                            <td id="nip" key="nip"><?= _ent($tb_master_pegawai->nip); ?></td>
+                                            <td id="telp" key="telp"><?= _ent($tb_master_pegawai->telp); ?></td>
 
                                         </tr>
+
                                     <?php endforeach ?>
+
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th></th>
-                                        <th>ID Pegawai</th>
-                                        <th>Nama Pegawai</th>
-                                        <th>NIP</th>
-                                        <th>Telp</th>
+                                        <th>ID Aset</th>
+                                        <th>Nama Aset</th>
+                                        <th>Kode Aset</th>
+                                        <th>NUP Aset</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -301,7 +302,7 @@
 
                 </fieldset>
 
-                <fieldset>
+                <!-- <fieldset>
 
                         <div class="row">
 
@@ -347,7 +348,7 @@
                             
                         </div>
 
-                    </fieldset>
+                    </fieldset> -->
 
                 <div class="row">
 
@@ -646,9 +647,9 @@
                 arrayObj = myTable.rows('.selected').data().toArray().map(item => {
                     return {
                         id: item[1],
-                        kode_aset: item[3],
-                        nama_aset: item[2],
-                        nup: item[4]
+                        kode_pegawai: item[3],
+                        nama_pegawai: item[2],
+                        nip: item[3]
                     };
                 });
 
@@ -693,6 +694,10 @@
         var uniqueDataArray = [];
 
         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/' + module_name + '/serverSideData';
+
+
+
+
 
         $('#btn_search_single_tag').click(function() {
 
@@ -1635,7 +1640,7 @@
             if (total_rfid_tag != total_aset_checklist) {
                 swal({
                     title: "Error",
-                    text: "Total RFID Tag tidak sama dengan total Pegawai yang dipilih!",
+                    text: "Total RFID Tag tidak sama dengan total Aset yang dipilih!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",

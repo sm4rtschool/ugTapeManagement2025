@@ -5,7 +5,7 @@ class Model_ug_mstag extends MY_Model {
 
     private $primary_key    = 'id';
     private $table_name     = 'tb_master_tag_rfid';
-    public $field_search   = ['kode_tid', 'kode_epc', 'status_tag'];
+    public $field_search   = ['kode_tid', 'kode_epc', 'status_tag', 'kategori_tag'];
     public $sort_option = ['id', 'DESC'];
     
     public function __construct()
@@ -29,30 +29,47 @@ class Model_ug_mstag extends MY_Model {
         $field = $this->scurity($field);
         $field = in_array($field, $this->field_search) ? $field : "";
 
-
         if (empty($field)) {
             foreach ($this->field_search as $field) {
-                $f_search = "tb_master_tag_rfid.".$field;
+                $f_search = "tb_master_tag_rfid." . $field;
 
                 if (strpos($field, '.')) {
                     $f_search = $field;
                 }
                 if ($iterasi == 1) {
-                    $where .=  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 } else {
-                    $where .= "OR " .  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= " OR COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 }
                 $iterasi++;
             }
 
-            $where = '('.$where.')';
+            $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_tag_rfid.".$field . " LIKE '%" . $q . "%' )";
+            $f_search = "tb_master_tag_rfid." . $field;
+            if (strpos($field, '.')) {
+                $f_search = $field;
+            }
+            
+            $where .= "(COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%')";
         }
 
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where($where);
+        
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        
+        // Add error logging
+        $this->db->save_queries = TRUE;
         $query = $this->db->get($this->table_name);
+        
+        // Check if query failed
+        if ($query === FALSE) {
+            // Log the error
+            log_message('error', 'Database error: ' . print_r($this->db->error(), TRUE) . ' - SQL: ' . $this->db->last_query());
+            return 0; // Return 0 instead of causing an error
+        }
 
         return $query->num_rows();
     }
@@ -62,44 +79,61 @@ class Model_ug_mstag extends MY_Model {
         $iterasi = 1;
         $num = count($this->field_search);
         $where = NULL;
-        $q = $this->scurity($q);
-        $field = $this->scurity($field);
+        // $q = $this->scurity($q);
+        // $field = $this->scurity($field);
         $field = in_array($field, $this->field_search) ? $field : "";
-
-
+        
         if (empty($field)) {
             foreach ($this->field_search as $field) {
-                $f_search = "tb_master_tag_rfid.".$field;
+                $f_search = "tb_master_tag_rfid." . $field;
                 if (strpos($field, '.')) {
                     $f_search = $field;
                 }
-
+                
                 if ($iterasi == 1) {
-                    $where .= $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 } else {
-                    $where .= "OR " .$f_search . " LIKE '%" . $q . "%' ";
+                    $where .= " OR COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%'";
                 }
                 $iterasi++;
             }
-
-            $where = '('.$where.')';
+            
+            $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_tag_rfid.".$field . " LIKE '%" . $q . "%' )";
+            $f_search = "tb_master_tag_rfid." . $field;
+            if (strpos($field, '.')) {
+                $f_search = $field;
+            }
+            
+            $where .= "(COALESCE(" . $f_search . "::text, '') ILIKE '%" . $this->db->escape_like_str($q) . "%')";
         }
-
-        if (is_array($select_field) AND count($select_field)) {
+        
+        if (is_array($select_field) and count($select_field)) {
             $this->db->select($select_field);
         }
         
         $this->join_avaiable()->filter_avaiable();
-        $this->db->where($where);
-        $this->db->limit($limit, $offset);
         
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        
+        $this->db->limit($limit, $offset);
         $this->sortable();
         
+        $this->db->order_by($this->sort_option[0], $this->sort_option[1]);
+        
+        // Add error handling
+        $this->db->save_queries = TRUE;
         $query = $this->db->get($this->table_name);
-        // echo $this->db->last_query();
-
+        
+        // Check if query failed
+        if ($query === FALSE) {
+            // Log the error
+            log_message('error', 'Database error: ' . print_r($this->db->error(), TRUE) . ' - SQL: ' . $this->db->last_query());
+            return []; // Return empty array instead of causing an error
+        }
+        
         return $query->result();
     }
 

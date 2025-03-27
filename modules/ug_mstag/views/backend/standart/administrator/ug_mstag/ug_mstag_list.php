@@ -128,6 +128,7 @@ jQuery(document).ready(domo);
                               <th style="text-align: center" data-field="kode_tid" data-sort="1" data-primary-key="0"> <?= cclang('kode_tid') ?></th>
                               <th style="text-align: center" data-field="kode_epc" data-sort="1" data-primary-key="0"> <?= cclang('kode_epc') ?></th>
                               <th style="text-align: center" data-field="status_tag" data-sort="1" data-primary-key="0"> <?= cclang('status_tag') ?></th>
+                              <th style="text-align: center" data-field="kategori_tag" data-sort="1" data-primary-key="0"> <?= cclang('kategori_tag') ?></th>
                               <th style="text-align: center">Action</th>
                            </tr>
                         </thead>

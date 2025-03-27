@@ -163,26 +163,26 @@ WHERE a.lokasi_terakhir = $r AND DATE(a.tgl_inventarisasi) BETWEEN '$tglawal' AN
 
     public function getDataTransaksi($tipe, $tglawal, $tglakhir)
     {
+        // Menggunakan Active Record untuk query
         $this->db->select("
-        d.id, 
-        d.kode_aset, 
-        d.nup, 
-        m.ket_transaksi2, 
-        m.ket_transaksi, 
-        m.ket_transaksi3,
-        r.ruangan as ruangawal,
-        rt.ruangan as ruangtujuan,
-        m.status_transaksi as statusnya,
-        MIN(m.id) AS id, 
-        GROUP_CONCAT(d.kode_tid SEPARATOR '\n') AS rfid,
-        CONCAT('<ul>', GROUP_CONCAT(CONCAT('<li>', d.nama_aset, '</li>') SEPARATOR ''), '</ul>') AS asetnya,
-        GROUP_CONCAT(t.tipe_transaksi SEPARATOR '\n') AS tipe,
-        GROUP_CONCAT(DATE_FORMAT(m.tgl_input,'%d/%m/%Y') SEPARATOR '\n') AS tgl_trans,
-        GROUP_CONCAT(TIME(m.tgl_input) SEPARATOR '\n') AS time_trans,
-        GROUP_CONCAT(DATE_FORMAT(m.tgl_akhir_transaksi,'%d/%m/%Y') SEPARATOR '\n') AS tgl_akhir,
-        GROUP_CONCAT(TIME(m.tgl_akhir_transaksi) SEPARATOR '\n') AS waktu_akhir
-    ");
-
+            d.id, 
+            d.kode_aset, 
+            d.nup, 
+            m.ket_transaksi2, 
+            m.ket_transaksi, 
+            m.ket_transaksi3, 
+            r.ruangan AS ruangawal, 
+            rt.ruangan AS ruangtujuan, 
+            m.status_transaksi AS statusnya, 
+            MIN(m.id) AS id, 
+            STRING_AGG(d.kode_tid, ' ') AS rfid, 
+            CONCAT(CHR(10), STRING_AGG(CONCAT(CHR(10), d.nama_aset, CHR(10)), '') , CHR(10)) AS asetnya, 
+            STRING_AGG(t.tipe_transaksi, ' ') AS tipe, 
+            STRING_AGG(TO_CHAR(m.tgl_input, 'DD/MM/YYYY'), ' ') AS tgl_trans, 
+            STRING_AGG(TO_CHAR(m.tgl_input, 'HH24:MI:SS'), ' ') AS time_trans, 
+            STRING_AGG(TO_CHAR(m.tgl_akhir_transaksi, 'DD/MM/YYYY'), ' ') AS tgl_akhir, 
+            STRING_AGG(TO_CHAR(m.tgl_akhir_transaksi, 'HH24:MI:SS'), ' ') AS waktu_akhir
+        ");
         $this->db->from("tb_detail_transaksi d");
         $this->db->join("tb_master_transaksi m", "d.id_transaksi = m.id");
         $this->db->join("tb_master_type_transaksi t", "t.id = m.tipe_transaksi");
@@ -197,9 +197,10 @@ WHERE a.lokasi_terakhir = $r AND DATE(a.tgl_inventarisasi) BETWEEN '$tglawal' AN
             $this->db->where("m.tipe_transaksi", $tipe);
         }
 
-        $this->db->group_by("d.id_transaksi");
+        $this->db->group_by("d.id_transaksi, d.id, d.kode_aset, d.nup, m.ket_transaksi2, m.ket_transaksi, m.ket_transaksi3, r.ruangan, rt.ruangan, m.status_transaksi");
 
         $query = $this->db->get();
+        // echo $this->db->last_query();
         return $query->result();
     }
 

@@ -71,10 +71,29 @@ jQuery(document).ready(domo);
                         <label for="content" class="col-sm-2 control-label">Status Tag </label>
 
                         <div class="col-sm-8">
-                        <span class="detail_group-status_tag"><?= _ent($ug_mstag->status_tag); ?></span>
+                        <span class="detail_group-status_tag"><?= $ug_mstag->status_tag == 'Y' ? 'Available' : 'Not Available'; ?></span>
                         </div>
                     </div>
-                                        
+                  
+                     <div class="form-group ">
+                        <label for="content" class="col-sm-2 control-label">Kategori Tag </label>
+
+                        <div class="col-sm-8">
+                           <span class="detail_group-status_tag">
+                           <?php 
+                           if ($ug_mstag->kategori_tag == '0') {
+                              echo 'Not Used';
+                           } elseif ($ug_mstag->kategori_tag == '1') {
+                              echo 'Aset';
+                           } elseif ($ug_mstag->kategori_tag == '2') {
+                              echo 'People';
+                           }
+                           ?>
+                           </span>
+                        </div>
+                        
+                     </div>
+
                     <br>
                     <br>
 

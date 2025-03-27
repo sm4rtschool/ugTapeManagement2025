@@ -21,6 +21,43 @@ class Model_registrasi_aset extends MY_Model
         parent::__construct($config);
     }
 
+    // public function count_all($q = null, $field = null)
+    // {
+    //     $iterasi = 1;
+    //     $num = count($this->field_search);
+    //     $where = NULL;
+    //     $q = $this->scurity($q);
+    //     $field = $this->scurity($field);
+    //     $field = in_array($field, $this->field_search) ? $field : "";
+
+
+    //     if (empty($field)) {
+    //         foreach ($this->field_search as $field) {
+    //             $f_search = "tb_master_transaksi." . $field;
+
+    //             if (strpos($field, '.')) {
+    //                 $f_search = $field;
+    //             }
+    //             if ($iterasi == 1) {
+    //                 $where .=  $f_search . " LIKE '%" . $q . "%' ";
+    //             } else {
+    //                 $where .= "OR " .  $f_search . " LIKE '%" . $q . "%' ";
+    //             }
+    //             $iterasi++;
+    //         }
+
+    //         $where = '(' . $where . ')';
+    //     } else {
+    //         $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+    //     }
+
+    //     $this->join_avaiable()->filter_avaiable();
+    //     $this->db->where('tb_master_transaksi.tipe_transaksi = 2');
+    //     $query = $this->db->get($this->table_name);
+
+    //     return $query->num_rows();
+    // }
+
     public function count_all($q = null, $field = null)
     {
         $iterasi = 1;
@@ -39,16 +76,16 @@ class Model_registrasi_aset extends MY_Model
                     $f_search = $field;
                 }
                 if ($iterasi == 1) {
-                    $where .=  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .=  $f_search . " ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " .  $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "OR " .  $f_search . " ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+            $where .= "(" . "tb_master_transaksi." . $field . " ILIKE '%" . $q . "%' )";
         }
 
         $this->join_avaiable()->filter_avaiable();
@@ -57,6 +94,51 @@ class Model_registrasi_aset extends MY_Model
 
         return $query->num_rows();
     }
+
+    // public function get($q = null, $field = null, $limit = 0, $offset = 0, $select_field = [])
+    // {
+    //     $iterasi = 1;
+    //     $num = count($this->field_search);
+    //     $where = NULL;
+    //     $q = $this->scurity($q);
+    //     $field = $this->scurity($field);
+    //     $field = in_array($field, $this->field_search) ? $field : "";
+
+
+    //     if (empty($field)) {
+    //         foreach ($this->field_search as $field) {
+    //             $f_search = "tb_master_transaksi." . $field;
+    //             if (strpos($field, '.')) {
+    //                 $f_search = $field;
+    //             }
+
+    //             if ($iterasi == 1) {
+    //                 $where .= $f_search . " LIKE '%" . $q . "%' ";
+    //             } else {
+    //                 $where .= "OR " . $f_search . " LIKE '%" . $q . "%' ";
+    //             }
+    //             $iterasi++;
+    //         }
+
+    //         $where = '(' . $where . ')';
+    //     } else {
+    //         $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+    //     }
+
+    //     if (is_array($select_field) and count($select_field)) {
+    //         $this->db->select($select_field);
+    //     }
+
+    //     $this->join_avaiable()->filter_avaiable();
+    //     $this->db->where('tb_master_transaksi.tipe_transaksi = 2');
+    //     $this->db->limit($limit, $offset);
+
+    //     $this->sortable();
+
+    //     $query = $this->db->get($this->table_name);
+
+    //     return $query->result();
+    // }
 
     public function get($q = null, $field = null, $limit = 0, $offset = 0, $select_field = [])
     {
@@ -76,16 +158,16 @@ class Model_registrasi_aset extends MY_Model
                 }
 
                 if ($iterasi == 1) {
-                    $where .= $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= $f_search . " ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " . $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "OR " . $f_search . " ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . "tb_master_transaksi." . $field . " LIKE '%" . $q . "%' )";
+            $where .= "(" . "tb_master_transaksi." . $field . " ILIKE '%" . $q . "%' )";
         }
 
         if (is_array($select_field) and count($select_field)) {
@@ -94,10 +176,19 @@ class Model_registrasi_aset extends MY_Model
 
         $this->join_avaiable()->filter_avaiable();
         $this->db->where('tb_master_transaksi.tipe_transaksi = 2');
-        $this->db->limit($limit, $offset);
+        
+        if ($limit > 0) {
+            $this->db->limit($limit);
+        }
+        
+        if ($offset > 0) {
+            $this->db->offset($offset);
+        }
 
         $this->sortable();
 
+        $this->db->order_by($this->sort_option[0], $this->sort_option[1]);
+        
         $query = $this->db->get($this->table_name);
 
         return $query->result();
@@ -211,6 +302,7 @@ class Model_registrasi_aset extends MY_Model
                     $this->db->where('kode_tid', $data['tag']['tid']);
                     $this->db->update('tb_master_tag_rfid', array(
                         'status_tag' => 'N',
+                        'kategori_tag' => 1,
                         'id_aset' => $data['aset']['id']
                     ));
 
@@ -224,6 +316,8 @@ class Model_registrasi_aset extends MY_Model
                         'lokasi_moving' => $save_data_master_transaksi['id_ruangan'],
                         'kondisi' => 1,
                         'status' => 1,
+                        'borrow' => 0,
+                        'tipe_moving' => 0,
                         'flag_inventarisasi' => 1,
                         'tgl_inventarisasi' => date('Y-m-d')
                     ));
@@ -276,6 +370,28 @@ class Model_registrasi_aset extends MY_Model
         $this->db->from('pengaturan_sistem');
         return $this->db->get()->row();
     }
+
+    public function get_aset()
+    {
+        $ssql = "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status 
+                FROM tb_master_aset a LEFT JOIN tb_master_status s ON s.id = a.status 
+                WHERE a.kode_tid IS NULL
+                ORDER BY a.kode_tid DESC LIMIT 500 OFFSET 0";
+        $query = $this->db->query($ssql);
+        return $query->result();
+    }
+
+    public function get_asetkategori($id_kategori)
+    {
+        $ssql = "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status 
+                FROM tb_master_aset a LEFT JOIN tb_master_status s ON s.id = a.status 
+                WHERE a.kode_tid IS NULL
+                AND a.kategori = $id_kategori 
+                ORDER BY a.kode_tid ASC LIMIT 500 OFFSET 0";
+        $query = $this->db->query($ssql);
+        return $query->result();
+    }
+    
 }
 
 /* End of file Model_tb_master_transaksi.php */

@@ -6,7 +6,8 @@ class Model_tb_master_aset extends MY_Model
 
     private $primary_key    = 'kode_tid';
     private $table_name     = 'tb_master_aset';
-    public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe_moving', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi', 'lokasi_moving', 'status'];
+    // public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe_moving', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi', 'lokasi_moving', 'status'];
+    public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi'];
     public $sort_option = ['id_aset', 'DESC'];
 
     public function __construct()
@@ -181,7 +182,7 @@ class Model_tb_master_aset extends MY_Model
     public function get_asetkategori($id_kategori)
     {
         $query = $this->db->query(
-            "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status FROM tb_master_aset a JOIN tb_master_status s ON s.id = a.status WHERE a.kategori = $id_kategori ORDER BY a.kode_tid ASC LIMIT 500 OFFSET 0"
+            "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status FROM tb_master_aset a LEFT JOIN tb_master_status s ON s.id = a.status WHERE a.kategori = $id_kategori ORDER BY a.kode_tid ASC LIMIT 500 OFFSET 0"
         );
 
         return $query->result();
@@ -202,24 +203,42 @@ class Model_tb_master_aset extends MY_Model
         // JOIN tb_master_pegawai p ON p.id = a.id_pegawai
         $query = $this->db->query(
             "SELECT a.*, s.ket_status, s.id, k.ket_kategori, r.ruangan as ruangasal, rr.ruangan as ruangaktual FROM tb_master_aset a 
-JOIN tb_master_status s ON s.id = a.status 
-JOIN tb_master_ruangan r ON  r.id = a.id_lokasi
-JOIN tb_master_ruangan rr ON  rr.id = a.lokasi_moving 
-JOIN tb_master_kategori k ON k.id = a.kategori WHERE id_aset = $id"
+            JOIN tb_master_status s ON s.id = a.status 
+            JOIN tb_master_ruangan r ON  r.id = a.id_lokasi
+            JOIN tb_master_ruangan rr ON  rr.id = a.lokasi_moving 
+            JOIN tb_master_kategori k ON k.id = a.kategori WHERE id_aset = $id"
         );
 
         return $query->result();
     }
+
+    // id_aset, kode_tid, kode_aset, nup, kategori, merk, tipe, kondisi, status, borrow, tipe_moving, nama_aset, id_area, id_gedung, id_lokasi, tgl_perolehan, nilai_perolehan, tgl_inventarisasi, 
+    // tgl_peminjaman, tgl_pengembalian, flag_inventarisasi, id_peminjam, lokasi_moving, lokasi_terakhir, nama_lokasi_terakhir, id_pegawai, image_uri, id_transaksi, no_batch_sensus, keterangan, 
+    // dob_aset
 
     public function join_avaiable()
     {
         $this->db->join('tb_master_status', 'tb_master_status.id = tb_master_aset.status', 'LEFT');
         $this->db->join('tb_master_ruangan', 'tb_master_ruangan.id = tb_master_aset.lokasi_moving', 'LEFT');
         $this->db->join('tb_master_pegawai', 'tb_master_pegawai.id = tb_master_aset.id_pegawai', 'LEFT');
+        $this->db->join('tb_master_kategori', 'tb_master_kategori.id = tb_master_aset.kategori', 'LEFT');
 
-        $this->db->select('tb_master_status.ket_status,tb_master_ruangan.ruangan,tb_master_pegawai.nama,tb_master_aset.*,tb_master_status.ket_status as status,tb_master_ruangan.ruangan as tb_master_ruangan_name_room,tb_master_ruangan.ruangan as name_room,tb_master_pegawai.nama as tb_master_pegawai_Pegawai,tb_master_pegawai.nama as Pegawai');
-
-
+        $this->db->select([
+            'tb_master_ruangan.ruangan',
+            'tb_master_aset.kode_tid', 
+            'tb_master_aset.kode_aset', 
+            'tb_master_aset.nama_aset', 
+            'tb_master_aset.nup', 
+            'tb_master_aset.merk', 
+            'tb_master_aset.tipe', 
+            'tb_master_status.ket_status AS status',
+            'TO_CHAR(tgl_perolehan, \'YYYY-MM-DD\') AS tgl_perolehan', 
+            'nilai_perolehan', 
+            'TO_CHAR(tgl_inventarisasi, \'YYYY-MM-DD\') AS tgl_inventarisasi', 
+            'TO_CHAR(dob_aset, \'YYYY-MM-DD\') AS dob_aset',
+            'tb_master_kategori.kategori'
+        ]);
+        
         return $this;
     }
 
@@ -337,7 +356,7 @@ JOIN tb_master_kategori k ON k.id = a.kategori WHERE id_aset = $id"
 
     public function importDataAset($data)
     {
-        $this->db->insert_batch('tb_master_import', $data); // Sesuaikan dengan tabel Anda
+        $this->db->insert_batch('tb_master_aset', $data); // Sesuaikan dengan tabel Anda
     }
 }
 

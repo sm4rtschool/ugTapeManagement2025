@@ -259,6 +259,17 @@
                                 </div>
                             </div>
 
+                            <div class="form-group group-dob_aset ">
+                                <label for="dob_aset" class="col-sm-2 control-label">Date of Birth <i class="required">*</i>
+                                </label>
+                                <div class="col-sm-6">
+                                    <div class="input-group date col-sm-8">
+                                        <input type="text" class="form-control pull-right datepicker" value="<?= $value->dob_aset; ?>" name="dob_aset" id="dob_aset">
+                                    </div>
+                                    <small class="info help-block">
+                                    </small>
+                                </div>
+                            </div>
 
                             <div class="form-group ">
                                 <label for="username" class="col-sm-2 control-label">Foto Aset Saat ini</label>

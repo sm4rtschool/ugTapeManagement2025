@@ -55,7 +55,7 @@ class registrasi_people extends Admin
 			]);
 		}
 
-		$this->template->title('Register Aset List');
+		$this->template->title('Register People List');
 		$this->render('backend/standart/administrator/registrasi_people/registrasi_people_list', $this->data);
 	}
 
@@ -129,9 +129,9 @@ class registrasi_people extends Admin
 
 
 		$this->data['pengaturan_sistem'] = $this->model_registrasi_people->getPengaturanSistem();
-		$this->data['tb_master_asets'] = $this->model_tb_master_aset->get_pegawai();
+		$this->data['tb_master_pegawais'] = $this->model_tb_master_aset->get_pegawai();
 
-		$this->template->title('Register Aset Ke Tag Label');
+		$this->template->title('Register Pegawai Ke Tag Label');
 		$this->render('backend/standart/administrator/registrasi_people/registrasi_people_add', $this->data);
 	}
 
@@ -173,21 +173,34 @@ class registrasi_people extends Admin
 		
 		if ($this->form_validation->run()) {
 
+			$kode_transaksi = $this->input->post('kode_transaksi') ?: null;
+			$tipe_transaksi = $this->input->post('tipe_transaksi') ?: null;
+			$status_transaksi = $this->input->post('status_transaksi') ?: null;
+			$tgl_input = date('Y-m-d H:i:s');
+			$tgl_awal_transaksi = $this->input->post('tgl_awal_transaksi') ?: null;
+			$id_pegawai_input = $this->input->post('id_pegawai_input') ?: null;
+			$nama_pegawai_input = $this->input->post('nama_pegawai_input') ?: null;
+			$id_pegawai = $this->input->post('id_pegawai') ?: null;
+			$nama_pegawai = $this->input->post('nama_pegawai') ?: null;
+			$ket_transaksi = $this->input->post('ket_transaksi') ?: null;
+			$id_area = 0;
+			$id_gedung = 0;
+			$id_ruangan = 0;
+
 			$save_data_master_transaksi = [
-				'kode_transaksi' => $this->input->post('kode_transaksi'),
-				'tipe_transaksi' => $this->input->post('tipe_transaksi'),
-				'status_transaksi' => $this->input->post('status_transaksi'),
-				'tgl_input' => date('Y-m-d H:i:s'),
-				'tgl_awal_transaksi' => $this->input->post('tgl_awal_transaksi'),
-				// 'tgl_akhir_transaksi' => $this->input->post('tgl_akhir_transaksi'),
-				'id_pegawai_input' => $this->input->post('id_pegawai_input'),
-				'nama_pegawai_input' => $this->input->post('nama_pegawai_input'),
-				'id_pegawai' => $this->input->post('id_pegawai'),
-				'nama_pegawai' => $this->input->post('nama_pegawai'),
-				'ket_transaksi' => $this->input->post('ket_transaksi'),
-				'id_area' => 0,
-				'id_gedung' => 0,
-				'id_ruangan' => 0,
+				'kode_transaksi' => $kode_transaksi,
+				'tipe_transaksi' => $tipe_transaksi,
+				'status_transaksi' => $status_transaksi,
+				'tgl_input' => $tgl_input,
+				'tgl_awal_transaksi' => $tgl_awal_transaksi,
+				'id_pegawai_input' => $id_pegawai_input,
+				'nama_pegawai_input' => $nama_pegawai_input,
+				'id_pegawai' => $id_pegawai,
+				'nama_pegawai' => $nama_pegawai,
+				'ket_transaksi' => $ket_transaksi,
+				'id_area' => $id_area,
+				'id_gedung' => $id_gedung,
+				'id_ruangan' => $id_ruangan,
 			];
 
 			$save_data_detail_transaksi = [
@@ -205,13 +218,13 @@ class registrasi_people extends Admin
 
 			// Ambil data array aset dan tag dari ajax post
 			$array_data_aset = json_decode($this->input->post('data_array_aset'), true);
-			$uniqueDataArray = json_decode($this->input->post('uniqueDataArray'), true);
+			$uniqueDataArray = json_decode($this->input->post('uniqueDataArray'), true); // Array data tag RFID
 
 			// Link array aset dengan array tag berdasarkan index
 			$linked_data = array();
 			for ($i = 0; $i < count($array_data_aset); $i++) {
 				$linked_data[] = array(
-					'aset' => $array_data_aset[$i],
+					'pegawai' => $array_data_aset[$i],
 					'tag' => $uniqueDataArray[$i]
 				);
 			}
@@ -328,7 +341,7 @@ class registrasi_people extends Admin
 				'nama_pegawai_input' => $this->input->post('nama_pegawai_input'),
 				'id_area' => $this->input->post('id_area'),
 				'id_gedung' => $this->input->post('id_gedung'),
-				'id_ruangan' => $this->input->post('id_ruangan'),
+				'id_ruangan' => $this->input->post('id_ruangan')
 			];
 
 

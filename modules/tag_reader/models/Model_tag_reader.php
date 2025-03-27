@@ -6,7 +6,7 @@ class Model_tag_reader extends MY_Model
 
     private $primary_key    = 'reader_id';
     private $table_name     = 'tag_reader';
-    public $field_search   = ['room_id', 'room_id', 'reader_name', 'reader_serialnumber', 'reader_type', 'reader_ip', 'reader_port', 'reader_com', 'reader_mode', 'reader_angle', 'reader_family', 'connecting', 'reader_identity', 'alias_antenna', 'tb_master_ruangan.ruangan'];
+    public $field_search   = ['room_id', 'room_id', 'reader_name', 'reader_serialnumber', 'reader_type', 'reader_ip', 'reader_port', 'reader_com', 'reader_mode', 'reader_angle', 'reader_family', 'connecting', 'reader_identity', 'alias_antenna', 'tb_master_ruangan.ruangan', 'reader_gate', 'is_handheld'];
     public $sort_option = ['reader_id', 'DESC'];
 
     public function __construct()
