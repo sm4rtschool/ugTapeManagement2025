@@ -245,6 +245,7 @@
                                         <th>Nama Aset</th>
                                         <th>Kode Aset</th>
                                         <th>NUP Aset</th>
+                                        <th>RFID Tag Number</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -2451,6 +2452,7 @@
                         value: selectedValue
                     }, // Kirim data ke controller
                     success: function(response) {
+
                         console.log('dipilih', response.length);
 
                         if (Array.isArray(response)) {
@@ -2463,7 +2465,7 @@
                                     item.id_aset,
                                     item.nama_aset,
                                     item.kode_aset,
-                                    item.nup
+                                    item.nup,
                                     item.kode_tid
                                 ]).draw(); // Tambahkan baris baru ke DataTable
                             });

@@ -1605,73 +1605,102 @@
 
                                         if (status_tag != 'Y') {
 
-                                            if (kategori_tag == '1'){
-
-                                                id = data_aset.id_aset;
-                                                kode_aset = data_aset.kode_aset;
-                                                nup = data_aset.nup;
-                                                nama_aset = data_aset.nama_aset;
-                                                kode_tid = data_aset.kode_tid;
-                                                area = data_aset.area;
-                                                gedung = data_aset.gedung;
-                                                ruangan = data_aset.ruangan;
+                                            if  (status_tag == 'X') {
 
                                                 let noUrutData = $('#your_table_id tbody tr').length+1;
-                                                        
+                                                            
                                                 await new Promise(resolve => {
                                                     $('#your_table_id tbody').append(`
                                                         <tr>    
                                                             <td id="numbering" style="text-align: center">${noUrutData}</td>
-                                                            <td id="asset_id" style="text-align: center">${id}</td>
-                                                            <td id="asset_name" style="text-align: left">${nama_aset}</td>
-                                                            <td id="asset_code" style="text-align: left">${kode_aset}</td>
-                                                            <td id="asset_nup" style="text-align: center">${nup}</td>
-                                                            <td id="asset_tid_${kode_tid}" style="text-align: center">${kode_tid}</td>
-                                                            <td id="asset_tid_${kode_tid}" style="text-align: center">Aset</td>
-                                                            <td id="asset_tid_wrong_room_${kode_tid}" style="text-align: center; background-color:rgb(234, 255, 0)">Registered Tag</td>
-                                                            <td id="asset_ruangan" style="text-align: center">${ruangan}</td>
-                                                            <td style="text-align: center">
-                                                                <i class="ui-tooltip fa fa-trash-o" title="Hapus Data" style="font-size: 22px; cursor:pointer;" data-original-title="Hapus Data" onclick="removeRowBulk(this, '${kode_tid}')"></i>
-                                                                <!--<i class="ui-tooltip fa fa-info-circle" title="Lihat Informasi Ruangan" style="font-size: 22px; cursor:pointer;" onclick="showRoomInfoModal('${tid}')"></i>-->
-                                                            </td>
-                                                        </tr>
-                                                    `);
-                                                    resolve();
-                                                });
-
-                                            } else if (kategori_tag == '2'){
-
-                                                id = data_pegawai.id_pegawai;
-                                                kode_aset = data_pegawai.nip;
-                                                nup = '-';
-                                                nama_pegawai = data_pegawai.nama_pegawai;
-                                                kode_tid = data_pegawai.kode_tid_pegawai;
-                                                area = '-';
-                                                gedung = '-';
-                                                ruangan = '-';
-
-                                                let noUrutData = $('#your_table_id tbody tr').length+1;
-                                                        
-                                                await new Promise(resolve => {
-                                                    $('#your_table_id tbody').append(`
-                                                        <tr>    
-                                                            <td id="numbering" style="text-align: center">${noUrutData}</td>
-                                                            <td id="asset_id" style="text-align: center">${id}</td>
-                                                            <td id="asset_name" style="text-align: left">${nama_pegawai}</td>
+                                                            <td id="asset_id" style="text-align: center">-</td>
+                                                            <td id="asset_name" style="text-align: left">-</td>
                                                             <td id="asset_code" style="text-align: left">-</td>
                                                             <td id="asset_nup" style="text-align: center">-</td>
-                                                            <td id="asset_tid_${kode_tid}" style="text-align: center">${kode_tid}</td>
-                                                            <td id="asset_tid_${kode_tid}" style="text-align: center">People</td>
-                                                            <td id="asset_tid_wrong_room_${kode_tid}" style="text-align: center; background-color:rgb(234, 255, 0)">Registered Tag</td>
-                                                            <td id="asset_ruangan" style="text-align: center">${ruangan}</td>
+                                                            <td id="asset_tid_${tid}" style="text-align: center">${tid}</td>
+                                                            <td id="asset_tid_${tid}" style="text-align: center">-</td>
+                                                            <td id="asset_tid_wrong_room_${tid}" style="text-align: center; background-color:#FF0000">Kill Tag</td>
+                                                            <td id="asset_ruangan" style="text-align: center">-</td>
                                                             <td style="text-align: center">
-                                                                <i class="ui-tooltip fa fa-trash-o" title="Hapus Data" style="font-size: 22px; cursor:pointer;" data-original-title="Hapus Data" onclick="removeRowBulk(this, '${kode_tid}')"></i>
+                                                                <i class="ui-tooltip fa fa-trash-o" title="Hapus Data" style="font-size: 22px; cursor:pointer;" data-original-title="Hapus Data" onclick="removeRowBulk(this, '${tid}')"></i>
                                                                 <!--<i class="ui-tooltip fa fa-info-circle" title="Lihat Informasi Ruangan" style="font-size: 22px; cursor:pointer;" onclick="showRoomInfoModal('${tid}')"></i>-->
                                                             </td>
                                                         </tr>
                                                     `);
                                                     resolve();
                                                 });
+                                        
+                                            } else {
+
+                                                if (kategori_tag == '1'){
+
+                                                    id = data_aset.id_aset;
+                                                    kode_aset = data_aset.kode_aset;
+                                                    nup = data_aset.nup;
+                                                    nama_aset = data_aset.nama_aset;
+                                                    kode_tid = data_aset.kode_tid;
+                                                    area = data_aset.area;
+                                                    gedung = data_aset.gedung;
+                                                    ruangan = data_aset.ruangan;
+
+                                                    let noUrutData = $('#your_table_id tbody tr').length+1;
+                                                            
+                                                    await new Promise(resolve => {
+                                                        $('#your_table_id tbody').append(`
+                                                            <tr>    
+                                                                <td id="numbering" style="text-align: center">${noUrutData}</td>
+                                                                <td id="asset_id" style="text-align: center">${id}</td>
+                                                                <td id="asset_name" style="text-align: left">${nama_aset}</td>
+                                                                <td id="asset_code" style="text-align: left">${kode_aset}</td>
+                                                                <td id="asset_nup" style="text-align: center">${nup}</td>
+                                                                <td id="asset_tid_${kode_tid}" style="text-align: center">${kode_tid}</td>
+                                                                <td id="asset_tid_${kode_tid}" style="text-align: center">Aset</td>
+                                                                <td id="asset_tid_wrong_room_${kode_tid}" style="text-align: center; background-color:rgb(234, 255, 0)">Registered Tag</td>
+                                                                <td id="asset_ruangan" style="text-align: center">${ruangan}</td>
+                                                                <td style="text-align: center">
+                                                                    <i class="ui-tooltip fa fa-trash-o" title="Hapus Data" style="font-size: 22px; cursor:pointer;" data-original-title="Hapus Data" onclick="removeRowBulk(this, '${kode_tid}')"></i>
+                                                                    <!--<i class="ui-tooltip fa fa-info-circle" title="Lihat Informasi Ruangan" style="font-size: 22px; cursor:pointer;" onclick="showRoomInfoModal('${tid}')"></i>-->
+                                                                </td>
+                                                            </tr>
+                                                        `);
+                                                        resolve();
+                                                    });
+
+                                                } else if (kategori_tag == '2'){
+
+                                                    id = data_pegawai.id_pegawai;
+                                                    kode_aset = data_pegawai.nip;
+                                                    nup = '-';
+                                                    nama_pegawai = data_pegawai.nama_pegawai;
+                                                    kode_tid = data_pegawai.kode_tid_pegawai;
+                                                    area = '-';
+                                                    gedung = '-';
+                                                    ruangan = '-';
+
+                                                    let noUrutData = $('#your_table_id tbody tr').length+1;
+                                                            
+                                                    await new Promise(resolve => {
+                                                        $('#your_table_id tbody').append(`
+                                                            <tr>    
+                                                                <td id="numbering" style="text-align: center">${noUrutData}</td>
+                                                                <td id="asset_id" style="text-align: center">${id}</td>
+                                                                <td id="asset_name" style="text-align: left">${nama_pegawai}</td>
+                                                                <td id="asset_code" style="text-align: left">-</td>
+                                                                <td id="asset_nup" style="text-align: center">-</td>
+                                                                <td id="asset_tid_${kode_tid}" style="text-align: center">${kode_tid}</td>
+                                                                <td id="asset_tid_${kode_tid}" style="text-align: center">People</td>
+                                                                <td id="asset_tid_wrong_room_${kode_tid}" style="text-align: center; background-color:rgb(234, 255, 0)">Registered Tag</td>
+                                                                <td id="asset_ruangan" style="text-align: center">${ruangan}</td>
+                                                                <td style="text-align: center">
+                                                                    <i class="ui-tooltip fa fa-trash-o" title="Hapus Data" style="font-size: 22px; cursor:pointer;" data-original-title="Hapus Data" onclick="removeRowBulk(this, '${kode_tid}')"></i>
+                                                                    <!--<i class="ui-tooltip fa fa-info-circle" title="Lihat Informasi Ruangan" style="font-size: 22px; cursor:pointer;" onclick="showRoomInfoModal('${tid}')"></i>-->
+                                                                </td>
+                                                            </tr>
+                                                        `);
+                                                        resolve();
+                                                    });
+
+                                                }
 
                                             }
 

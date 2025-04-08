@@ -8,7 +8,13 @@
         <td style="text-align: center;"><span class="list_group-kode_epc"><?= _ent($ug_mstag->kode_epc); ?></span></td> 
         <td style="text-align: center;">
             <span class="list_group-status_tag">
-            <?= $ug_mstag->status_tag == 'Y' ? 'Available' : 'Not Available'; ?>
+            <?php 
+            if ($ug_mstag->status_tag == 'X') {
+                echo 'Kill Tag';
+            } else {
+                echo $ug_mstag->status_tag == 'Y' ? 'Available' : 'Not Available';
+            }
+            ?>
             </span>
         </td> 
         <td style="text-align: center;">

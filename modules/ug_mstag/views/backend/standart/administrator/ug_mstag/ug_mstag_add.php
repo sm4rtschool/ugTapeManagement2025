@@ -516,39 +516,63 @@
                 }
 
                 // 3. Koneksi WebSocket dan kirim data
-                const socket = new WebSocket(`ws://${ip_address_server}:${port_ws_server}`);
-                
-                await new Promise((resolve, reject) => {
-                    socket.onopen = async () => {
-                        try {
-                            console.log('Connected to WebSocket server');
-                            
-                            // Kirim data satu per satu
-                            for (const item of uniqueDataArray) {
-                                const data = {
-                                    event: "db-storage-insert-rfid-list",
-                                    value: {
-                                        tid: item.tid,
-                                        epc: item.epc,
-                                        status: deras_status_default,
-                                        description: deras_description,
-                                        flag_alarm: flag_alarm_register_tag,
-                                        category: deras_category_default
-                                    }
-                                };
-                                socket.send(JSON.stringify(data));
-                                await new Promise(resolve => setTimeout(resolve, 100)); // Delay antar pengiriman
-                            }
-                            resolve();
-                        } catch (error) {
-                            reject(error);
-                        }
-                    };
 
-                    socket.onerror = (error) => {
-                        reject(new Error('WebSocket connection failed'));
-                    };
-                });
+                let wsConnected = false;
+
+                try {
+
+                    const socket = new WebSocket(`ws://${ip_address_server}:${port_ws_server}`);
+                    
+                    await new Promise((resolve, reject) => {
+
+                        socket.onopen = async () => {
+
+                            try {
+                                wsConnected = true;
+                                console.log('Connected to WebSocket server');
+                                
+                                // Kirim data satu per satu
+                                for (const item of uniqueDataArray) {
+                                    const data = {
+                                        event: "db-storage-insert-rfid-list",
+                                        value: {
+                                            tid: item.tid,
+                                            epc: item.epc,
+                                            status: deras_status_default,
+                                            description: deras_description,
+                                            flag_alarm: flag_alarm_register_tag,
+                                            category: deras_category_default
+                                        }
+                                    };
+                                    socket.send(JSON.stringify(data));
+                                    await new Promise(resolve => setTimeout(resolve, 100)); // Delay antar pengiriman
+                                }
+
+                                resolve();
+
+                            } catch (error) {
+                                reject(error);
+                            }
+
+                        };
+
+                        socket.onerror = (error) => {
+                            wsConnected = false;
+                            reject(new Error('WebSocket connection failed'));
+                        };
+
+                        socket.onclose = (event) => {
+                            // When the connection is closed, show an alert
+                            if (!event.wasClean) {
+                                swal("Web Socket Server Tidak Aktif !!", "Periksa koneksi Web Socket.", "error");
+                            }
+                        };
+
+                    });
+
+                } catch (wsError) {
+                    console.warn('WebSocket error:', wsError.message);
+                }
 
                 // 4. Simpan ke database lokal
                 const form_ug_mstag = $('#form_ug_mstag_add');
@@ -596,6 +620,7 @@
                 $('#data_processing').html('');
                 $('.loading').hide();
             }
+
         });
 
     }); /*end doc ready*/

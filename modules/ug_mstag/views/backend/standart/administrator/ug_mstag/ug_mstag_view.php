@@ -71,7 +71,17 @@ jQuery(document).ready(domo);
                         <label for="content" class="col-sm-2 control-label">Status Tag </label>
 
                         <div class="col-sm-8">
-                        <span class="detail_group-status_tag"><?= $ug_mstag->status_tag == 'Y' ? 'Available' : 'Not Available'; ?></span>
+                        <span class="detail_group-status_tag">
+                           <?php 
+                           if ($ug_mstag->status_tag == 'Y') {
+                              echo 'Available';
+                           } elseif ($ug_mstag->status_tag == 'X') {
+                              echo 'Kill Tag';
+                           } else {
+                              echo 'Not Available';
+                           }
+                           ?>
+                        </span>
                         </div>
                     </div>
                   

@@ -16,11 +16,11 @@ jQuery(document).ready(domo);
 
 <section class="content-header">
    <h1>
-      Register Aset<small><?= cclang('detail', ['Register Aset']); ?> </small>
+      Penggantian Tag<small><?= cclang('detail', ['Penggantian Tag']); ?> </small>
    </h1>
    <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class=""><a  href="<?= admin_site_url('/registrasi_aset'); ?>">Register Aset</a></li>
+      <li class=""><a  href="<?= admin_site_url('/registrasi_aset'); ?>">Penggantian Tag</a></li>
       <li class="active"><?= cclang('detail'); ?></li>
    </ol>
 </section>
@@ -31,7 +31,7 @@ jQuery(document).ready(domo);
 
 		<div class="box-header with-border">
 
-			<h3 class="box-title">Data Register Aset</h3>
+			<h3 class="box-title">Data Penggantian Tag</h3>
 				<div class="box-tools pull-right">
 					<!-- <button type="button" onClick="window.location='<?php echo site_url();?>aset';" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</button> -->
 				</div>	
@@ -56,7 +56,7 @@ jQuery(document).ready(domo);
                 $user_groups = $this->model_group->get_user_group_ids();
                 ?>
 
-                <h3 style="text-decoration: underline;">Detail Register</h3>
+                <h3 style="text-decoration: underline;">Detail Penggantian</h3>
 
                      <fieldset> 
                      
@@ -107,7 +107,7 @@ jQuery(document).ready(domo);
                                           
                   </fieldset>
 
-                  <h3 style="text-decoration: underline;">Detail Aset</h3>
+                  <h3 style="text-decoration: underline;">Detail Tag</h3>
 
                   <fieldset>
                         
@@ -161,7 +161,7 @@ jQuery(document).ready(domo);
                <?= form_close(); ?>
                           
                <div class="view-nav text-center">
-                  <a class="btn btn-flat btn-default btn_action" id="btn_back" title="back (Ctrl+x)" href="<?= admin_site_url('/registrasi_aset/'); ?>"><i class="fa fa-undo" ></i> <?= cclang('go_list_button', ['Register Aset']); ?></a>
+                  <a class="btn btn-flat btn-default btn_action" id="btn_back" title="back (Ctrl+x)" href="<?= admin_site_url('/penggantian_tag/'); ?>"><i class="fa fa-undo" ></i> <?= cclang('go_list_button', ['Penggantian Tag']); ?></a>
                </div>
                     
          </div>
