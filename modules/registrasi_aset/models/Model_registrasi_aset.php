@@ -319,7 +319,7 @@ class Model_registrasi_aset extends MY_Model
                         'borrow' => 0,
                         'tipe_moving' => 0,
                         'flag_inventarisasi' => 1,
-                        'tgl_inventarisasi' => date('Y-m-d')
+                        'tgl_inventarisasi' => date('Y-m-d H:i:s'),
                     ));
                 }
             }

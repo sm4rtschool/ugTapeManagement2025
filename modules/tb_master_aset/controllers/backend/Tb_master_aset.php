@@ -37,8 +37,14 @@ class Tb_master_aset extends Admin
 		$field 	= $this->input->get('f');
 
 		$this->data['tb_master_asets'] = $this->model_tb_master_aset->get_aset();
+		// $this->data['tb_master_asets'] = $this->model_tb_master_aset->get();
 
 		$this->data['tb_master_aset_counts'] = $this->model_tb_master_aset->count_all($filter, $field);
+
+		// echo '<pre>';
+		// print_r($this->model_tb_master_aset->get_aset());
+		// echo '</pre>';	
+		// exit;
 
 		$config = [
 			'base_url'     => ADMIN_NAMESPACE_URL  . '/tb_master_aset/index/',
@@ -59,7 +65,7 @@ class Tb_master_aset extends Admin
 			]);
 		}
 
-		$this->template->title('Tb Master Aset List');
+		$this->template->title('Master Aset List');
 		$this->render('backend/standart/administrator/tb_master_aset/tb_master_aset_list', $this->data);
 	}
 
@@ -71,7 +77,7 @@ class Tb_master_aset extends Admin
 	{
 		$this->is_allowed('tb_master_aset_add');
 
-		$this->template->title('Tb Master Aset New');
+		$this->template->title('Master Aset New');
 		$this->render('backend/standart/administrator/tb_master_aset/tb_master_aset_add', $this->data);
 	}
 
@@ -515,20 +521,20 @@ class Tb_master_aset extends Admin
 			$data[] = [
 				'kode_tid' => 0,
 				'kode_aset' => $row[5],
-				'nup' => $row[6],
+				'nup' => !empty($row[6]) ? $row[6] : NULL,
 				'kategori' => 0,
 				'merk' => $row[9],
 				'tipe' => $row[10],
-				'kondisi' => $row[11],
-				'status' => $row[50],
+				'kondisi' => !empty($row[11]) ? $row[11] : 1,
+				'status' => isset($row[50]) && !empty($row[50]) ? $row[50] : 1,
 				'borrow' => 0,
 				'tipe_moving' => 0,
 				'nama_aset' => $row[8],
 				'id_area' => 0,
 				'id_gedung' => 0,
 				'id_lokasi' => 0,
-				'tgl_perolehan' => $row[34],
-				'nilai_perolehan' => $row[38],
+				'tgl_perolehan' => !empty($row[34]) ? $row[34] : NULL,
+				'nilai_perolehan' => !empty($row[38]) ? $row[38] : 0,
 				'tgl_inventarisasi' => NULL,
 				'tgl_peminjaman' => NULL,
 				'tgl_pengembalian' => NULL,
@@ -537,7 +543,7 @@ class Tb_master_aset extends Admin
 				'lokasi_moving' => NULL,
 				'lokasi_terakhir' => NULL,
 				'nama_lokasi_terakhir' => NULL,
-				'id_pegawai' => $row[65],
+				'id_pegawai' => !empty($row[65]) ? $row[65] : 0,
 				'image_uri' => NULL,
 				'id_transaksi' => NULL,
 				'no_batch_sensus' => NULL,
@@ -581,6 +587,7 @@ class Tb_master_aset extends Admin
 		$col_tgl_perolehan = 34;
 		$col_nilai_perolehan = 38;
 		$col_id_pegawai = 65;
+		$dob = 76;
 
 		// Hanya ambil kolom tertentu (Misalnya: Nama di kolom A dan Email di kolom B)
 		$data = [];
@@ -618,6 +625,7 @@ class Tb_master_aset extends Admin
 				'id_transaksi' => NULL,
 				'no_batch_sensus' => NULL,
 				'keterangan' => NULL,
+				'dob_aset' => !empty($row[$dob]) ? $row[$dob] : NULL,
 			];
 
 		}

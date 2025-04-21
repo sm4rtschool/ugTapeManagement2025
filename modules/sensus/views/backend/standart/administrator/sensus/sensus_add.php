@@ -2722,7 +2722,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        window.location.href = ADMIN_BASE_URL + '/pencarian_aset';
+                        window.location.href = ADMIN_BASE_URL + '/sensus';
                     }
                 });
 

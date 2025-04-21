@@ -298,7 +298,8 @@ $CI = &get_instance();
                           </path>
                         </svg> -->
                     </h4><span id='avalaible' class="hind-font caption-12 c-dashboardInfo__count">loading...</span>
-                    <a id='avalaible' style="cursor:pointer; color:white;">click for detail</a>
+                    <!-- <a id='avalaible' style="cursor:pointer; color:white;">click for detail</a> -->
+                    <a id='avalaible' style="cursor:pointer;">click for detail</a>
 
                   </div>
                 </div>
@@ -598,7 +599,7 @@ $CI = &get_instance();
           modalContent += '<table class="table table-bordered dataTable responsive" style="width: 100%; max-width: 100%;">';
 
           if (topic == 'avalaible') {
-            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Ruangan</th><th style="text-align: center;">DOB</th><th style="text-align: center;">Aging</th><th style="text-align: center;">Last Time In</th><th style="text-align: center;">Kondisi</th><th style="text-align: center;">Messenger</th></tr>';
+            modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Ruangan Saat Ini</th><th style="text-align: center;">DOB</th><th style="text-align: center;">Aging</th><th style="text-align: center;">Last Time In</th><th style="text-align: center;">Kondisi</th><th style="text-align: center;">Ruangan Seharusnya</th><th style="text-align: center;">Messenger</th></tr>';
           } else if (topic == 'borrow') {
             modalContent += '<tr><th style="text-align: center;">No</th><th style="text-align: center;">RFID Tag Number</th><th style="text-align: center;">Kode Aset</th><th style="text-align: center;">NUP</th><th style="text-align: center;">Nama Aset</th><th style="text-align: center;">Asal Ruangan</th><th style="text-align: center;">Peminjaman</th><th style="text-align: center;">Pengembalian</th><th style="text-align: center;">Status Peminjaman</th><th style="text-align: center;">Peminjaman</th></tr>';
           } else if (topic == 'mainten') {
@@ -619,7 +620,8 @@ $CI = &get_instance();
 
             // Tambahkan class berdasarkan kondisi
             if (item.status == 4 && item.tipe_moving == 0) {
-              rowClass = "bg-red tooltip-tr";
+              // rowClass = "bg-red tooltip-tr";
+              rowClass = "bg-red";
               is_illegal = true;
             }
 
@@ -630,13 +632,15 @@ $CI = &get_instance();
 
             // notif salah ruangan
             if (item.status == 1 && item.kondisi == 'Salah Ruangan') {
-              rowClass = "bg-red tooltip-tr";
+              // rowClass = "bg-red tooltip-tr";
+              rowClass = "bg-red";
             }
 
             // notif peminjaman overdue
             
-            if (item.overdue_pengembalian > 0) {
-              rowClass = "bg-red tooltip-tr";
+            if (item.overdue_pengembalian > 0 && item.status_peminjaman == 2) {
+              // rowClass = "bg-red tooltip-tr";
+              rowClass = "bg-red";
             }
 
             var no = index + 1;
@@ -653,13 +657,16 @@ $CI = &get_instance();
             if (topic == 'avalaible') {
               modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
               modalContent += '<td style="text-align: center;">' + (item.dob_aset ? item.dob_aset : '-') + '</td>';
-              modalContent += '<td style="text-align: center;">' + formatDays(item.aging) + '</td>';
+
+              modalContent += '<td style="text-align: center;">' + (item.dob_aset ? formatDays(item.aging) : '-') + '</td>';
 
               modalContent += '<td style="text-align: center;">' + (item.last_time_in ? item.last_time_in : '-') + '</td>';
               
               modalContent += '<td style="text-align: center;">' + item.kondisi + '</td>';
+              modalContent += '<td style="text-align: center;">' + (item.dob_aset ? item.ruangan_seharusnya : '-') + '</td>';
               modalContent += '<td style="text-align: center;">' + (item.messenger_name ? item.messenger_name : '-') + '</td>';
             } else if (topic == 'borrow') {
+
               modalContent += '<td style="text-align: center;">' + item.ruangan + '</td>';
               modalContent += '<td style="text-align: center;">' + item.pinjam + '</td>';
               modalContent += '<td style="text-align: center;">' + item.kembali + '</td>';
@@ -685,7 +692,7 @@ $CI = &get_instance();
               modalContent += '<td style="text-align: center;">' + formatDays(item.durasi_moving) + '</td>';
               modalContent += '<td style="text-align: center;">' + (item.messenger_name ? item.messenger_name : '-') + '</td>';
             } else {
-              modalContent += '<td style="text-align: center;">' + item.tgl_inventarisasi + '</td>';
+                modalContent += '<td style="text-align: center;">' + (item.tgl_inventarisasi ? item.tgl_inventarisasi : '-') + '</td>';
             }
 
             // Misalnya, ambil field2 dari item
@@ -747,8 +754,15 @@ $CI = &get_instance();
       }
       
       $('#avalaible').text(data.avalaible);
+
+      // just html reset
+      // $('#ava').removeClass('blink-ilegal');
+
+      // alert('data.available: ' + data.avalaible);
       
       if (data.avalaible > 0) {
+
+        // alert('data.aset_salah_ruangan: ' + data.aset_salah_ruangan);
 
         if (data.aset_salah_ruangan > 0) {
           $('#ava').removeClass('bg-tersedia');
@@ -782,8 +796,10 @@ $CI = &get_instance();
       var is_illegal = false;
 
       if (data.ilegal > 0) {
+        // alert('data.ilegal: ' + data.ilegal);
         is_illegal = true;
-        $('#perp').addClass('blink-ilegal');
+        // $('#perp').removeClass('bg-legal');
+        // $('#perp').addClass('blink-ilegal');
       } else {
         // $('#perp').addClass('bg-legal');
         // $('#perp').removeClass('blink-ilegal');
@@ -798,7 +814,14 @@ $CI = &get_instance();
         // $('#perp').removeClass('bg-legal');
         $('#perp').addClass('blink-ilegal');
       } else {
-        $('#perp').removeClass('blink-ilegal');
+        
+        if (is_illegal){
+          $('#perp').removeClass('bg-legal');
+          $('#perp').addClass('blink-ilegal');
+        } else {
+          $('#perp').removeClass('blink-ilegal');
+        }
+
       }
 
       $('#perbaikan').text(data.perbaikan);
@@ -1119,7 +1142,7 @@ $CI = &get_instance();
       }
     });
 
-    setInterval(newLibraraian, 1000);
+    // setInterval(newLibraraian, 1000);
 
     $(document).ready(function() {
 

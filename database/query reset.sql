@@ -1,0 +1,8 @@
+delete from tb_master_aset
+delete from tb_master_pegawai
+delete from tb_master_tag_rfid
+delete from tb_master_transaksi
+delete from tb_detail_transaksi
+delete from tb_asset_moving
+delete from tag_temp_table_process
+delete from tag_temp_table

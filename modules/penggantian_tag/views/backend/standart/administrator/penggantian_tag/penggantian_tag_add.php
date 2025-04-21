@@ -182,73 +182,126 @@
                     <!-- </section> -->
                 </fieldset>
 
-                <h3 style="text-decoration: underline;">Pilih Aset</h3>
+                <h3 style="text-decoration: underline;">Pilih Data</h3>
                 <!-- <hr> -->
 
                 <!-- <section> -->
                 <fieldset>
 
-                    <div class="form-group group-id_area ">
-                        <label for="id_area" class="col-sm-2 control-label">Filter Kategori Aset<i class="required">*</i>
-                        </label>
-                        <div class="col-sm-8">
-                            <select class="form-control chosen chosen-select-deselect" name="selectkategori" id="selectkategori" data-placeholder="Pilih Kategori">
-                                <option value=""></option>
-                                <?php foreach (db_get_all_data('tb_master_kategori') as $row): ?>
-                                    <option value="<?= $row->id ?>"><?= $row->kategori; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small class="info help-block">
-                            </small>
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="aset-tab" data-toggle="tab" href="#aset" role="tab" aria-controls="aset" aria-selected="true">Data Aset</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="pegawai-tab" data-toggle="tab" href="#pegawai" role="tab" aria-controls="pegawai" aria-selected="false">Data Pegawai</a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+
+                        <div style="height: 20px;"></div> <!-- Membuat space kosong -->
+
+                        <!-- Tab Data Aset -->
+                        <div class="tab-pane fade show active" id="aset" role="tabpanel" aria-labelledby="aset-tab">
+                        <!-- <div class="tab-pane fade" id="aset" role="tabpanel" aria-labelledby="aset-tab"> -->
+
+                            <div class="form-group group-id_area">
+                                <label for="id_area" class="col-sm-2 control-label">Filter Kategori Aset<i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control chosen chosen-select-deselect" name="selectkategori" id="selectkategori" data-placeholder="Pilih Kategori">
+                                        <option value=""></option>
+                                        <?php foreach (db_get_all_data('tb_master_kategori') as $row): ?>
+                                            <option value="<?= $row->id ?>"><?= $row->kategori; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="info help-block"></small>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px; margin-bottom: 20px">
+                                <div class="col-md-12">
+                                    <table id="register" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" id="MyTableCheckAllButton">
+                                                </th>
+                                                <th>ID Aset</th>
+                                                <th>Nama Aset</th>
+                                                <th>Kode Aset</th>
+                                                <th>NUP Aset</th>
+                                                <th>RFID Tag Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID Aset</th>
+                                                <th>Nama Aset</th>
+                                                <th>Kode Aset</th>
+                                                <th>NUP Aset</th>
+                                                <th>RFID Tag Number</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
+                        <!-- Tab Data Pegawai -->
+                        <div class="tab-pane fade" id="pegawai" role="tabpanel" aria-labelledby="pegawai-tab">
 
+                            <div class="form-group group-id_pegawai">
+                                <label for="id_pegawai" class="col-sm-2 control-label">Filter Kategori Pegawai<i class="required">*</i></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control chosen chosen-select-deselect" name="selectpegawai" id="selectpegawai" data-placeholder="Pilih Kategori Pegawai">
+                                        <option value=""></option>
+                                        <?php foreach (db_get_all_data('tb_master_pegawai') as $row): ?>
+                                            <option value="<?= $row->id ?>"><?= $row->nama_pegawai; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="info help-block"></small>
+                                </div>
+                            </div>
 
-                    <div class="row" style="margin-top: 10px; margin-bottom: 20px">
-                        <div class="col-md-12">
+                            <div class="row" style="margin-top: 10px; margin-bottom: 20px">
 
-                            <table id="register" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" id="MyTableCheckAllButton">
-                                            <!-- <button style="border: none; background: transparent; font-size: 14px;" id="MyTableCheckAllButton">
-                                                <i class="far fa-square"></i>
-                                            </button> -->
-                                        </th>
-                                        <th>ID Aset</th>
-                                        <th>Nama Aset</th>
-                                        <th>Kode Aset</th>
-                                        <th>NUP Aset</th>
-                                        <th>RFID Tag Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($tb_master_asets as $tb_master_aset): ?>
+                                <div class="col-md-12">
+                                    <table id="pegawai_register" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" id="MyTableCheckAllButtonPegawai">
+                                                </th>
+                                                <th>ID Pegawai</th>
+                                                <th>Nama Pegawai</th>
+                                                <th>Jabatan</th>
+                                                <th>Email</th>
+                                                <th>RFID Tag Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>ID Pegawai</th>
+                                                <th>Nama Pegawai</th>
+                                                <th>Jabatan</th>
+                                                <th>Email</th>
+                                                <th>RFID Tag Number</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
 
-                                        <tr>
-                                            <td></td>
-                                            <td id="id_aset" key="id_aset"><?= _ent($tb_master_aset->id_aset); ?></td>
-                                            <td id="nama_aset" key="nama_aset"><?= _ent($tb_master_aset->nama_aset); ?></td>
-                                            <td id="kode_aset" key="kode_aset"><?= _ent($tb_master_aset->kode_aset); ?></td>
-                                            <td id="nup" key="nup"><?= _ent($tb_master_aset->nup); ?></td>
-                                            <td id="kode_tid" key="kode_tid"><?= _ent($tb_master_aset->kode_tid); ?></td>
-
-                                        </tr>
-                                    <?php endforeach ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th>ID Aset</th>
-                                        <th>Nama Aset</th>
-                                        <th>Kode Aset</th>
-                                        <th>NUP Aset</th>
-                                        <th>RFID Tag Number</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            </div>
 
                         </div>
                     </div>
@@ -257,8 +310,11 @@
                 </fieldset>
 
                 <div class="row">
+
                     <div class="col-md-3">
                         <input type="hidden" name="data_array_aset" id="data_array_aset" value="0">
+                        <input type="hidden" name="data_array_pegawai" id="data_array_pegawai" value="0">
+                        <input type="hidden" name="kill_tag" id="kill_tag" value="">
                     </div>
 
                     <div class="col-md-6">
@@ -536,6 +592,8 @@
 <script>
     $(document).ready(function() {
 
+        // initiate datatable aset
+
         // checked pagination
         let myTable = $('#register').DataTable({
             columnDefs: [{
@@ -627,43 +685,174 @@
         });
         // batas check pagination
 
-        $('#btn_pilih_aset').click(function(e) {
-            // e.preventDefault();
-            // get_datatables_checked();
-            // return false;
-            console.log("ridwan", myTable.rows('.selected').data().toArray().length);
+        // initiate datatable pegawai
 
-            if (myTable.rows('.selected').data().toArray().length == 0) {
-                $('#total_aset_checklist').html(0);
-                swal({
-                    title: "Perhatian !",
-                    text: "Silahkan pilih Aset yang ingin di Daftarkan RFID!",
-                    type: "error"
-                });
-                return false;
-            } else {
-                $('#total_aset_checklist').html(myTable.rows('.selected').data().toArray().length);
-
-                arrayObj = myTable.rows('.selected').data().toArray().map(item => {
-                    return {
-                        id: item[1],
-                        kode_aset: item[3],
-                        nama_aset: item[2],
-                        nup: item[4],
-                        kode_tid: item[5]
-                    };
-                });
-
-                // $('#string_id').val(string_id);
-                $('#data_array_aset').val(JSON.stringify(arrayObj)); // Menyimpan array data ke hidden input
-                return true;
-            }
+        let myTablePegawai = $('#pegawai_register').DataTable({
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0,
+            }],
+            select: {
+                style: 'multi',
+                selector: 'td:first-child',
+                headerCheckbox: 'select-page'
+            },
+            // select: {
+            //     style: 'os', // 'single', 'multi', 'os', 'multi+shift'
+            //     selector: 'td:first-child',
+            // },
+            order: [
+                [1, 'asc'],
+            ],
         });
 
+        $('#MyTableCheckAllButtonPegawai').click(function() {
+
+            if (myTablePegawai.rows({
+                    selected: true
+                }).count() > 0) {
+                myTablePegawai.rows().deselect();
+                return;
+            }
+
+            myTablePegawai.rows().select();
+
+        });
+
+        myTablePegawai.on('select deselect', function(e, dt, type, indexes) {
+
+            if (type === 'row') {
+                // We may use dt instead of myTablePegawai to have the freshest data.
+                if (dt.rows().count() === dt.rows({
+                        selected: myTablePegawai.rows('.selected').data().toArray().length != 0
+                    }).count()) {
+                    var uncek1 = myTablePegawai.rows('.selected').data().toArray().length
+
+                    // Deselect all items button.
+                    if (uncek1 < 1) {
+                        $("#MyTableCheckAllButtonPegawai").prop('checked', false);
+                        $('#MyTableCheckAllButtonPegawai').removeClass('far fa-minus-square');
+                        $('#MyTableCheckAllButtonPegawai').removeClass('fa-check-square');
+
+                    } else {
+                        $("#MyTableCheckAllButtonPegawai").prop('checked', true);
+
+                    }
+                    // $('#MyTableCheckAllButtonPegawai').addClass('far fa-check-square');
+                    return;
+                }
+
+                if (dt.rows({
+                        selected: myTablePegawai.rows('.selected').data().toArray().length != 0
+                    }).count() === 0) {
+                    var uncek2 = myTablePegawai.rows('.selected').data().toArray().length
+                    // Deselect all items button.
+                    console.log("vv", uncek2);
+
+                    if (uncek2 === 0) {
+                        $('#MyTableCheckAllButtonPegawai').removeClass('fa-minus-square');
+                        $('#MyTableCheckAllButtonPegawai').removeClass('fa-check-square');
+
+                    } else {
+                        $('#MyTableCheckAllButtonPegawai').addClass('far fa-square');
+
+                    }
+                    // Select all items button.
+                    return;
+                }
+
+                var arrl = myTablePegawai.rows('.selected').data().toArray().length
+                // Deselect all items button.
+                if (arrl === 0) {
+                    $('#MyTableCheckAllButtonPegawai').removeClass('fa-square');
+                } else {
+                    $('#MyTableCheckAllButtonPegawai').removeClass('fa-check-square');
+                    $('#MyTableCheckAllButtonPegawai').addClass('far fa-minus-square');
+                }
+
+                // // Deselect some items button.
+                // $('#MyTableCheckAllButtonPegawai').addClass('far fa-minus-square');
+                // $('#MyTableCheckAllButtonPegawai').removeClass('fa-square');
+
+            }
+
+        });
+
+        $('#btn_pilih_aset').click(function(e) {
+
+            e.preventDefault();
+            
+            // Menentukan tabel yang aktif
+            var activeTab = $('#myTab .active a').attr('href'); // Mendapatkan ID tab yang aktif
+            var myTable = $(activeTab).find('table'); // Mengambil tabel dari tab yang aktif
+
+            if (myTable.DataTable().rows('.selected').data().toArray().length == 0) {
+
+                $('#total_aset_checklist').html(0);
+                
+                swal({
+                    title: "Perhatian !",
+                    text: "Silahkan pilih data / tag yang ingin di ganti !!",
+                    type: "error"
+                });
+
+                return false;
+
+            } else {
+                
+                $('#total_aset_checklist').html(myTable.DataTable().rows('.selected').data().toArray().length);
+
+                // Memeriksa ID tabel untuk menentukan array yang akan diisi
+
+                console.log('active tab:', activeTab);
+
+                if (activeTab === '#aset') {
+
+                    var arrayObj = myTable.DataTable().rows('.selected').data().toArray().map(item => {
+                        
+                        return {
+                            id: item[1],
+                            kode_aset: item[3],
+                            nama_aset: item[2],
+                            nup: item[4],
+                            kode_tid: item[5]
+                        };
+                    
+                    });
+
+                    $('#kill_tag').val('aset');
+                    $('#data_array_pegawai').val('0');
+                    $('#data_array_aset').val(JSON.stringify(arrayObj)); // Menyimpan array data ke hidden input
+                
+                } else if (activeTab === '#pegawai') {
+
+                    var arrayObjPegawai = myTable.DataTable().rows('.selected').data().toArray().map(item => {
+                        
+                        return {
+                            id: item[1],
+                            jabatan: item[3],
+                            nama_pegawai: item[2],
+                            email: item[4],
+                            kode_tid: item[5]
+                        };
+                    
+                    });
+
+                    $('#kill_tag').val('pegawai');
+                    $('#data_array_aset').val('0');
+                    $('#data_array_pegawai').val(JSON.stringify(arrayObjPegawai)); // Menyimpan array data ke hidden input pegawai
+
+                }
+
+                return true;
+
+            }
+            
+        }); 
 
     });
 </script>
-
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -1606,7 +1795,7 @@
 
                 swal({
                     title: "Error",
-                    text: "Pilih dulu Aset yang akan di ganti tag!",
+                    text: "Pilih dulu data yang akan di ganti Tagnya !!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",
@@ -1637,7 +1826,7 @@
             if (total_rfid_tag != total_aset_checklist) {
                 swal({
                     title: "Error",
-                    text: "Total RFID Tag tidak sama dengan total Aset yang dipilih!",
+                    text: "Total RFID Tag tidak sama dengan total data yang dipilih!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",
@@ -1933,7 +2122,7 @@
 
                     if (use_ajax_crud == true) {
                         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/penggantian_tag/index/?ajax=1'
-                        reloadDataTable(url);
+                        // reloadDataTable(url);
                     }
 
                 })
@@ -2026,7 +2215,7 @@
 
                 swal({
                     title: "Error",
-                    text: "Pilih dulu Aset yang akan di registrasi!",
+                    text: "Pilih dulu Data yang akan di ganti !!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",
@@ -2059,7 +2248,7 @@
 
                 swal({
                     title: "Error",
-                    text: "Total RFID Tag tidak sama dengan total Aset yang dipilih!",
+                    text: "Total RFID Tag tidak sama dengan total Aset yang dipilih !!",
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#DD6B55",
@@ -2102,163 +2291,6 @@
                 });
                 return false;
             }
-
-            // posting data rfid tag ke web socket server terlebih dahulu
-
-            // var is_posting_rfid_tag_success = false;
-
-            // var ip_address = $('#ip_address_server').val();
-            // var port_ws_server = $('#port_ws_server').val();
-
-            // const socket = new WebSocket('ws://' + ip_address + ':' + port_ws_server);
-
-            // socket.addEventListener('open', function() {
-
-            //     uniqueDataArray.forEach(function(item) {
-            //         var tid = item.tid;
-            //         var epc = item.epc;
-            //         var status = 1;
-            //         var description = 'DEMO-RFID';
-            //         var flag_alarm = 0; 
-            //         var category = 0;
-
-            //         socket.send('{"event": "db-storage-insert-rfid-list", "value": {"tid": "' + tid + '", "epc": "' + epc + '", "status": "' + status + '", "description": "' + description + '", "flag_alarm": "' + flag_alarm + '", "category": "' + category + '"}}');
-            //         console.log('post db-storage-insert-rfid-list: ' + tid);
-            //     });
-
-            // });
-
-            // socket.onopen = function(event) {
-            //     $('#status').html('Connected');
-            // };
-
-            // socket.onclose = function(event) {
-            //     if (event.wasClean) {
-            //         console.log('WebSocket connection closed');
-            //     } else {
-            //         console.log('WebSocket connection died'); 
-            //     }
-            //     $('#status').html('Not Connected to Server');
-            //     $('#data_processing').html('');
-            // };
-
-            // socket.onmessage = async function (event) {
-
-            //     var parsedData = JSON.parse(event.data);
-            //     // console.log('event datang: ' + event.data);
-
-            //     var event_name = parsedData.event;
-            //     var message = parsedData.message;
-            //     var tid = parsedData.value.tid;
-
-            //     if (event_name == 'response-db-storage-insert-rfid-list') {
-
-            //         if (message == '[Success] Insert Tags!') {
-            //             is_posting_rfid_tag_success = true;
-            //             console.log('posting data rfid tag: ' + tid + ', is_posting_rfid_tag_success: ' + is_posting_rfid_tag_success + ' berhasil!');
-            //         } else if (message == '[Failed] Insert Tags!') {
-
-            //             // jika posting data rfid tag ke web socket server gagal, maka tidak akan di simpan ke database
-            //             is_posting_rfid_tag_success = false;
-
-            //             swal({
-            //                 title: "Error",
-            //                 text: "RFID Tag tidak valid!",
-            //                 type: "error", 
-            //                 showCancelButton: false,
-            //                 confirmButtonColor: "#DD6B55",
-            //                 confirmButtonText: "Okay!",
-            //                 closeOnConfirm: true
-            //             });
-
-            //             return false;
-
-            //         } else if (message == '[Info] Tags Already Register') {
-
-            //             is_posting_rfid_tag_success = false;
-
-            //             swal({
-            //                 title: "Info",
-            //                 text: "RFID Tag sudah terdaftar!",
-            //                 type: "info",
-            //                 showCancelButton: false,
-            //                 confirmButtonColor: "#DD6B55",
-            //                 confirmButtonText: "Okay!",
-            //                 closeOnConfirm: true
-            //             }); 
-
-            //         } else if (message == '[Invalid] Rfid Tags!') {
-
-            //             is_posting_rfid_tag_success = false;
-
-            //             swal({
-            //                 title: "Info",
-            //                 text: "RFID Tag tidak valid!",
-            //                 type: "error", 
-            //                 showCancelButton: false,
-            //                 confirmButtonColor: "#DD6B55",
-            //                 confirmButtonText: "Okay!",
-            //                 closeOnConfirm: true
-            //             });
-
-            //         } else {
-            //             console.log('response-db-storage-insert-rfid-list: ' + message);
-            //         }   
-
-            //     } else if (event_name == 'error') {
-
-            //         console.log('error: ' + message);
-
-            //         swal({
-            //             title: "Error",
-            //             text: message,
-            //             type: "error",
-            //             showCancelButton: false,
-            //             confirmButtonColor: "#DD6B55",
-            //             confirmButtonText: "Okay!",
-            //             closeOnConfirm: true
-            //         });
-
-            //     }
-            //     else {
-            //         console.log('event: ' + event_name);
-            //     }
-
-            // };
-
-            // cek apakah ada posting data rfid tag ke web socket server yang gagal
-
-            // if (!is_posting_rfid_tag_success) {
-
-            //     // delete data rfid tag yang sudah di simpan ke database
-            //     uniqueDataArray.forEach(function(item) {
-
-            //         var tid = item.tid;
-            //         console.log('delete db-storage-remove-rfid-list (yang mau di hapus) : ' + tid);
-
-            //         if (socket.readyState === WebSocket.OPEN) {
-            //             socket.send('{"event": "db-storage-remove-rfid-list", "value": {"tid": "' + tid + '"}}');
-            //         } else {
-            //             console.log('WebSocket masih dalam status CONNECTING, tidak dapat mengirim pesan');
-            //         }
-
-            //     }); 
-
-            //     swal({
-            //         title: "Info",
-            //         text: "Proses simpan data RFID Tag gagal, karena posting data RFID Tag ke web socket server gagal!",
-            //         type: "error", 
-            //         showCancelButton: false,
-            //         confirmButtonColor: "#DD6B55",
-            //         confirmButtonText: "Okay!",
-            //         closeOnConfirm: true
-            //     });
-
-            //     return false;
-
-            // }
-
-            // end proses posting data rfid tag ke web socket server
 
             var form_tb_master_transaksi = $('#form_tb_master_transaksi_add');
             var data_post = form_tb_master_transaksi.serializeArray();
@@ -2361,7 +2393,7 @@
 
                     if (use_ajax_crud == true) {
                         var url = BASE_URL + ADMIN_NAMESPACE_URL + '/penggantian_tag/index/?ajax=1'
-                        reloadDataTable(url);
+                        // reloadDataTable(url);
                     }
 
                 })
@@ -2436,7 +2468,12 @@
     //ketika milih kategori
     $(document).ready(function() {
 
-        var tableregister = $('#register').DataTable();
+        $('#myTab a[href="#aset"]').tab('show'); // Menampilkan tab "Data Aset" saat halaman dimuat
+        loadDataAset();
+
+        // Inisialisasi datatable
+        var tableRegister = $('#register').DataTable();
+        var tablePegawai = $('#pegawai_register').DataTable();
 
         $('#selectkategori').change(function() {
 
@@ -2457,10 +2494,10 @@
 
                         if (Array.isArray(response)) {
                             // Hanya akses .length jika data adalah array
-                            tableregister.clear(); // Hapus data lama
+                            tableRegister.clear(); // Hapus data lama
                             // Looping melalui respons dan menambahkan data ke DataTable
                             response.forEach(function(item) {
-                                tableregister.row.add([
+                                tableRegister.row.add([
                                     '<td></td>',
                                     item.id_aset,
                                     item.nama_aset,
@@ -2498,10 +2535,10 @@
 
                         if (Array.isArray(response)) {
                             // Hanya akses .length jika data adalah array
-                            tableregister.clear(); // Hapus data lama
+                            tableRegister.clear(); // Hapus data lama
                             // Looping melalui respons dan menambahkan data ke DataTable
                             response.forEach(function(item) {
-                                tableregister.row.add([
+                                tableRegister.row.add([
                                     '<td></td>',
                                     item.id_aset,
                                     item.nama_aset,
@@ -2527,6 +2564,103 @@
                 });
             }
         });
+
+        $('#pegawai-tab').on('click', function(e) {
+            e.preventDefault(); // cegah default link behavior
+            $(this).tab('show'); // tampilkan tab pegawai
+            loadDataPegawai();   // load data pegawai
+            $('#aset').removeClass('show active'); // buang class show active dari tab aset
+        });
+
+        $('#aset-tab').on('click', function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+            loadDataAset();
+        });
+
+        function loadDataPegawai() {
+
+            $.ajax({
+                url: ADMIN_BASE_URL + '/penggantian_tag/getDataPegawai', // Ganti dengan URL controller Anda
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    
+                    // $('#pegawai_register tbody').empty(); // Kosongkan tabel sebelum menambahkan data
+                    tablePegawai.clear();
+
+                    response.forEach(function(item) {
+
+                        // $('#pegawai_register tbody').append(`
+                        //     <tr>
+                        //         <td></td>
+                        //         <td id="id_pegawai" key="id_pegawai">${item.id}</td>
+                        //         <td id="nama_pegawai" key="nama_pegawai">${item.nama}</td>
+                        //         <td id="jabatan" key="jabatan">${item.jabatan}</td>
+                        //         <td id="email" key="departemen">${item.email}</td>
+                        //     </tr>
+                        // `);
+
+                        tablePegawai.row.add([
+                            '', // checkbox cell
+                            item.id,
+                            item.nama,
+                            item.jabatan,
+                            item.email,
+                            item.kode_tid_pegawai
+                        ]).draw();
+
+
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: " + error);
+                }
+            });
+
+        }
+
+        function loadDataAset() {
+
+            $.ajax({
+                url: ADMIN_BASE_URL + '/penggantian_tag/getDataAset', // Ganti dengan URL controller Anda
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    
+                    // $('#register tbody').empty(); // Kosongkan tabel sebelum menambahkan data
+                    tableRegister.clear();
+
+                    response.forEach(function(item) {
+
+                        // $('#register tbody').append(`
+                        //     <tr>
+                        //         <td></td>
+                        //         <td id="id_aset" key="id_aset">${item.id_aset}</td>
+                        //         <td id="nama_aset" key="nama_aset">${item.nama_aset}</td>
+                        //         <td id="kode_aset" key="kode_aset">${item.kode_aset}</td>
+                        //         <td id="nup" key="nup">${item.nup}</td>
+                        //         <td id="kode_tid" key="kode_tid">${item.kode_tid}</td>
+                        //     </tr>
+                        // `);
+
+                        tableRegister.row.add([
+                            '', // checkbox
+                            item.id_aset,
+                            item.nama_aset,
+                            item.kode_aset,
+                            item.nup,
+                            item.kode_tid
+                        ]).draw();
+
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: " + error);
+                }
+            });
+
+        }
         
     });
 </script>

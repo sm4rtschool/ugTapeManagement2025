@@ -159,13 +159,102 @@ class Model_pencarian_aset extends MY_Model {
 
         } else {
 
-            if ($filter_data['id_area'] != '') {
-                $this->db->where('a.id_area', $filter_data['id_area']);
-            }
+            // selipin sementara kode untuk update standing position secara otomatis
 
-            if ($filter_data['id_gedung'] != '') {
-                $this->db->where('a.id_gedung', $filter_data['id_gedung']);
-            }
+            $this->db->query("
+                UPDATE tb_master_aset
+                SET 
+                    id_lokasi = zz.id_ruangan_seharusnya,
+                    id_gedung = zz.id_gedung_seharusnya,
+                    id_area = zz.id_area_seharusnya
+                FROM (
+                    SELECT 
+                        yy.id_aset,
+                        yy.nama_aset, 
+                        yy.aging,
+                        yy.kondisi,
+                        yy.id_ruangan_saat_ini,
+                        yy.ruangan as ruangan_saat_ini,
+                        mr.id_ruangan_seharusnya,
+                        mr.ruangan_master AS ruangan_seharusnya,
+                        mg.id AS id_gedung_seharusnya,
+                        mg.gedung AS gedung_seharusnya,
+                        ma.id AS id_area_seharusnya,
+                        ma.area AS area_seharusnya
+                    FROM (
+                        SELECT xx.* FROM (
+                            SELECT 
+                                x.id_aset,
+                                x.kode_tid, 
+                                x.nama_aset, 
+                                x.kode_aset, 
+                                x.nup, 
+                                x.status, 
+                                x.id_area,
+                                x.id_gedung,
+                                x.id_lokasi, 
+                                x.dob_aset,
+                                x.messenger_name,
+                                TO_CHAR(x.last_time_in, 'DD-MM-YYYY HH24:MI:SS') AS last_time_in,
+                                y.id as id_ruangan_saat_ini, 
+                                y.ruangan,
+                                y.librarian_aging, y.librarian_aging_start, y.librarian_aging_end,
+                                CASE 
+                                    WHEN x.dob_aset IS NOT NULL THEN CAST((CURRENT_DATE - x.dob_aset) AS TEXT)
+                                    ELSE '-'
+                                END AS aging,
+                                CASE 
+                                    WHEN x.dob_aset IS NOT NULL THEN 
+                                        CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
+                                        ELSE
+                                            CASE WHEN (CURRENT_DATE - x.dob_aset) >= y.librarian_aging_start 
+                                            AND (CURRENT_DATE - x.dob_aset) <= y.librarian_aging_end 
+                                            THEN 'Sesuai'
+                                            ELSE 'Salah Ruangan'
+                                            END
+                                        END
+                                    ELSE 'Tape Baru'
+                                END AS kondisi
+                            FROM 
+                                tb_master_aset x 
+                            JOIN 
+                                tb_master_ruangan y ON y.id = x.lokasi_moving 
+                            WHERE 
+                                (x.status = 1 AND x.borrow = 1 AND x.kode_tid !='') 
+                                OR (x.status = 1 AND x.borrow = 0 AND x.kode_tid !='') 
+                                OR (x.status = 4 AND x.borrow = 1 AND x.kode_tid !='') 
+                                OR (x.status = 1 AND x.borrow = 2 AND x.kode_tid != '')  
+                        ) xx
+                        WHERE xx.kondisi = 'Salah Ruangan'
+                    ) yy
+                    JOIN (
+                        SELECT id as id_ruangan_seharusnya, ruangan as ruangan_master, librarian_aging_start, librarian_aging_end, id_gedung
+                        FROM tb_master_ruangan 
+                        WHERE librarian_aging = 1
+                    ) mr
+                    ON CAST(yy.aging AS INTEGER) >= mr.librarian_aging_start 
+                    AND CAST(yy.aging AS INTEGER) <= mr.librarian_aging_end
+                    JOIN (
+                        SELECT id, id_area, gedung, ket_gedung, image_uri
+                        FROM public.tb_master_gedung
+                    ) mg
+                    ON mr.id_gedung = mg.id
+                    JOIN (
+                        SELECT id, area, ket_area, image_uri
+                        FROM public.tb_master_area
+                    ) ma
+                    ON mg.id_area = ma.id
+                ) zz
+                WHERE tb_master_aset.id_aset = zz.id_aset
+            ");
+
+            // if ($filter_data['id_area'] != '') {
+            //     $this->db->where('a.id_area', $filter_data['id_area']);
+            // }
+
+            // if ($filter_data['id_gedung'] != '') {
+            //     $this->db->where('a.id_gedung', $filter_data['id_gedung']);
+            // }
 
             if ($filter_data['id_ruangan'] != '') {
                 $this->db->where('a.id_lokasi', $filter_data['id_ruangan']);

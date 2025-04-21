@@ -75,6 +75,14 @@ class Ug_mstag extends Admin
 		$this->render('backend/standart/administrator/ug_mstag/ug_mstag_add', $this->data);
 	}
 
+	public function integrasi()
+	{
+		$this->is_allowed('ug_mstag_add');
+		$this->data['pengaturan_sistem'] = $this->model_ug_mstag->getPengaturanSistem();
+		$this->template->title('Master Tag RFID New');
+		$this->render('backend/standart/administrator/ug_mstag/ug_mstag_integrasi', $this->data);
+	}
+
 	/**
 	* Add New Ug Mstags
 	*
@@ -343,11 +351,12 @@ class Ug_mstag extends Admin
 	public function export()
 	{
 		$this->is_allowed('ug_mstag_export');
-
+		$field_search = ['kode_tid', 'kode_epc', 'status_tag', 'kategori_tag']; // Assign field_search with desired fields
 		$this->model_ug_mstag->export(
-			'ug_mstag', 
-			'ug_mstag',
-			$this->model_ug_mstag->field_search
+			'tb_master_tag_rfid', 
+			'tb_master_tag_rfid',
+			// $this->model_ug_mstag->field_search
+			$field_search
 		);
 	}
 
@@ -359,10 +368,8 @@ class Ug_mstag extends Admin
 	public function export_pdf()
 	{
 		$this->is_allowed('ug_mstag_export');
-
-		$this->model_ug_mstag->pdf('ug_mstag', 'ug_mstag');
+		$this->model_ug_mstag->pdf('tb_master_tag_rfid', 'List Master Tag RFID');
 	}
-
 
 	public function single_pdf($id = null)
 	{
@@ -446,6 +453,361 @@ class Ug_mstag extends Admin
 				'message' => 'Invalid request method.'
 			]);
 		}
+	}
+
+	public function add_integrasi_existing()
+	{
+
+		// if (!$this->is_allowed('ug_mstag_add', false)) {
+		// 	echo json_encode([
+		// 		'success' => false,
+		// 		'message' => cclang('sorry_you_do_not_have_permission_to_access')
+		// 		]);
+		// 	exit;
+		// }
+
+		// $this->form_validation->set_rules('id_area', 'Area', 'trim|required');
+		// $this->form_validation->set_rules('id_gedung', 'Gedung', 'trim|required');
+		// $this->form_validation->set_rules('id_ruangan', 'Ruangan', 'trim|required');
+
+		// $this->form_validation->set_rules('data_post[id_area]', 'Area', 'trim|required|callback[check_id_area]');
+		// $this->form_validation->set_rules('data_post[id_gedung]', 'Gedung', 'trim|required|callback[check_id_gedung]');
+		// $this->form_validation->set_rules('data_post[id_ruangan]', 'Ruangan', 'trim|required|callback[check_id_ruangan]');
+		
+		// Validation passed, proceed with the rest of the code
+
+		// Ambil data JSON dari POST dan decode
+		$rawData = $this->input->raw_input_stream; // Ambil data mentah
+		$data = json_decode($rawData, true); // Decode JSON ke array
+
+		$save_type = '';
+
+		$id_area = '';
+		$id_gedung = '';
+		$id_ruangan = '';
+
+		foreach ($data['data_post'] as $item) {
+			if ($item['name'] === 'save_type') {
+				$save_type = $item['value'];
+			} elseif ($item['name'] === 'id_area') {
+				$id_area = $item['value'];
+			} elseif ($item['name'] === 'id_gedung') {
+				$id_gedung = $item['value'];
+			} elseif ($item['name'] === 'id_ruangan') {
+				$id_ruangan = $item['value'];
+			}
+		}
+
+		// Validasi bahwa id_area tidak boleh bernilai '0'
+		// if ($id_area === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Area tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// // Validasi bahwa id_gedung tidak boleh bernilai '0'
+		// if ($id_gedung === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Gedung tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// // Validasi bahwa id_ruangan tidak boleh bernilai '0'
+		// if ($id_ruangan === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Ruangan tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// echo $save_type; // Output: stay
+		// die;
+
+		// if ($this->form_validation->run()) {
+
+			$save_data_master_transaksi = [
+				// 'kode_transaksi' => $this->input->post('kode_transaksi'),
+				'tipe_transaksi' => '2',
+				'status_transaksi' => '1',
+				'tgl_input' => date('Y-m-d H:i:s'),
+				'tgl_awal_transaksi' => date('Y-m-d'),
+				// 'tgl_akhir_transaksi' => $this->input->post('tgl_akhir_transaksi'),
+				'id_pegawai_input' => '0',
+				'nama_pegawai_input' => '0',
+				'id_pegawai' => '0',
+				'nama_pegawai' => '0',
+				'ket_transaksi' => 'Integrasi Aset Existing',
+				'id_area' => $id_area,
+				'id_gedung' => $id_gedung,
+				'id_ruangan' => $id_ruangan,
+			];
+
+			if (!empty($data['data'])) {
+
+				$result = $this->model_ug_mstag->saveDataIntegrasiExisting($data['data'], $save_data_master_transaksi);
+
+					// Kirimkan response sukses
+					// if ($is_success) {
+					if ($result['is_success']) {
+
+						if ($save_type == 'stay') {
+							$this->data['success'] = true;
+							// $this->data['id'] 	   = $save_ug_mstag;
+							$this->data['existing_data'] = $result['existing_data'];
+							$this->data['message'] = cclang('success_save_data_stay', [
+								// admin_anchor('/ug_mstag/edit/' . $save_ug_mstag, 'Edit Ug Mstag'),
+								admin_anchor('/ug_mstag', ' Go back to list')
+							]);
+						} else {
+							set_message(
+								cclang('success_save_data_redirect', [
+								// admin_anchor('/ug_mstag/edit/' . $save_ug_mstag, 'Edit Ug Mstag')
+							]), 'success');
+
+							$this->data['success'] = true;
+							$this->data['existing_data'] = $result['existing_data'];
+							$this->data['redirect'] = admin_base_url('/ug_mstag');
+						}
+
+					} else {
+
+						if ($save_type == 'stay') {
+							$this->data['success'] = false;
+							$this->data['message'] = cclang('data_not_change');
+						} else {
+							$this->data['success'] = false;
+							$this->data['message'] = cclang('data_not_change');
+							$this->data['redirect'] = admin_base_url('/ug_mstag');
+						}
+						
+					}
+
+				$this->response($this->data);
+
+			} else {
+					
+				// Jika data kosong, kirimkan response error
+					
+				if ($save_type == 'stay') {
+					$this->data['success'] = false;
+					$this->data['message'] = cclang('data_not_change');
+				} else {
+					$this->data['success'] = false;
+					$this->data['message'] = cclang('data_not_change');
+					$this->data['redirect'] = admin_base_url('/ug_mstag');
+				}
+
+			}
+
+		// } else {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Opss validation failed';
+		// 	$this->data['errors'] = $this->form_validation->error_array();
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+	}
+
+	public function add_new()
+	{
+
+		// if (!$this->is_allowed('ug_mstag_add', false)) {
+		// 	echo json_encode([
+		// 		'success' => false,
+		// 		'message' => cclang('sorry_you_do_not_have_permission_to_access')
+		// 		]);
+		// 	exit;
+		// }
+
+		// $this->form_validation->set_rules('id_area', 'Area', 'trim|required');
+		// $this->form_validation->set_rules('id_gedung', 'Gedung', 'trim|required');
+		// $this->form_validation->set_rules('id_ruangan', 'Ruangan', 'trim|required');
+
+		// $this->form_validation->set_rules('data_post[id_area]', 'Area', 'trim|required|callback[check_id_area]');
+		// $this->form_validation->set_rules('data_post[id_gedung]', 'Gedung', 'trim|required|callback[check_id_gedung]');
+		// $this->form_validation->set_rules('data_post[id_ruangan]', 'Ruangan', 'trim|required|callback[check_id_ruangan]');
+		
+		// Validation passed, proceed with the rest of the code
+
+		// Ambil data JSON dari POST dan decode
+		$rawData = $this->input->raw_input_stream; // Ambil data mentah
+		$data = json_decode($rawData, true); // Decode JSON ke array
+
+		$save_type = '';
+
+		$id_area = '';
+		$id_gedung = '';
+		$id_ruangan = '';
+		$merk = '';
+		$tipe = '';
+		$pic = '';
+
+		foreach ($data['data_post'] as $item) {
+
+			if ($item['name'] === 'save_type') {
+				$save_type = $item['value'];
+			} elseif ($item['name'] === 'id_area') {
+				$id_area = $item['value'];
+			} elseif ($item['name'] === 'id_gedung') {
+				$id_gedung = $item['value'];
+			} elseif ($item['name'] === 'id_ruangan') {
+				$id_ruangan = $item['value'];
+			} elseif ($item['name'] === 'merk') {
+				$merk = $item['value'];
+			} elseif ($item['name'] === 'tipe') {
+				$tipe = $item['value'];
+			} elseif ($item['name'] === 'pic') {
+				$pic = $item['value'];
+			}
+		}
+
+		$detail_data = [
+			'merk' => $merk,
+			'tipe' => $tipe,
+			'pic' => $pic
+		];
+
+		// Validasi bahwa id_area tidak boleh bernilai '0'
+		// if ($id_area === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Area tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// // Validasi bahwa id_gedung tidak boleh bernilai '0'
+		// if ($id_gedung === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Gedung tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// // Validasi bahwa id_ruangan tidak boleh bernilai '0'
+		// if ($id_ruangan === '0') {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Ruangan tidak boleh bernilai 0.';
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+		// echo $save_type; // Output: stay
+		// die;
+
+		// if ($this->form_validation->run()) {
+
+			$save_data_master_transaksi = [
+				// 'kode_transaksi' => $this->input->post('kode_transaksi'),
+				'tipe_transaksi' => '2',
+				'status_transaksi' => '1',
+				'tgl_input' => date('Y-m-d H:i:s'),
+				'tgl_awal_transaksi' => date('Y-m-d'),
+				// 'tgl_akhir_transaksi' => $this->input->post('tgl_akhir_transaksi'),
+				'id_pegawai_input' => '0',
+				'nama_pegawai_input' => '0',
+				'id_pegawai' => '0',
+				'nama_pegawai' => '0',
+				'ket_transaksi' => 'Integrasi Aset New (Print Sticker RFID With Barcode)',
+				'id_area' => $id_area,
+				'id_gedung' => $id_gedung,
+				'id_ruangan' => $id_ruangan,
+			];
+
+			if (!empty($data['data'])) {
+
+				$result = $this->model_ug_mstag->saveDataIntegrasiNew($data['data'], $save_data_master_transaksi, $detail_data);
+
+					// Kirimkan response sukses
+					// if ($is_success) {
+					if ($result['is_success']) {
+
+						if ($save_type == 'stay') {
+							$this->data['success'] = true;
+							// $this->data['id'] 	   = $save_ug_mstag;
+							$this->data['existing_data'] = $result['existing_data'];
+							$this->data['message'] = cclang('success_save_data_stay', [
+								// admin_anchor('/ug_mstag/edit/' . $save_ug_mstag, 'Edit Ug Mstag'),
+								admin_anchor('/ug_mstag', ' Go back to list')
+							]);
+						} else {
+							set_message(
+								cclang('success_save_data_redirect', [
+								// admin_anchor('/ug_mstag/edit/' . $save_ug_mstag, 'Edit Ug Mstag')
+							]), 'success');
+
+							$this->data['success'] = true;
+							$this->data['existing_data'] = $result['existing_data'];
+							$this->data['redirect'] = admin_base_url('/ug_mstag');
+						}
+
+					} else {
+
+						if ($save_type == 'stay') {
+							$this->data['success'] = false;
+							$this->data['message'] = cclang('data_not_change');
+						} else {
+							$this->data['success'] = false;
+							$this->data['message'] = cclang('data_not_change');
+							$this->data['redirect'] = admin_base_url('/ug_mstag');
+						}
+						
+					}
+
+				$this->response($this->data);
+
+			} else {
+					
+				// Jika data kosong, kirimkan response error
+					
+				if ($save_type == 'stay') {
+					$this->data['success'] = false;
+					$this->data['message'] = cclang('data_not_change');
+				} else {
+					$this->data['success'] = false;
+					$this->data['message'] = cclang('data_not_change');
+					$this->data['redirect'] = admin_base_url('/ug_mstag');
+				}
+
+			}
+
+		// } else {
+		// 	$this->data['success'] = false;
+		// 	$this->data['message'] = 'Opss validation failed';
+		// 	$this->data['errors'] = $this->form_validation->error_array();
+		// 	$this->response($this->data);
+		// 	return;
+		// }
+
+	}
+
+	public function check_id_area($id_area)
+	{
+		if ($id_area == '') {
+			$this->form_validation->set_message('check_id_area', 'Area harus diisi !!');
+			return false;
+		}
+		return true;
+	}
+
+	public function check_id_gedung($id_gedung)
+	{
+		if ($id_gedung == '') {
+			$this->form_validation->set_message('check_id_gedung', 'Gedung harus diisi !!');
+			return false;
+		}
+		return true;
+	}
+
+	public function check_id_ruangan($id_ruangan)
+	{
+		if ($id_ruangan == '') {
+			$this->form_validation->set_message('check_id_ruangan', 'Ruangan harus diisi !!');
+			return false;
+		}
+		return true;
 	}
 	
 }

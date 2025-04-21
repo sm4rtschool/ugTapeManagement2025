@@ -67,52 +67,66 @@ class Dashboard extends Admin
 				break;
 			case "anomali":
 				// $query_anomali = "SELECT x.kode_tid, x.nama_aset, x.kode_aset, x.nup, x.status, x.id_lokasi, y.id, y.ruangan FROM tb_master_aset x JOIN tb_master_ruangan y ON y.id = x.lokasi_moving WHERE (x.status = 1 AND x.borrow = 1  AND x.kode_tid !='') OR (x.status = 1 AND x.borrow = 0  AND x.kode_tid !='') OR (x.status = 4 AND x.borrow = 1  AND x.kode_tid !='') OR (status = 1 and borrow = 2  AND kode_tid != '')  order by x.lokasi_moving asc, x.kode_aset asc, nup asc";
-				$query_anomali = "SELECT 
-								x.kode_tid, 
-								x.nama_aset, 
-								x.kode_aset, 
-								x.nup, 
-								x.status, 
-								x.id_lokasi, 
-								x.dob_aset,
-								x.messenger_name,
-								TO_CHAR(x.last_time_in, 'DD-MM-YYYY HH24:MI:SS') AS last_time_in,
-								y.id, 
-								y.ruangan,
-								y.librarian_aging, y.librarian_aging_start, y.librarian_aging_end,
-								CASE 
-									WHEN x.dob_aset IS NOT NULL THEN CAST((CURRENT_DATE - x.dob_aset) AS TEXT)
-									ELSE '-'
-								END AS aging,
-								CASE 
-									WHEN x.dob_aset IS NOT NULL THEN 
+				
+				$query_anomali = "
+				SELECT xx.*, mr.id_ruangan_seharusnya, mr.ruangan_master AS ruangan_seharusnya FROM
+				(
+					SELECT 
+					x.kode_tid, 
+					x.nama_aset, 
+					x.kode_aset, 
+					x.nup, 
+					x.status, 
+					x.lokasi_moving,
+					x.id_lokasi, 
+					x.dob_aset,
+					x.messenger_name,
+					TO_CHAR(x.last_time_in, 'DD-MM-YYYY HH24:MI:SS') AS last_time_in,
+					y.id, 
+					y.ruangan,
+					y.librarian_aging, y.librarian_aging_start, y.librarian_aging_end,
+					CASE 
+						WHEN x.dob_aset IS NOT NULL THEN CAST((CURRENT_DATE - x.dob_aset) AS INTEGER)
+						ELSE '0'
+					END AS aging,
+					CASE 
+						WHEN x.dob_aset IS NOT NULL THEN 
+					
+							CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
+							ELSE
+							
+								CASE WHEN (CURRENT_DATE - x.dob_aset) >= y.librarian_aging_start 
+								AND (CURRENT_DATE - x.dob_aset) <= y.librarian_aging_end 
+								THEN 'Sesuai'
+								ELSE 'Salah Ruangan'
+								END
+					
+							END
+							
+						ELSE 'Tape Baru'
+					END AS kondisi
+					FROM 
+					tb_master_aset x 
+					JOIN 
+					tb_master_ruangan y ON y.id = x.lokasi_moving 
+					WHERE 
+					(x.status = 1 AND x.borrow = 1 AND x.kode_tid !='') 
+					OR (x.status = 1 AND x.borrow = 0 AND x.kode_tid !='') 
+					OR (x.status = 4 AND x.borrow = 1 AND x.kode_tid !='') 
+					OR (x.status = 1 AND x.borrow = 2 AND x.kode_tid != '')  
+				) xx
+				JOIN
+				(
+					SELECT id as id_ruangan_seharusnya, ruangan as ruangan_master, librarian_aging_start, librarian_aging_end, id_gedung
+					FROM tb_master_ruangan 
+					WHERE librarian_aging = 1
+				) mr
+				ON CAST(xx.aging AS INTEGER) >= mr.librarian_aging_start 
+				AND CAST(xx.aging AS INTEGER) <= mr.librarian_aging_end
 
-										CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
-										ELSE
-										
-											CASE WHEN (CURRENT_DATE - x.dob_aset) >= y.librarian_aging_start 
-											AND (CURRENT_DATE - x.dob_aset) <= y.librarian_aging_end 
-											THEN 'Sesuai'
-											ELSE 'Salah Ruangan'
-											END
-
-										END
-										
-									ELSE 'Tape Baru'
-								END AS kondisi
-							FROM 
-								tb_master_aset x 
-							JOIN 
-								tb_master_ruangan y ON y.id = x.lokasi_moving 
-							WHERE 
-								(x.status = 1 AND x.borrow = 1 AND x.kode_tid !='') 
-								OR (x.status = 1 AND x.borrow = 0 AND x.kode_tid !='') 
-								OR (x.status = 4 AND x.borrow = 1 AND x.kode_tid !='') 
-								OR (x.status = 1 AND x.borrow = 2 AND x.kode_tid != '')  
-							ORDER BY 
-								x.lokasi_moving ASC, 
-								x.kode_aset ASC, 
-								x.nup ASC";
+				ORDER BY xx.lokasi_moving ASC,
+				xx.aging ASC
+				";
 
 				$data_json = $this->db->query($query_anomali)->result();
 				break;
@@ -315,7 +329,7 @@ class Dashboard extends Admin
 						CASE WHEN y.librarian_aging = 0 THEN 'Bukan ruang penyimpanan'
 						ELSE
 						
-							CASE WHEN (CURRENT_DATE - x.dob_aset) > y.librarian_aging_start 
+							CASE WHEN (CURRENT_DATE - x.dob_aset) >= y.librarian_aging_start 
 							AND (CURRENT_DATE - x.dob_aset) < y.librarian_aging_end 
 							THEN 'Sesuai'
 							ELSE 'Salah Ruangan'

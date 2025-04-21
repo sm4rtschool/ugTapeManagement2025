@@ -78,9 +78,11 @@
                <div class="box box-widget widget-user-2">
                   <div class="widget-user-header ">
                      <div class="row pull-right">
+                        
                         <?php is_allowed('tb_master_aset_add', function () { ?>
                            <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_master_aset')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_aset/add'); ?>"><i class="fa fa-plus-square-o"></i> Tambah Aset Baru</a>
                         <?php }) ?>
+
                         <?php is_allowed('tb_master_aset_export', function () { ?>
                            <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('tb_master_aset') ?> " href="<?= admin_site_url('/tb_master_aset/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
                         <?php }) ?>
@@ -116,11 +118,10 @@
                         <table id="masterdata" class="display">
                            <thead>
                               <tr class="">
-
                                  <th data-field="kode_tid" data-primary-key="0"> <?= cclang('kode_tid') ?></th>
                                  <th data-field="kode_aset" data-primary-key="0"> <?= cclang('kode_aset') ?></th>
                                  <th data-field="nama_aset" data-primary-key="0"> <?= cclang('nama_aset') ?></th>
-                                 <th data-field="id_area" data-primary-key="0"> Status</th>
+                                 <th data-field="status" data-primary-key="0"> <?= cclang('status') ?></th>
                                  <th>Action</th>
                               </tr>
                            </thead>
@@ -128,7 +129,9 @@
                               <?= $tables ?>
                            </tbody>
                         </table>
+
                      </div>
+
                </div>
                <hr>
 
@@ -157,6 +160,7 @@
    var module_name = "tb_master_aset"
    var use_ajax_crud = false;
 </script>
+
 <script src="<?= BASE_ASSET ?>js/filter.js"></script>
 <script>
    // Ambil elemen modal dan tombol
@@ -184,6 +188,7 @@
    $(document).ready(function() {
 
       $("#uploadForm").submit(function(e) {
+
          e.preventDefault(); // Mencegah reload halaman
 
          var formData = new FormData(this);
@@ -201,6 +206,12 @@
             },
             success: function(response) {
                $("#uploadResult").html("<p class='text-success'>" + response + "</p>");
+               // Tutup modal setelah berhasil upload
+               modal.style.display = "none";
+               // Refresh halaman setelah upload
+               setTimeout(function() {
+                  location.reload();
+               }, 2000); // Ganti 2000 dengan waktu yang diinginkan (dalam milidetik)
             },
             error: function() {
                $("#uploadResult").html("<p class='text-danger'>Gagal mengupload!</p>");
@@ -313,6 +324,8 @@
          }
          checkAll.iCheck('update');
       });
+
       initSortableAjax('tb_master_aset', $('table.dataTable'));
+
    }); /*end doc ready*/
 </script>

@@ -324,6 +324,147 @@ class MY_Model extends CI_Model
     //     exit;
     // }
 
+    // public function export($table, $subject = 'file', $field_search = [])
+    // {
+    //     $iterasi = 1;
+    //     $where = NULL;
+    //     $q = $this->scurity($this->input->get('q'));
+    //     $field = $this->scurity($this->input->get('f'));
+    //     if (empty($field)) {
+    //         foreach ($field_search as $field) {
+    //             $f_search = $table . '.' . $field;
+
+    //             if (strpos($field, '.')) {
+    //                 $f_search = $field;
+    //             }
+
+    //             if ($iterasi == 1) {
+    //                 $where .= $f_search . " LIKE '%" . $q . "%' ";
+    //             } else {
+    //                 $where .= "OR " . $f_search . " LIKE '%" . $q . "%' ";
+    //             }
+    //             $iterasi++;
+    //         }
+
+    //         $where = '(' . $where . ')';
+    //     } else {
+    //         $where .= "(" . $table . "." . $field . " LIKE '%" . $q . "%' )";
+    //     }
+
+    //     $this->sortable();
+    //     if (method_exists($this, 'join_avaiable') && method_exists($this, 'filter_avaiable')) {
+    //         $this->join_avaiable()->filter_avaiable();
+    //     }
+    //     if (!empty($q)) {
+    //         $this->db->where($where);
+    //     }
+
+    //     $this->load->library('excel');
+
+    //     $result = $this->db->get($table);
+
+    //     $this->excel->setActiveSheetIndex(0);
+
+    //     $fields = $result->list_fields();
+
+    //     $fields = array_unique($fields);
+
+    //     $alphabet = 'ABCDEFGHIJKLMOPQRSTUVWXYZ';
+    //     $alphabet_arr = str_split($alphabet);
+    //     $column = [];
+
+    //     foreach ($alphabet_arr as $alpha) {
+    //         $column[] =  $alpha;
+    //     }
+
+    //     foreach ($alphabet_arr as $alpha) {
+    //         foreach ($alphabet_arr as $alpha2) {
+    //             $column[] =  $alpha . $alpha2;
+    //         }
+    //     }
+    //     foreach ($alphabet_arr as $alpha) {
+    //         foreach ($alphabet_arr as $alpha2) {
+    //             foreach ($alphabet_arr as $alpha3) {
+    //                 $column[] =  $alpha . $alpha2 . $alpha3;
+    //             }
+    //         }
+    //     }
+
+    //     foreach ($column as $col) {
+    //         $this->excel->getActiveSheet()->getColumnDimension($col)->setWidth(20);
+    //     }
+
+    //     $col_total = $column[count($fields) - 1];
+
+    //     //styling
+    //     $this->excel->getActiveSheet()->getStyle('A1:' . $col_total . '1')->applyFromArray(
+    //         array(
+    //             'fill' => array(
+    //                 'type' => PHPExcel_Style_Fill::FILL_SOLID,
+    //                 'color' => array('rgb' => 'DA3232')
+    //             ),
+    //             'alignment' => array(
+    //                 'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    //                 'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+    //             )
+    //         )
+    //     );
+
+    //     $phpColor = new PHPExcel_Style_Color();
+    //     $phpColor->setRGB('FFFFFF');
+
+    //     $this->excel->getActiveSheet()->getStyle('A1:' . $col_total . '1')->getFont()->setColor($phpColor);
+
+    //     $this->excel->getActiveSheet()->getRowDimension(1)->setRowHeight(40);
+
+    //     $this->excel->getActiveSheet()->getStyle('A1:' . $col_total . '1')
+    //         ->getAlignment()->setWrapText(true);
+
+    //     $col = 0;
+    //     foreach ($fields as $field) {
+
+    //         $this->excel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, ucwords(str_replace('_', ' ', $field)));
+    //         $col++;
+    //     }
+
+    //     $row = 2;
+    //     foreach ($result->result() as $data) {
+    //         $col = 0;
+    //         foreach ($fields as $field) {
+    //             $this->excel->getActiveSheet()->setCellValueExplicit($column[$col] . $row, $data->$field, PHPExcel_Cell_DataType::TYPE_STRING);
+    //             //$this->excel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, '' . $data->$field);
+    //             $col++;
+    //         }
+
+    //         $row++;
+    //     }
+
+    //     //set border
+    //     $styleArray = array(
+    //         'borders' => array(
+    //             'allborders' => array(
+    //                 'style' => PHPExcel_Style_Border::BORDER_THIN
+    //             )
+    //         )
+    //     );
+    //     $this->excel->getActiveSheet()->getStyle('A1:' . $col_total . '' . $row)->applyFromArray($styleArray);
+
+    //     $this->excel->getActiveSheet()->setTitle(ucwords($subject));
+
+    //     header('Content-Type: application/vnd.ms-excel');
+    //     header('Content-Disposition: attachment;filename=' . ucwords($subject) . '-' . date('Y-m-d') . '.xls');
+    //     header('Cache-Control: max-age=0');
+    //     header('Cache-Control: max-age=1');
+
+    //     header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+    //     header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    //     header('Cache-Control: cache, must-revalidate');
+    //     header('Pragma: public');
+
+    //     $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');
+    //     $objWriter->save('php://output');
+    // }
+
     public function export($table, $subject = 'file', $field_search = [])
     {
         $iterasi = 1;
@@ -339,16 +480,18 @@ class MY_Model extends CI_Model
                 }
 
                 if ($iterasi == 1) {
-                    $where .= $f_search . " LIKE '%" . $q . "%' ";
+                    // PostgreSQL menggunakan ILIKE untuk pencarian case-insensitive
+                    $where .= $f_search . " ILIKE '%" . $q . "%' ";
                 } else {
-                    $where .= "OR " . $f_search . " LIKE '%" . $q . "%' ";
+                    $where .= "OR " . $f_search . " ILIKE '%" . $q . "%' ";
                 }
                 $iterasi++;
             }
 
             $where = '(' . $where . ')';
         } else {
-            $where .= "(" . $table . "." . $field . " LIKE '%" . $q . "%' )";
+            // PostgreSQL menggunakan ILIKE untuk pencarian case-insensitive
+            $where .= "(" . $table . "." . $field . " ILIKE '%" . $q . "%' )";
         }
 
         $this->sortable();
@@ -361,7 +504,19 @@ class MY_Model extends CI_Model
 
         $this->load->library('excel');
 
+        // Jangan gunakan tanda kutip untuk nama tabel secara otomatis
+        // PostgreSQL akan mengkonversi nama tabel menjadi lowercase secara default
+        // kecuali jika nama tabel diberi tanda kutip
         $result = $this->db->get($table);
+        
+        // Check jika query berhasil
+        if ($result === FALSE) {
+            // Log error
+            log_message('error', 'Database error: ' . $this->db->error()['message']);
+            // Bisa tambahkan handling error sesuai kebutuhan
+            show_error('Terjadi kesalahan saat mengambil data dari database.');
+            return;
+        }
 
         $this->excel->setActiveSheetIndex(0);
 
@@ -422,7 +577,6 @@ class MY_Model extends CI_Model
 
         $col = 0;
         foreach ($fields as $field) {
-
             $this->excel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, ucwords(str_replace('_', ' ', $field)));
             $col++;
         }
@@ -432,7 +586,6 @@ class MY_Model extends CI_Model
             $col = 0;
             foreach ($fields as $field) {
                 $this->excel->getActiveSheet()->setCellValueExplicit($column[$col] . $row, $data->$field, PHPExcel_Cell_DataType::TYPE_STRING);
-                //$this->excel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, '' . $data->$field);
                 $col++;
             }
 

@@ -116,14 +116,12 @@ class Penggantian_tag extends Admin
 	 */
 	public function add()
 	{
-
 		$this->is_allowed('penggantian_tag_add');
-
-
 		$this->data['pengaturan_sistem'] = $this->model_penggantian_tag->getPengaturanSistem();
 		$this->data['tb_master_asets'] = $this->model_penggantian_tag->get_aset();
+		$this->data['tb_master_pegawais'] = $this->model_penggantian_tag->get_pegawai();
 
-		$this->template->title('Register Aset Ke Tag Label');
+		$this->template->title('Penggantian Tag / Kill Tag');
 		$this->render('backend/standart/administrator/penggantian_tag/penggantian_tag_add', $this->data);
 	}
 
@@ -199,16 +197,35 @@ class Penggantian_tag extends Admin
 			$string_id = $this->input->post('string_id');
 
 			// Ambil data array aset dan tag dari ajax post
+			$kill_tag = $this->input->post('kill_tag');
 			$array_data_aset = json_decode($this->input->post('data_array_aset'), true);
+			$array_data_pegawai = json_decode($this->input->post('data_array_pegawai'), true);
 			$uniqueDataArray = json_decode($this->input->post('uniqueDataArray'), true);
 
 			// Link array aset dengan array tag berdasarkan index
-			$linked_data = array();
-			for ($i = 0; $i < count($array_data_aset); $i++) {
-				$linked_data[] = array(
-					'aset' => $array_data_aset[$i],
-					'tag' => $uniqueDataArray[$i]
-				);
+
+			if ($kill_tag == 'aset'){
+
+				$linked_data = array();
+
+				for ($i = 0; $i < count($array_data_aset); $i++) {
+					$linked_data[] = array(
+						'aset' => $array_data_aset[$i],
+						'tag' => $uniqueDataArray[$i]
+					);
+				}
+
+			} else {
+
+				$linked_data = array();
+
+				for ($i = 0; $i < count($array_data_pegawai); $i++) {
+					$linked_data[] = array(
+						'pegawai' => $array_data_pegawai[$i],
+						'tag' => $uniqueDataArray[$i]
+					);
+				}
+
 			}
 
 			// echo '<pre>';
@@ -216,7 +233,7 @@ class Penggantian_tag extends Admin
 			// echo '</pre>';
 			// exit();
 
-			$save_register_aset = $id = $this->model_penggantian_tag->saveRegisterAset($save_data_master_transaksi, $save_data_detail_transaksi, $linked_data);
+			$save_register_aset = $id = $this->model_penggantian_tag->saveRegisterAset($save_data_master_transaksi, $save_data_detail_transaksi, $linked_data, $kill_tag);
 			// $save_register_aset = $this->model_tb_master_transaksi->saveRegisterAset($save_data_master_transaksi, $save_data_detail_transaksi, $linked_data);
 
 
@@ -613,6 +630,18 @@ class Penggantian_tag extends Admin
 
 		// Kirim response dalam format JSON 
 		$this->response($response);
+	}
+
+	public function getDataAset() {
+		$data = $this->model_penggantian_tag->get_aset(); // Ambil semua data aset
+		// Mengembalikan data dalam format JSON
+		echo json_encode($data);
+	}
+
+	public function getDataPegawai() {
+		$data = $this->model_penggantian_tag->get_pegawai(); // Ambil semua data pegawai
+		// Mengembalikan data dalam format JSON
+		echo json_encode($data);
 	}
 }
 

@@ -6,8 +6,11 @@ class Model_tb_master_aset extends MY_Model
 
     private $primary_key    = 'kode_tid';
     private $table_name     = 'tb_master_aset';
+    
     // public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe_moving', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi', 'lokasi_moving', 'status'];
-    public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi'];
+    // a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status
+    public $field_search   = ['id_aset', 'kode_aset', 'nup', 'lokasi_terakhir', 'merk', 'tipe', 'kategori', 'kode_tid', 'nama_aset', 'kondisi', 'status', 'id'];
+
     public $sort_option = ['id_aset', 'DESC'];
 
     public function __construct()
@@ -172,10 +175,16 @@ class Model_tb_master_aset extends MY_Model
 
     public function get_aset()
     {
-        $query = $this->db->query(
-            "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status FROM tb_master_aset a LEFT JOIN tb_master_status s ON s.id = a.status ORDER BY a.kode_tid DESC LIMIT 500 OFFSET 0"
-        );
+        $ssql = "SELECT a.id_aset, a.kode_tid, a.kode_aset, a.nup, a.nama_aset, s.id, s.status 
+            FROM tb_master_aset a 
+            LEFT JOIN tb_master_status s ON s.id = a.status 
+            ORDER BY a.kode_tid DESC 
+            LIMIT 500 OFFSET 0";
+        
+        // Echo the query for debugging
+        // echo $ssql;
 
+        $query = $this->db->query($ssql);
         return $query->result();
     }
 

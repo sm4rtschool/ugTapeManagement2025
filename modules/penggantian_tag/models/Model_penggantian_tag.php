@@ -258,7 +258,7 @@ class Model_penggantian_tag extends MY_Model
         return $this->db->count_all_results();
     }
 
-    public function saveRegisterAset($save_data_master_transaksi, $save_data_detail_transaksi, $linked_data)
+    public function saveRegisterAset($save_data_master_transaksi, $save_data_detail_transaksi, $linked_data, $kill_tag)
     {
 
         // Mulai transaksi database
@@ -272,65 +272,123 @@ class Model_penggantian_tag extends MY_Model
             // Jika ada data linked aset dan tag
             if (!empty($linked_data)) {
 
-                // Loop untuk setiap data linked
-                foreach ($linked_data as $data) {
+                if ($kill_tag == 'aset'){
 
-                    $data_detail = array(
-                        'id_transaksi' => $id_transaksi,
-                        // 'kode_transaksi' => $save_data_master_transaksi['kode_transaksi'],
-                        'kode_transaksi' => '',
-                        'kode_tid' => $data['tag']['tid'], // Ambil tid dari tag
-                        'id_aset' => $data['aset']['id'],
-                        'kode_aset' => $data['aset']['kode_aset'],
-                        'nup' => $data['aset']['nup'],
-                        'nama_aset' => $data['aset']['nama_aset'],
-                        // 'id_area' => $save_data_detail_transaksi['id_area'],
-                        // 'id_gedung' => $save_data_detail_transaksi['id_gedung'], 
-                        // 'id_ruangan' => $save_data_detail_transaksi['id_ruangan'],
-                        'status' => 1,
-                        'id_kondisi' => 1
-                    );
+                    // Loop untuk setiap data linked
+                    foreach ($linked_data as $data) {
 
-                    // echo '<pre>';
-                    // print_r($data_detail);
-                    // echo '</pre>';
+                        $data_detail = array(
+                            'id_transaksi' => $id_transaksi,
+                            // 'kode_transaksi' => $save_data_master_transaksi['kode_transaksi'],
+                            'kode_transaksi' => '',
+                            'kode_tid' => $data['tag']['tid'], // Ambil tid dari tag
+                            'id_aset' => $data['aset']['id'],
+                            'kode_aset' => $data['aset']['kode_aset'],
+                            'nup' => $data['aset']['nup'],
+                            'nama_aset' => $data['aset']['nama_aset'],
+                            // 'id_area' => $save_data_detail_transaksi['id_area'],
+                            // 'id_gedung' => $save_data_detail_transaksi['id_gedung'], 
+                            // 'id_ruangan' => $save_data_detail_transaksi['id_ruangan'],
+                            'status' => 1,
+                            'id_kondisi' => 1
+                        );
 
-                    // Insert ke tabel detail transaksi
-                    $this->db->insert('tb_detail_transaksi', $data_detail);
+                        // echo '<pre>';
+                        // print_r($data_detail);
+                        // echo '</pre>';
 
-                    // Update status tag yang lama, flagnya di ganti jadi K / Kill Tag, id_aset yang lama di null in aja
-                    $this->db->where('kode_tid', $data['aset']['kode_tid']);
-                    $this->db->update('tb_master_tag_rfid', array(
-                        'status_tag' => 'X', // kill tag
-                        // 'id_aset' => $data['aset']['id']
-                        'id_aset' => NULL
-                    ));
+                        // Insert ke tabel detail transaksi
+                        $this->db->insert('tb_detail_transaksi', $data_detail);
 
-                    // Update status tag yang baru, flagnya di ganti jadi N / Not Available, id_aset yang lama di pindahin kesini
-                    $this->db->where('kode_tid', $data['tag']['tid']);
-                    $this->db->update('tb_master_tag_rfid', array(
-                        'status_tag' => 'N', // Not Available
-                        'id_aset' => $data['aset']['id'],
-                        'kategori_tag' => 1
-                    ));
+                        // Update status tag yang lama, flagnya di ganti jadi K / Kill Tag, id_aset yang lama di null in aja
+                        $this->db->where('kode_tid', $data['aset']['kode_tid']);
+                        $this->db->update('tb_master_tag_rfid', array(
+                            'status_tag' => 'X', // kill tag
+                            // 'id_aset' => $data['aset']['id']
+                            'id_aset' => NULL
+                        ));
 
-                    // update field kode_rfid, id_area, id_gedung, id_ruangan, id_kondisi, status ke master aset
-                    $this->db->where('id_aset', $data['aset']['id']);
-                    $this->db->update('tb_master_aset', array(
-                        'kode_tid' => $data['tag']['tid'],
-                        'id_area' => $save_data_master_transaksi['id_area'],
-                        'id_gedung' => $save_data_master_transaksi['id_gedung'],
-                        'id_lokasi' => $save_data_master_transaksi['id_ruangan'],
-                        'lokasi_moving' => $save_data_master_transaksi['id_ruangan'],
-                        'kondisi' => 1,
-                        'status' => 1,
-                        'borrow' => 0,
-                        'tipe_moving' => 0
-                        // 'flag_inventarisasi' => 1,
-                        // 'tgl_inventarisasi' => date('Y-m-d')
-                    ));
-                }
-            }
+                        // Update status tag yang baru, flagnya di ganti jadi N / Not Available, id_aset yang lama di pindahin kesini
+                        $this->db->where('kode_tid', $data['tag']['tid']);
+                        $this->db->update('tb_master_tag_rfid', array(
+                            'status_tag' => 'N', // Not Available
+                            'id_aset' => $data['aset']['id'],
+                            'kategori_tag' => 1
+                        ));
+
+                        // update field kode_rfid, id_area, id_gedung, id_ruangan, id_kondisi, status ke master aset
+                        $this->db->where('id_aset', $data['aset']['id']);
+                        $this->db->update('tb_master_aset', array(
+                            'kode_tid' => $data['tag']['tid'],
+                            'id_area' => $save_data_master_transaksi['id_area'],
+                            'id_gedung' => $save_data_master_transaksi['id_gedung'],
+                            'id_lokasi' => $save_data_master_transaksi['id_ruangan'],
+                            'lokasi_moving' => $save_data_master_transaksi['id_ruangan'],
+                            'kondisi' => 1,
+                            'status' => 1,
+                            'borrow' => 0,
+                            'tipe_moving' => 0
+                            // 'flag_inventarisasi' => 1,
+                            // 'tgl_inventarisasi' => date('Y-m-d')
+                        ));
+
+                    }
+
+                } else if ($kill_tag == 'pegawai'){
+
+                    // Loop untuk setiap data linked
+                    foreach ($linked_data as $data) {
+
+                        $data_detail = array(
+                            'id_transaksi' => $id_transaksi,
+                            // 'kode_transaksi' => $save_data_master_transaksi['kode_transaksi'],
+                            'kode_transaksi' => '',
+                            'kode_tid' => $data['tag']['tid'], // Ambil tid dari tag
+                            'id_aset' => $data['pegawai']['id'],
+                            'kode_aset' => $data['pegawai']['id'],
+                            'nup' => $data['pegawai']['id'],
+                            'nama_aset' => $data['pegawai']['nama_pegawai'],
+                            // 'id_area' => $save_data_detail_transaksi['id_area'],
+                            // 'id_gedung' => $save_data_detail_transaksi['id_gedung'], 
+                            // 'id_ruangan' => $save_data_detail_transaksi['id_ruangan'],
+                            'status' => 1,
+                            'id_kondisi' => 1
+                        );
+
+                        // echo '<pre>';
+                        // print_r($data_detail);
+                        // echo '</pre>';
+
+                        // Insert ke tabel detail transaksi
+                        $this->db->insert('tb_detail_transaksi', $data_detail);
+
+                        // Update status tag yang lama, flagnya di ganti jadi K / Kill Tag, id_aset yang lama di null in aja
+                        $this->db->where('kode_tid', $data['pegawai']['kode_tid']);
+                        $this->db->update('tb_master_tag_rfid', array(
+                            'status_tag' => 'X', // kill tag
+                            // 'id_aset' => $data['aset']['id']
+                            'id_pegawai' => NULL
+                        ));
+
+                        // Update status tag yang baru, flagnya di ganti jadi N / Not Available, id_aset yang lama di pindahin kesini
+                        $this->db->where('kode_tid', $data['tag']['tid']);
+                        $this->db->update('tb_master_tag_rfid', array(
+                            'status_tag' => 'N', // Not Available
+                            'id_pegawai' => $data['pegawai']['id'],
+                            'kategori_tag' => 2
+                        ));
+
+                        // update field kode_tid_pegawai ke master pegawai
+                        $this->db->where('id', $data['pegawai']['id']);
+                        $this->db->update('tb_master_pegawai', array(
+                            'kode_tid_pegawai' => $data['tag']['tid']
+                        ));
+
+                    }
+
+                } // $kill_tag == 'pegawai'
+
+            } // !$empty($linked_data)
 
             // exit();
 
@@ -397,6 +455,15 @@ class Model_penggantian_tag extends MY_Model
                 AND a.kategori = $id_kategori 
                 ORDER BY a.kode_tid ASC LIMIT 500 OFFSET 0";
         $query = $this->db->query($ssql);
+        return $query->result();
+    }
+
+    public function get_pegawai()
+    {
+        $query = $this->db->query(
+            "SELECT * FROM tb_master_pegawai WHERE kode_tid_pegawai IS NOT NULL ORDER BY kode_tid_pegawai ASC LIMIT 500 OFFSET 0"
+        );
+
         return $query->result();
     }
     

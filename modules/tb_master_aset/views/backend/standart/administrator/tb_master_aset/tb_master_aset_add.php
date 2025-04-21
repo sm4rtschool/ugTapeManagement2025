@@ -122,6 +122,7 @@
                                     <b>Input Nama Aset</b> Max Length : 100.</small>
                             </div>
                         </div>
+                        
                         <div class="form-group group-merk ">
                             <label for="merk" class="col-sm-2 control-label">Merk <i class="required">*</i>
                             </label>

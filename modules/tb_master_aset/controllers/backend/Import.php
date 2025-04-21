@@ -40,7 +40,7 @@ class Import extends CI_Controller
                 'kode_tid' => 0,
                 'kode_aset' => $row[5],
                 'nup' => $row[6],
-                'kategori' => 0,
+                'kategori' => 1,
                 'merk' => $row[9],
                 'tipe' => $row[10],
                 'kondisi' => $row[11],
