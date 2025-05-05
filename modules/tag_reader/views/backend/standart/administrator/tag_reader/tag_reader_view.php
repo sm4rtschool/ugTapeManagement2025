@@ -267,6 +267,14 @@
                                 </div>
                             </div>
 
+                            <div class="form-group ">
+                                <label for="alarm_ip" class="col-sm-2 control-label">IP Address Alarm </label>
+
+                                <div class="col-sm-8">
+                                    <span class="detail_group-alarm_ip"><?= _ent($tag_reader->alarm_ip); ?></span>
+                                </div>
+                            </div>
+
                             <br>
                             <br>
 

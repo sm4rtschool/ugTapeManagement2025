@@ -383,6 +383,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group group-alarm_ip  ">
+                            <label for="alarm_ip" class="col-sm-2 control-label">IP Address Alarm
+                            </label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="alarm_ip" id="alarm_ip" placeholder="" value="<?= set_value('alarm_ip', $tag_reader->alarm_ip); ?>">
+                                <small class="info help-block">
+                                    <b>Input Reader Ip</b> Max Length : 45.</small>
+                            </div>
+                        </div>
+
                         <div class="message"></div>
                         <div class="row-fluid col-md-7 container-button-bottom">
                             <button class="btn btn-flat btn-primary btn_save btn_action" id="btn_save" data-stype='stay' title="<?= cclang('save_button'); ?> (Ctrl+s)">

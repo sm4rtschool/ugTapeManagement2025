@@ -134,7 +134,8 @@ class Tag_reader extends Admin
 				'reader_antena' => $this->input->post('reader_antena'),
 				'alias_antenna' => $this->input->post('alias_antenna'),
 				'is_handheld' => $this->input->post('is_handheld') ? $this->input->post('is_handheld') : null,
-				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null
+				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null,
+				'alarm_ip' => $this->input->post('alarm_ip'),
 			];
 
 			// $save_tag_reader = $id = $this->model_tag_reader->store($save_data);
@@ -273,7 +274,8 @@ class Tag_reader extends Admin
 				'flag_buzzer' => $this->input->post('flag_buzzer'),
 				'is_active' => $this->input->post('is_active'),
 				'is_handheld' => $this->input->post('is_handheld') ? $this->input->post('is_handheld') : null,
-				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null
+				'reader_gate' => $this->input->post('reader_gate') ? $this->input->post('reader_gate') : null,
+				'alarm_ip' => $this->input->post('alarm_ip'),
 			];
 
 			$save_tag_reader = $this->model_tag_reader->change($id, $save_data);
