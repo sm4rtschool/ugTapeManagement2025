@@ -27,11 +27,11 @@
 </script>
 <!-- <section class="content-header">
    <h1>
-      <?= cclang('tb_master_gedung') ?><small><?= cclang('list_all'); ?></small>
+      <?= cclang('Master Data Gedung') ?><small><?= cclang('list_all'); ?></small>
    </h1>
    <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active"><?= cclang('tb_master_gedung') ?></li>
+      <li class="active"><?= cclang('Master Data Gedung') ?></li>
    </ol>
 </section> -->
 <!-- Main content -->
@@ -45,7 +45,7 @@
                   <div class="widget-user-header ">
                      <div class="row pull-right">
                         <?php is_allowed('tb_master_gedung_add', function () { ?>
-                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_master_gedung')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_gedung/add'); ?>"><i class="fa fa-plus-square-o"></i> Tambah Gedung Baru</a>
+                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_master_gedung')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_gedung/add'); ?>"><i class="fa fa-plus-square-o"></i> Add Gedung</a>
                         <?php }) ?>
                         <?php is_allowed('tb_master_gedung_export', function () { ?>
                            <a class="btn btn-flat btn-success" title="<?= cclang('export'); ?> <?= cclang('tb_master_gedung') ?> " href="<?= admin_site_url('/tb_master_gedung/export?q=' . $this->input->get('q') . '&f=' . $this->input->get('f')); ?>"><i class="fa fa-file-excel-o"></i> <?= cclang('export'); ?> XLS</a>
@@ -58,8 +58,8 @@
                         <img class="img-circle" src="<?= BASE_ASSET; ?>/img/list.png" alt="User Avatar">
                      </div>
                      <!-- /.widget-user-image -->
-                     <h3 class="widget-user-username"><?= cclang('tb_gedung_master') ?></h3>
-                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('tb_gedung_master')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_gedung_master_counts; ?></span> <?= cclang('items'); ?></i></h5>
+                     <h3 class="widget-user-username"><?= cclang('Master Data Gedung') ?></h3>
+                     <h5 class="widget-user-desc"><?= cclang('list_all', [cclang('Master Data Gedung')]); ?> <i class="label bg-yellow"><span class="total-rows"><?= $tb_gedung_master_counts; ?></span> <?= cclang('items'); ?></i></h5>
                   </div>
 
                   <form name="form_tb_master_gedung" id="form_tb_master_gedung" action="<?= admin_base_url('/tb_master_gedung/index'); ?>">

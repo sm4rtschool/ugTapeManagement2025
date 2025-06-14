@@ -27,7 +27,7 @@
 <?php if ($tb_room_master_counts == 0) : ?>
     <tr>
         <td colspan="100">
-            Tb Room Master data is not available
+            Master Data Ruangan is not available
         </td>
     </tr>
 <?php endif; ?>

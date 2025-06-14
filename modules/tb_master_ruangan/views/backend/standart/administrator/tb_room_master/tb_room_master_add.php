@@ -90,7 +90,7 @@
                             <label for="area_id" class="col-sm-2 control-label">Nama Area <i class="required">*</i>
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control chosen chosen-select-deselect" name="area_id" id="area_id" data-placeholder="Select Gedung">
+                                <select class="form-control chosen chosen-select-deselect" name="area_id" id="area_id" data-placeholder="Select Area">
                                     <option value=""></option>
                                     <?php
                                     $conditions = [];

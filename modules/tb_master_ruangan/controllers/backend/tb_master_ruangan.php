@@ -55,7 +55,7 @@ class tb_master_ruangan extends Admin
 			]);
 		}
 
-		$this->template->title('Tb Room Master List');
+		$this->template->title('Master Data Ruangan List');
 		$this->render('backend/standart/administrator/tb_room_master/tb_room_master_list', $this->data);
 	}
 

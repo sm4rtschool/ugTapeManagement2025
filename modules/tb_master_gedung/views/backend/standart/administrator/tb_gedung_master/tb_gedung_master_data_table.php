@@ -27,7 +27,7 @@
 <?php if ($tb_gedung_master_counts == 0) : ?>
     <tr>
         <td colspan="100">
-            Tb Gedung Master data is not available
+            Master data gedung is not available
         </td>
     </tr>
 <?php endif; ?>

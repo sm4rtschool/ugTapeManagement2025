@@ -80,7 +80,7 @@
                      <div class="row pull-right">
                         
                         <?php is_allowed('tb_master_aset_add', function () { ?>
-                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_master_aset')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_aset/add'); ?>"><i class="fa fa-plus-square-o"></i> Tambah Aset Baru</a>
+                           <a class="btn btn-flat btn-success btn_add_new" id="btn_add_new" title="<?= cclang('add_new_button', [cclang('tb_master_aset')]); ?>  (Ctrl+a)" href="<?= admin_site_url('/tb_master_aset/add'); ?>"><i class="fa fa-plus-square-o"></i> Add Aset</a>
                         <?php }) ?>
 
                         <?php is_allowed('tb_master_aset_export', function () { ?>

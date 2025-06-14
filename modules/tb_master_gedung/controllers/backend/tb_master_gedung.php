@@ -58,7 +58,7 @@ class tb_master_gedung extends Admin
 			]);
 		}
 
-		$this->template->title('Tb Gedung Master List');
+		$this->template->title('Master Data Gedung List');
 		$this->render('backend/standart/administrator/tb_gedung_master/tb_gedung_master_list', $this->data);
 	}
 

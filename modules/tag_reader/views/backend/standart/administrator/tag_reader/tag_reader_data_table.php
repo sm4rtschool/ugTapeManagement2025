@@ -45,7 +45,7 @@
 <?php if ($tag_reader_counts == 0) : ?>
     <tr>
         <td colspan="100">
-            Data Reader RFID data is not available
+            Master Data Reader is not available
         </td>
     </tr>
 <?php endif; ?>

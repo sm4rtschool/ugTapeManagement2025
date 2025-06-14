@@ -56,7 +56,7 @@ class Tag_reader extends Admin
 			]);
 		}
 
-		$this->template->title('Reader Info List');
+		$this->template->title('Master Data Reader List');
 		$this->render('backend/standart/administrator/tag_reader/tag_reader_list', $this->data);
 	}
 
